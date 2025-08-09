@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Registration & Login Form with OTP Verification & Forgot Password</title>
+<link rel="stylesheet" href="registration.css" />
+<script src="registration.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <div class="tab-switch">
+    <button id="tab-login" class="active">Login</button>
+    <button id="tab-register">Register</button>
+  </div>
+
+  <!-- Login Form -->
+  <form id="login-form" class="active">
+    <label for="login-username">Username</label>
+    <input type="text" id="login-username" placeholder="Enter username" required />
+
+    <label for="login-password">Password</label>
+    <div class="password-container">
+      <input type="password" id="login-password" placeholder="Enter password" required />
+      <span class="toggle-password" data-target="login-password">&#128065;</span>
+    </div>
+   
+    <!--  <button type="submit" class="submit-btn">Login</button> -->
+<button type="button" class="submit-btn" onclick="window.location.href='sellerpage.html';">
+  Login
+</button>
+
+    <div class="forgot-link">
+      <a id="forgot-password-link">Forgot Password?</a>
+    </div>
+
+   
+
+    <div class="switch-to-register">
+      Don't have an account? <a id="goto-register">Register</a>
+    </div>
+  </form>
+
+  <!-- Register Form -->
+  <form id="register-form">
+    <label for="full-name">Full Name</label>
+    <input type="text" id="full-name" placeholder="Your full name" required />
+    <div class="error-msg" id="err-fullname"></div>
+
+    <label for="reg-username">Username</label>
+    <input type="text" id="reg-username" placeholder="Choose a username" required />
+    <div class="error-msg" id="err-username"></div>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="Your email address" required />
+    <div class="error-msg" id="err-email"></div>
+
+    <label for="phone-number">Phone Number</label>
+    <input type="tel" id="phone-number" placeholder="Your phone number" required pattern="[0-9]{10,15}" />
+    <div class="error-msg" id="err-phone"></div>
+
+    <label for="reg-password">Password</label>
+    <div class="password-container">
+      <input type="password" id="reg-password" placeholder="Create password" required />
+      <span class="toggle-password" data-target="reg-password">&#128065;</span>
+    </div>
+    <div class="error-msg" id="err-password"></div>
+
+    <label for="confirm-password">Confirm Password</label>
+    <div class="password-container">
+      <input type="password" id="confirm-password" placeholder="Confirm password" required />
+      <span class="toggle-password" data-target="confirm-password">&#128065;</span>
+    </div>
+    <div class="error-msg" id="err-confirmpassword"></div>
+
+   <!--  <button type="submit" class="submit-btn">Register</button> -->
+
+   <button type="button" class="submit-btn" onclick="window.location.href='sellerpage.html';">Registration
+</button>
+
+
+    <div class="switch-to-login" style="text-align:center; font-size:14px; margin-top:12px; color:#555;">
+  Already have an account? <a id="goto-login" style="color:#1a73e8; cursor:pointer; font-weight:600; text-decoration:none;">Login</a>
+</div>
+
+  </form>
+</div>
+
+<!-- OTP Verification Popup (Registration) -->
+<div class="popup-overlay" id="otp-popup">
+  <div class="popup-content">
+    <h3>Email Verification</h3>
+    <p>Enter the 6-digit OTP sent to your email</p>
+    <input type="number" id="otp-input" maxlength="6" placeholder="123456" />
+    <div class="error-msg" id="otp-error-msg"></div>
+    <button id="verify-otp-btn">Verify OTP</button>
+  </div>
+</div>
+
+<!-- Forgot Password Popup Steps -->
+<div class="popup-overlay" id="forgot-password-popup">
+  <div class="popup-content" id="fp-step1">
+    <h3>Forgot Password</h3>
+    <p>Enter your registered email to receive a reset OTP</p>
+    <input type="email" id="fp-email" placeholder="Your registered email" required />
+    <div class="error-msg" id="fp-email-error"></div>
+    <button id="fp-send-otp-btn">Send OTP</button>
+  </div>
+  <div class="popup-content" id="fp-step2" style="display:none;">
+    <h3>Enter OTP</h3>
+    <p>Enter the 6-digit OTP sent to your email</p>
+    <input type="number" id="fp-otp-input" maxlength="6" placeholder="123456" />
+    <div class="error-msg" id="fp-otp-error"></div>
+    <button id="fp-verify-otp-btn">Verify OTP</button>
+  </div>
+  <div class="popup-content" id="fp-step3" style="display:none;">
+    <h3>Reset Password</h3>
+    <input type="password" id="fp-new-password" placeholder="New password" />
+    <div class="error-msg" id="fp-new-password-error"></div>
+    <input type="password" id="fp-confirm-password" placeholder="Confirm new password" />
+    <div class="error-msg" id="fp-confirm-password-error"></div>
+    <button id="fp-reset-password-btn">Reset Password</button>
+  </div>
+</div>
+
+</body>
+</html>

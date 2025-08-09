@@ -1,0 +1,11 @@
+.mobile-nav {
+  position: fixed; /* Let it float over the content */
+  top: 0;
+  left: -100%; /* Start off screen */
+  width: 70%;
+  height: 100vh;
+  background-color: #4B5E3A;
+  padding: 20px;
+  z-index: 1100; /* Must be above slider & other content */
+  transition: left 0.3s ease-in-out;
+}

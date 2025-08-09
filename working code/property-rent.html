@@ -1,0 +1,62 @@
+ <h2>Property for Rent</h2>
+  <form>
+    <label for="titleRent">Title:</label>
+    <input type="text" id="titleRent" name="title" required />
+
+    <label for="descriptionRent">Description:</label>
+    <textarea id="descriptionRent" name="description" required></textarea>
+
+    <label for="stateRent">State:</label>
+    <select id="stateRent" name="state" required></select>
+
+    <label for="lgaRent">LGA:</label>
+    <select id="lgaRent" name="lga" required></select>
+
+    <label for="addressRent">Address:</label>
+    <input type="text" id="addressRent" name="address" required />
+
+    <label for="sizeRent">Size (in sq meters):</label>
+    <input type="number" id="sizeRent" name="size" min="1" required />
+
+    <label for="priceRent">Price (₦):</label>
+    <input type="number" id="priceRent" name="price" min="0" required />
+
+    <label for="conditionRent">Condition:</label>
+    <select id="conditionRent" name="condition" required>
+      <option value="">Select condition</option>
+      <option value="used">Used</option>
+      <option value="fairly_used">Fairly Used</option>
+      <option value="newly_built">Newly Built</option>
+    </select>
+
+    <label for="furnishedRent">Furnished:</label>
+    <select id="furnishedRent" name="furnished" required>
+      <option value="">Select furnishing</option>
+      <option value="furnished">Furnished</option>
+      <option value="semi_furnished">Semi Furnished</option>
+      <option value="unfurnished">Unfurnished</option>
+    </select>
+
+    <label for="propertyTypeRent">Property Type:</label>
+    <input type="text" id="propertyTypeRent" name="propertyType" placeholder="e.g., Office, Apartment" required />
+
+    <label for="durationRent">Duration (e.g., 6 months, 1 year):</label>
+    <input type="text" id="durationRent" name="duration" required />
+
+    <label for="facilitiesRent">Facilities:</label>
+    <textarea id="facilitiesRent" name="facilities" placeholder="List facilities like electricity, water, security..." rows="3"></textarea>
+
+    <label for="bedroomsRent">Number of Bedrooms:</label>
+    <input type="number" id="bedroomsRent" name="bedrooms" min="0" required />
+
+    <label for="bathroomsRent">Number of Bathrooms:</label>
+    <input type="number" id="bathroomsRent" name="bathrooms" min="0" required />
+
+  <label for="images3">Upload Images:</label>
+<input type="file" id="images3" name="images3" data-preview="imagePreview3" multiple accept="image/*" />
+<div id="imagePreview3" class="image-preview-container"></div>
+
+
+    <button type="submit">Add Property for Rent</button>
+  </form>
+</div>

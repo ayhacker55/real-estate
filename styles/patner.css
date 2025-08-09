@@ -1,0 +1,155 @@
+    .section-partners {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f8;
+      color: #333;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 60px;
+    }
+
+    .intro-container {
+      max-width: 800px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .partners-heading {
+      position: relative;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .partners-heading::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 3px;
+      background-color: #007BFF;
+      margin: 8px auto 0;
+      border-radius: 2px;
+    }
+
+    .partners-paragraph {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-slide {
+      width: 100%;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    .carousel-slide img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: grayscale(100%);
+      transition: filter 0.3s;
+      border: 3px solid #e0e0e0;
+    }
+
+    .carousel-slide img:hover {
+      filter: grayscale(0%);
+    }
+
+    .partner-name {
+      margin-top: 12px;
+      font-size: 1rem;
+      color: #444;
+      font-weight: 500;
+    }
+
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      background: rgba(255, 255, 255, 0.8);
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      z-index: 10;
+      border-radius: 50%;
+      color: blue;
+    }
+
+    .carousel-nav:hover {
+      background: rgba(255, 255, 255, 1);
+    }
+
+    .carousel-prev {
+      left: 0;
+    }
+
+    .carousel-next {
+      right: 0;
+    }
+
+    @media (max-width: 768px) {
+      .partners-heading {
+        font-size: 2rem;
+      }
+
+    .partners-heading {
+        font-size: 1.5rem;
+      }
+      .partners-paragraph {
+        font-size: 1rem;
+        margin-bottom: 30px;
+      }
+
+      .partners-paragraph{
+        font-size: 0.9rem;
+        line-height: 1.5;
+
+      }
+
+      .carousel-slide {
+        padding: 30px 0;
+      }
+
+      .carousel-slide {
+        width: 100%;
+      }
+
+      .carousel-track {
+        flex-wrap: nowrap;
+      }
+
+    .carousel-nav {
+  
+      font-size: 1.2rem;
+     
+
+    }
+    }
+
+    @media (min-width: 769px) {
+      .carousel-slide {
+        width: calc(100% / 3); /* Show 3 per view on desktop */
+      }
+    }

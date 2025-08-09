@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Real Estate Project</title>
+  <!-- Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="..."
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <!-- Your main CSS -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="top-bar-container">
+
+      <!-- Hamburger (mobile only) -->
+      <div class="mobile-left mobile-only">
+        <i class="fas fa-bars" id="hamburgerMenu"></i>
+      </div>
+
+      <!-- Logo -->
+      <div class="top-left">
+        <img src="images/logo.png" alt="Logo" class="logo" />
+      </div>
+
+      <!-- Socials (desktop only) -->
+      <div class="top-center desktop-only">
+        <a href="#" class="social"><i class="fab fa-tiktok"></i></a>
+        <a href="#" class="social"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social"><i class="fab fa-instagram"></i></a>
+      </div>
+
+      <!-- Desktop buttons + 3-dot (mobile) -->
+      <div class="top-right">
+        <button class="btn quote-btn desktop-only" id="openQuoteModal">Request Quote</button>
+        <button class="btn sell-btn desktop-only">Sell Property</button>
+
+        <div class="mobile-right mobile-only">
+          <i class="fas fa-ellipsis-v" id="mobileMenuToggle"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3-dot popup (mobile only) -->
+    <div class="mobile-popup-menu mobile-only" id="mobilePopup">
+      <button class="btn quote-btn">Request Quote</button>
+      <button class="btn sell-btn">Sell Property</button>
+      <div class="social-row">
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <!-- Desktop Menu -->
+      <ul class="nav-list desktop-only">
+        <li><a href="#">Home</a></li>
+
+        <li class="has-dropdown">
+          <a href="#">Real Estate</a>
+          <ul class="dropdown">
+            <li><a href="#">Land for sale (residential)</a></li>
+            <li><a href="#">Land for sale (commercial)</a></li>
+            <li><a href="#">Properties for sale (residential)</a></li>
+            <li><a href="#">Properties for rent (commercial)</a></li>
+            <li><a href="#">Apartment for shortlet</a></li>
+          </ul>
+        </li>
+
+        <li class="has-dropdown">
+          <a href="#">Building Materials</a>
+          <ul class="dropdown">
+            <li><a href="#">Cement</a></li>
+            <li><a href="#">Bricks</a></li>
+            <li><a href="#">Sand</a></li>
+            <li><a href="#">Steel Bars</a></li>
+            <li><a href="#">Paint</a></li>
+          </ul>
+        </li>
+
+        <li class="has-dropdown">
+          <a href="#">Decor</a>
+          <ul class="dropdown">
+            <li><a href="#">Interior Decor</a></li>
+            <li><a href="#">Exterior Decor</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+
+      <!-- Mobile Menu -->
+      <div class="mobile-nav mobile-only" id="mobileNavMenu">
+        <ul>
+          <li><a href="#">Home</a></li>
+
+          <li class="mobile-has-dropdown">
+            <a href="#">Real Estate <span class="arrow">▸</span></a>
+            <ul class="mobile-dropdown">
+              <li><a href="#">Land for sale (residential)</a></li>
+              <li><a href="#">Land for sale (commercial)</a></li>
+              <li><a href="#">Properties for sale (residential)</a></li>
+              <li><a href="#">Properties for rent (commercial)</a></li>
+              <li><a href="#">Apartment for shortlet</a></li>
+            </ul>
+          </li>
+
+          <li class="mobile-has-dropdown">
+            <a href="#">Building Materials <span class="arrow">▸</span></a>
+            <ul class="mobile-dropdown">
+              <li><a href="#">Cement</a></li>
+              <li><a href="#">Bricks</a></li>
+              <li><a href="#">Sand</a></li>
+              <li><a href="#">Steel Bars</a></li>
+              <li><a href="#">Paint</a></li>
+            </ul>
+          </li>
+
+          <li class="mobile-has-dropdown">
+            <a href="#">Decor <span class="arrow">▸</span></a>
+            <ul class="mobile-dropdown">
+              <li><a href="#">Interior Decor</a></li>
+              <li><a href="#">Exterior Decor</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Your other page content goes here -->
+
+  <!-- Your existing JS + dropdown toggle snippet -->
+  <script src="js/script.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Mobile dropdown toggles
+      document.querySelectorAll('.mobile-has-dropdown > a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          this.parentElement.classList.toggle('open');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

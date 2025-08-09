@@ -1,0 +1,760 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DreamHomes</title>
+  <link rel="stylesheet" href="styles/style.css" />
+  
+   <link rel="stylesheet" href="styles/nav.css" />
+  <link rel="stylesheet" href="styles/slider.css" />
+  <link rel="stylesheet" href="styles/about.css" />
+  <link rel="stylesheet" href="styles/button.css" />
+  <link rel="stylesheet" href="styles/whatsapp.css" />
+  <link rel="stylesheet" href="styles/popularcard.css" />
+  <link rel="stylesheet" href="styles/blog.css" />
+    <link rel="stylesheet" href="styles/team.css" />
+     <link rel="stylesheet" href="styles/footer.css" />
+      <link rel="stylesheet" href="styles/patner.css" />
+      <link rel="stylesheet" href="styles/review.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17/build/css/intlTelInput.css">
+
+  
+
+
+<!--   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
+
+  <!-- CSS -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17/build/css/intlTelInput.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17/build/js/intlTelInput.min.js"></script>
+ <script src="Js/Team.js" defer></script>
+
+  <script src="Js/script.js"></script>
+  <script src="Js/slider.js"></script>
+  <script src="Js/button.js"></script>
+    <script src="Js/popularcard.js"></script>
+     <script src="Js/patner.js"  defer></script>
+     <script src="Js/review.js"  defer></script>
+</head>
+
+<!-- <ul class="pro-features">
+			
+			<a class="get-pro" href="#">Chat Us
+				<span class="status-dot"></span>
+			</a>
+		
+			<div class="button">
+				<a  href="https://wa.me/08097287040?text=Hello,%20I%20would%20like%20to%20book%20an%20appointment."  target="_blank" class="btn">Whatsapps</a>
+				<a href="tel:08097287040" target="_blank" class="btn">Call us</a>
+			</div>
+		</ul>
+  </div> -->
+
+<body>
+
+
+<div class="scroll-buttons">
+ <!--  <button class="scroll-down" onclick="scrollDown()">↓</button> -->
+  <button class="scroll-up" onclick="scrollUp()">↑</button>
+</div>
+
+<!-- WhatsApp Button (if you're adding that too) -->
+<!-- <a href="https://wa.me/1234567890" class="whatsapp-float" target="_blank" rel="noopener">
+  <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp Chat">
+</a> -->
+
+
+	
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-container">
+
+    <!-- Left: Hamburger (mobile only) -->
+    <div class="mobile-left mobile-only">
+      <i class="fas fa-bars" id="hamburgerMenu"></i>
+    </div>
+
+    <!-- Center: Logo -->
+    <div class="top-left">
+      <img src="images/logo.png" alt="Logo" class="logo" />
+    </div>
+
+    <!-- Middle: Socials (desktop only) -->
+    <div class="top-center desktop-only">
+      <a href="#" class="social"><i class="fab fa-tiktok"></i></a>
+      <a href="#" class="social"><i class="fab fa-youtube"></i></a>
+      <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="social"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <!-- Right: Buttons (desktop) + 3-dot (mobile) -->
+    <div class="top-right">
+      <button class="btn quote-btn desktop-only" id="openQuoteModal">Request Quote</button>
+     
+<!-- 
+      <a href=".html">
+  <button>Sell Property</button>
+</a>
+ -->
+
+ <button  class="btn sell-btn desktop-only" onclick="window.location.href='register.html';">
+sell property
+</button>
+
+      <!-- 3-dot menu icon for mobile -->
+      <div class="mobile-right mobile-only">
+        <i class="fas fa-ellipsis-v" id="mobileMenuToggle"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Popup Menu (triggered by 3-dot icon) -->
+  <div class="mobile-popup-menu mobile-only" id="mobilePopup">
+    <button class="btn quote-btn" >Request Quote</button>
+    
+    <button  class="btn sell-btn" onclick="window.location.href='register.html';">
+sell property
+</button>
+    <div class="social-row">
+      <a href="#"><i class="fab fa-tiktok"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+</div>
+
+
+<nav class="main-nav">
+  <div class="nav-container">
+    <!-- Desktop Menu -->
+    <ul class="nav-list desktop-only">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-dropdown">
+        <a href="#">Real Estate <i class="fas fa-chevron-down"></i></a>
+        <ul class="dropdown">
+          <li><a href="landforsale.html">Land for sale (residential)</a></li>
+          <li><a href="landforsale.html">Land for sale (commercial)</a></li>
+          <li><a href="landforsale.html">Properties for sale (residential)</a></li>
+          <li><a href="landforsale.html">Properties for rent (commercial)</a></li>
+          <li><a href="landforsale.html">Apartment for shortlet</a></li>
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="#">Building Materials <i class="fas fa-chevron-down"></i></a>
+        <ul class="dropdown">
+          <li><a href="#">Cement</a></li>
+          <li><a href="#">Bricks</a></li>
+          <li><a href="#">Sand</a></li>
+          <li><a href="#">Steel Bars</a></li>
+          <li><a href="#">Paint</a></li>
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="#">Decor <i class="fas fa-chevron-down"></i></a>
+        <ul class="dropdown">
+          <li><a href="#">Interior Decor</a></li>
+          <li><a href="#">Exterior Decor</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+
+    <!-- Mobile Nav Menu (Hamburger) -->
+    <div class="mobile-nav mobile-only" id="mobileNavMenu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li class="mobile-has-dropdown">
+          <a href="#">Real Estate <i class="fas fa-chevron-down arrow"></i></a>
+          <ul class="mobile-dropdown">
+            <li><a href="landforsale.html">Land for sale (residential)</a></li>
+            <li><a href="landforsale.html">Land for sale (commercial)</a></li>
+            <li><a href="landforsale.html">Properties for sale (residential)</a></li>
+            <li><a href="landforsale.html">Properties for rent (commercial)</a></li>
+            <li><a href="landforsale.html">Apartment for shortlet</a></li>
+          </ul>
+        </li>
+        <li class="mobile-has-dropdown">
+          <a href="#">Building Materials <i class="fas fa-chevron-down arrow"></i></a>
+          <ul class="mobile-dropdown">
+            <li><a href="#">Cement</a></li>
+            <li><a href="#">Bricks</a></li>
+            <li><a href="#">Sand</a></li>
+            <li><a href="#">Steel Bars</a></li>
+            <li><a href="#">Paint</a></li>
+          </ul>
+        </li>
+        <li class="mobile-has-dropdown">
+          <a href="#">Decor <i class="fas fa-chevron-down arrow"></i></a>
+          <ul class="mobile-dropdown">
+            <li><a href="#">Interior Decor</a></li>
+            <li><a href="#">Exterior Decor</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE 3-DOTS POPUP MENU -->
+<div id="mobilePopup" class="mobile-popup-menu mobile-only">
+  <button class="btn">Login</button>
+  <button class="btn">Register</button>
+
+  <div class="social-row">
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal Overlay -->
+<div class="modal-overlay" id="modalOverlay"></div>
+
+<!-- Modal -->
+<div class="modal" id="quoteModal">
+  <span class="close-btn" id="closeModal">&times;</span>
+
+  <h2>Contact Us</h2>
+  <p class="subtitle">Do you have a property to sell or need a quote? Let’s talk.</p>
+
+  <div class="contact-options">
+    <div class="contact-method">
+      <i class="fas fa-phone-alt"></i>
+      <p>+234 800 123 4567</p>
+    </div>
+    <div class="contact-method">
+      <i class="fab fa-whatsapp"></i>
+      <p><a href="https://wa.me/2348001234567" target="_blank">Chat on WhatsApp</a></p>
+    </div>
+  </div>
+
+  <button id="toggleForm">Request via Form</button>
+
+  <form id="quoteForm" class="hidden" onsubmit="return validateForm(event)">
+    <input type="text" id="name" placeholder="Full Name" required />
+    <input type="email" id="email" placeholder="Email Address" required />
+
+    <div class="phone-group">
+     
+      <input id="phone" type="tel" placeholder="Enter phone number" required />
+    </div>
+
+    <textarea id="message" placeholder="Describe your property or quote needs..." required></textarea>
+    <button type="submit">Submit Request</button>
+  </form>
+</div>
+
+
+<!--start slider  -->
+<section class="slider-section">
+  <div class="slider-wrapper">
+    <div class="slider-track" id="sliderTrack">
+      <div class="slide">
+        <img src="img/house.jpeg" loading="lazy" alt="Slide 1" />
+        <div class="slide-content">
+          <h2>Rent & Save</h2>
+          <p>Discover affordable rental options tailored to your needs.</p>
+          <button class="btn">View Properties</button>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="img/house.jpeg" loading="lazy" alt="Slide 2" />
+        <div class="slide-content">
+          <h2>Smart Living</h2>
+          <p>Live smarter with our sustainable and cost-effective homes.</p>
+          <button class="btn">View Properties</button>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="img/house.jpeg" loading="lazy" alt="Slide 3" />
+        <div class="slide-content">
+          <h2>Modern Comfort</h2>
+          <p>Experience luxury with modern design and amenities.</p>
+          <button class="btn">View Properties</button>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="img/client.jpg" loading="lazy" alt="Slide 4" />
+        <div class="slide-content">
+          <h2>Family First</h2>
+          <p>Find a safe and welcoming space for your family.</p>
+          <button class="btn">View Properties</button>
+        </div>
+      </div>
+    </div>
+    <div class="slider-dots" id="sliderDots"></div>
+  </div>
+</section>
+
+<!-- end of slider -->
+
+<!-- About real estate -->
+
+
+ <section class="about-section">
+    <div class="about-container">
+      <!-- About Text -->
+      <div class="about-text">
+        <h2>About Us</h2>
+        <p>
+          Welcome to Gover Shelter LImited — your trusted partner in Real Estate, Building Materials, and Interior & Exterior Décor. We blend functionality with aesthetics to help you build, invest, and enhance your living spaces from the ground up.
+        </p>
+        <a href="#more-info" class="about-btn">Learn More</a>
+      </div>
+
+      <!-- Categories -->
+      <div class="category-icons">
+        <div class="category">
+          <img src="img/house.jpeg" alt="Real Estate" />
+          <span>Real Estate</span>
+        </div>
+        <div class="category">
+          <img src="img/house.jpeg"Building Materials" />
+          <span>Building Materials</span>
+        </div>
+        <div class="category">
+          <img src="img/house.jpeg" alt="Interior & Exterior Decor" />
+          <span>Interior & Exterior Décor</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!--End of about real estate -->
+
+
+
+<!-- popular items  -->
+
+<div class="popular-items">
+  <section class="listing-header">
+    <h1>POPULAR LISTING</h1>
+    <p>Browse through our curated categories of properties, building materials, and home decor essentials. Find what best suits your needs.</p>
+  </section>
+
+  <div class="filter-bar">
+    <button class="active" data-filter="all">All</button>
+    <button data-filter="real-estate">Real Estate</button>
+    <button data-filter="building-material">Building Material</button>
+    <button data-filter="decor">Decor</button>
+  </div>
+
+  <div class="category-section real-estate active">
+    <h2 class="section-title">Popular Real Estate</h2>
+    <div class="cards-container">
+
+
+
+
+
+
+
+
+
+
+<div class="property-card">
+  <div style="position: relative;">
+    <img src="img/house.jpeg" alt="Property Image">
+    <div class="label">For Sale</div>
+    <div class="label label-right">Apartment</div>
+  </div>
+  <div class="property-details">
+    <div class="price">$250,000 </div>
+    <div class="property-title">Modern 2-Bedroom Apartment</div>
+    <div class="location"><i class="fas fa-map-marker-alt"></i> Lekki Phase 1, Lagos</div>
+    <div class="info-line">
+      <div class="info-item"><i class="fas fa-vector-square"></i>1200 sqft</div>
+      <div class="info-item"><i class="fas fa-bed"></i>3 Beds</div>
+      <div class="info-item"><i class="fas fa-bath"></i>2 Baths</div>
+    </div>
+    <!-- <div class="meta">
+      <div><i class="fas fa-star"></i> 4.5 (23 Reviews)</div>
+      <div><i class="fas fa-eye"></i> 1,234 Views</div>
+    </div> -->
+  </div>
+</div>
+
+    </div>
+    
+
+    
+    <div class="section-footer">
+      <button class="view-button">View More</button>
+    </div>
+  </div>
+
+  <div class="category-section building-material">
+    <h2 class="section-title">Popular Building Material</h2>
+    <div class="cards-container">
+
+<div class="property-card">
+  <div style="position: relative;">
+    <img src="img/house.jpeg" alt="Property Image">
+    <div class="label">Sand</div>
+    <div class="label label-right">Foreign</div>
+  </div>
+  <div class="property-details">
+    <div class="price">#250,000 <!-- <del>$280,000</del> --></div>
+    <div class="property-title">foreign  bulb</div>
+    <div class="location"><i class="fas fa-map-marker-alt"></i> Lekki Phase 1, Lagos</div>
+    <div class="info-line">
+      
+      <div class="info-item"><i class="fas fa-bath"></i>2 Brand new</div>
+    </div>
+  
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    <div class="section-footer">
+      <button class="view-button">View More</button>
+    </div>
+  </div>
+
+  <div class="category-section decor">
+    <h2 class="section-title">Popular Decor</h2>
+    <div class="cards-container">
+
+
+      <div class="property-card">
+  <div style="position: relative;">
+    <img src="img/house.jpeg" alt="Property Image">
+    <div class="label">Interior deccor</div>
+   <!--  <div class="label label-right">fitting</div> -->
+  </div>
+  <div class="property-details">
+    <div class="price">$250,000 <del>#280,000</del></div>
+    <div class="property-title">Internal door</div>
+    <div class="location"><i class="fas fa-map-marker-alt"></i> Lekki Phase 1, Lagos</div>
+ <!--    <div class="info-line">
+      <div class="info-item"><i class="fas fa-vector-square"></i>1200 sqft</div>
+      <div class="info-item"><i class="fas fa-bed"></i>3 Beds</div>
+      <div class="info-item"><i class="fas fa-bath"></i>2 Baths</div>
+    </div> -->
+  <!--   <div class="meta">
+      <div><i class="fas fa-star"></i> 4.5 (23 Reviews)</div>
+      <div><i class="fas fa-eye"></i> 1,234 Views</div>
+    </div> -->
+  </div>
+</div>
+
+
+
+
+    </div>
+    <div class="section-footer">
+      <button class="view-button">View More</button>
+    </div>
+  </div>
+
+  </div>
+
+<!-- end of popular items -->
+
+
+
+<!-- start blog -->
+
+
+
+  <!-- Header Section -->
+  <div class="blog-header">
+    <h1 class="blog-heading">Latest News from Us</h1>
+    <p class="blog-subtext">
+      Stay informed with our most recent updates, stories, and insights from the team.
+    </p>
+  </div>
+
+  <!-- Blog Cards -->
+  <div class="blog-container">
+
+    <!-- Card 1 -->
+    <div class="blog-card">
+      <img src="img/house.jpeg" alt="Post Image" class="blog-media" />
+      <div class="blog-content">
+        <span class="blog-date">May 21, 2025</span>
+        <h3 class="blog-title">Post One: Design Tips</h3>
+        <p class="blog-summary">
+          Discover a few simple ways to make your blog layout stand out visually...
+          <a href="singleblog.html" class="blog-read-more">Read More</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="blog-card">
+      <video controls class="blog-media">
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="blog-content">
+        <span class="blog-date">May 19, 2025</span>
+        <h3 class="blog-title">Post Two: Product Demo</h3>
+        <p class="blog-summary">
+          Watch our short demo showcasing the platform features...
+          <a href="singleblog.html" class="blog-read-more">Read More</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="blog-card">
+      <img src="img/house.jpeg" alt="Post Image" class="blog-media" />
+      <div class="blog-content">
+        <span class="blog-date">May 15, 2025</span>
+        <h3 class="blog-title">Post Three: Community News</h3>
+        <p class="blog-summary">
+          Our community just hit 10,000 users with amazing updates...
+          <a href="singleblog.html" class="blog-read-more">Read More</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- View More Button -->
+  <div class="view-more-container">
+    <a href="mutiplesingle.html" class="view-more-btn">View More Blogs</a>
+  </div>
+
+<!-- end of blog -->
+
+
+<!-- start team -->
+<div class="team-section-header">
+  <h2 class="team-section-title">Our Team</h2>
+  <p class="team-section-subtitle">Meet the passionate professionals behind our success in real estate.</p>
+</div>
+
+<!-- Team Slider -->
+<div class="team-slider-container" id="team-slider-container">
+  <div class="team-slider-track" id="team-slider-track">
+    <div class="team-slide">
+      <img src="img/house.jpeg" alt="Jane Doe">
+      <h3 class="team-member-name">Jane Doe</h3>
+      <p class="team-member-role">Lead Realtor</p>
+    </div>
+    <div class="team-slide">
+      <img src="img/house.jpeg" alt="John Smith">
+      <h3 class="team-member-name">John Smith</h3>
+      <p class="team-member-role">Luxury Property Expert</p>
+    </div>
+    <div class="team-slide">
+      <img src="img/house.jpeg" alt="Emily Clark">
+      <h3 class="team-member-name">Emily Clark</h3>
+      <p class="team-member-role">Senior Agent</p>
+    </div>
+    <div class="team-slide">
+      <img src="img/house.jpeg" alt="Mark Lee">
+      <h3 class="team-member-name">Mark Lee</h3>
+      <p class="team-member-role">Commercial Specialist</p>
+    </div>
+    <div class="team-slide">
+      <img src="img/house.jpeg" alt="Sarah Kim">
+      <h3 class="team-member-name">Sarah Kim</h3>
+      <p class="team-member-role">Broker Associate</p>
+    </div>
+  </div>
+</div>
+
+<!-- Dots -->
+<div class="team-dots" id="team-dot-container"></div>
+
+<!-- end of team -->
+
+
+
+<!-- review -->
+ <div class="testimonial-section">
+    <h2>What People Say About Us</h2>
+
+    <div class="carousel" id="carousel">
+      <div class="testimonial">
+        <img src="https://ui-avatars.com/api/?name=Alice+Johnson" alt="Alice">
+        <h3>Alice Johnson</h3>
+        <p>“Fantastic product and top-notch support!”</p>
+        <div style="color:gold; font-size:1.2rem;">★★★★★</div>
+      </div>
+      <div class="testimonial">
+        <img src="https://ui-avatars.com/api/?name=Bob+Lee" alt="Bob">
+        <h3>Bob Lee</h3>
+        <p>“Very user-friendly and well documented.”</p>
+        <div style="color:gold; font-size:1.2rem;">★★★★☆</div>
+      </div>
+        <div class="testimonial">
+        <img src="https://ui-avatars.com/api/?name=Bob+Lee" alt="Bob">
+        <h3>Bob Lee</h3>
+        <p>“Very user-friendly and well documented.”</p>
+        <div style="color:gold; font-size:1.2rem;">★★★★☆</div>
+      </div>
+        <div class="testimonial">
+        <img src="https://ui-avatars.com/api/?name=Bob+Lee" alt="Bob">
+        <h3>Bob Lee</h3>
+        <p>“Very user-friendly and well documented.”</p>
+        <div style="color:gold; font-size:1.2rem;">★★★★☆</div>
+      </div>
+    </div>
+
+    <div class="dots" id="dots"></div>
+    <button class="open-form-btn" onclick="openForm()">Submit Your Review</button>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div class="ts-overlay" id="ts-overlay" onclick="closeForm()"></div>
+
+  <!-- Popup Form -->
+  <div class="ts-form-popup" id="ts-formPopup">
+    <button class="ts-close-btn" onclick="closeForm()">&times;</button>
+    <h3>Leave a Testimonial</h3>
+    <form action="submit_review.php" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+      <label style="font-weight:600; display:block; margin-top:8px;">Rating</label>
+      <div id="ts-starRating"></div>
+      <input type="hidden" name="rating" id="ratingInput" value="0" required />
+      <button type="submit" class="ts-submit-btn">Submit</button>
+    </form>
+  </div>
+
+<!-- end of review -->
+
+<!-- patnership start -->
+
+<section class="section-partners">
+    <h1 class="partners-heading">Our Trusted Partners</h1>
+    <p class="partners-paragraph">
+      We proudly collaborate with global industry leaders. Here’s a look at some of the amazing brands we work with.
+    </p>
+  </div>
+
+  <div class="carousel-container">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-slide">
+        <img src="img/house.jpeg" alt="Partner 1" />
+        <div class="partner-name">Mtn</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="img/house.jpeg" alt="Partner 2" />
+        <div class="partner-name">Gover LTD</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="img/house.jpeg" alt="Partner 3" />
+        <div class="partner-name">GLO</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="img/house.jpeg" alt="Partner 4" />
+        <div class="partner-name">GOVER</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="img/house.jpeg" alt="Partner 5" />
+        <div class="partner-name">Gover ltc</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="img/client.jpg" alt="Partner 6" />
+        <div class="partner-name">Gover ltd</div>
+      </div>
+    </div>
+
+    <button class="carousel-nav carousel-prev" onclick="moveCarousel(-1)">&#10094;</button>
+    <button class="carousel-nav carousel-next" onclick="moveCarousel(1)">&#10095;</button>
+  </div>
+</section>
+
+<!-- end of patner -->
+
+
+<!-- review -->
+ 
+<!-- start footer -->
+ <footer class="footer">
+    <div class="footer-container">
+      <!-- Logo and Info -->
+      <div class="footer-logo">
+        <img src="logo.png" alt="Real Estate Logo" />
+        <p>Your Trusted Real Estate Partner for Buying, Selling, and Building Dreams.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="footer-column">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Real Estate Category -->
+      <div class="footer-column">
+        <h4>Real Estate</h4>
+        <ul>
+          <li><a href="landforsale.html">Land for sale</a></li>
+          <li><a href="landforsale.html">Land for rent</a></li>
+          <li><a href="landforsale.html">Properties for sale</a></li>
+          <li><a href="landforsale.html">Properties for rent</a></li>
+          <li><a href="landforsale.html">Apartment for shortlet</a></li>
+        </ul>
+      </div>
+
+      <!-- Building Materials -->
+      <div class="footer-column">
+        <h4>Building Materials</h4>
+        <ul>
+          <li><a href="#">Cement</a></li>
+          <li><a href="#">Bricks</a></li>
+          <li><a href="#">Sand</a></li>
+          <li><a href="#">Steel Bars</a></li>
+          <li><a href="#">Paint</a></li>
+        </ul>
+      </div>
+
+      <!-- Decor -->
+      <div class="footer-column">
+        <h4>Decor</h4>
+        <ul>
+          <li><a href="#">Interior Decor</a></li>
+          <li><a href="#">Exterior Decor</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Copyright -->
+    <div class="footer-bottom">
+      &copy; 2025 Alphaentitytech solutions. All rights reserved.
+    </div>
+  </footer>
+
+<!-- end footer -->
+
+</body>
+
+</body>
+</html>

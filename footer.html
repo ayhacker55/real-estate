@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Real Estate Footer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    .footer {
+      background-color: #01031a;
+      color: #fff;
+      padding: 50px 20px 20px;
+    }
+
+    .footer-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+    .footer-logo {
+      flex: 1 1 200px;
+    }
+
+    .footer-logo img {
+      max-width: 150px;
+      margin-bottom: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .footer-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    .footer-logo p {
+      font-size: 14px;
+      color: #ccc;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .footer-column {
+      flex: 1 1 200px;
+      
+    }
+
+    .footer-column h4 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #fff;
+      position: relative;
+    }
+
+    .footer-column h4::after {
+      content: "";
+      display: block;
+      width: 30px;
+      height: 2px;
+      background: #2e0acc;
+      margin-top: 5px;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-column ul li {
+      margin: 6px 0;
+    }
+
+    .footer-column ul li a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease, padding-left 0.3s ease;
+      display: inline-block;
+    }
+
+    .footer-column ul li a:hover {
+      color: #fff;
+      padding-left: 6px;
+    }
+
+    .footer-social {
+      margin-top: 20px;
+    }
+
+    .footer-social a {
+      margin-right: 10px;
+      color: #ccc;
+      font-size: 18px;
+      text-decoration: none;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      color: #ff9900;
+      transform: scale(1.2);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 15px 10px 0;
+      font-size: 13px;
+      color: #aaa;
+      border-top: 1px solid #333;
+      margin-top: 30px;
+    }
+
+
+   @media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .footer-logo,
+  .footer-column {
+    flex: unset !important;
+    margin: 0 !important;
+    padding: 10px 0 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .footer-column h4 {
+    margin-bottom: 6px !important;
+  }
+
+  .footer-column ul li {
+    margin: 2px 0 !important;
+  }
+
+  .footer-social {
+    margin-top: 8px !important;
+  }
+
+  .footer-bottom {
+    margin-top: 16px !important;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <!-- Logo and Info -->
+      <div class="footer-logo">
+        <img src="logo.png" alt="Real Estate Logo" />
+        <p>Your Trusted Real Estate Partner for Buying, Selling, and Building Dreams.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="footer-column">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Real Estate Category -->
+      <div class="footer-column">
+        <h4>Real Estate</h4>
+        <ul>
+          <li><a href="#">Land for sale</a></li>
+          <li><a href="#">Land for rent</a></li>
+          <li><a href="#">Properties for sale</a></li>
+          <li><a href="#">Properties for rent</a></li>
+          <li><a href="#">Apartment for shortlet</a></li>
+        </ul>
+      </div>
+
+      <!-- Building Materials -->
+      <div class="footer-column">
+        <h4>Building Materials</h4>
+        <ul>
+          <li><a href="#">Cement</a></li>
+          <li><a href="#">Bricks</a></li>
+          <li><a href="#">Sand</a></li>
+          <li><a href="#">Steel Bars</a></li>
+          <li><a href="#">Paint</a></li>
+        </ul>
+      </div>
+
+      <!-- Decor -->
+      <div class="footer-column">
+        <h4>Decor</h4>
+        <ul>
+          <li><a href="#">Interior Decor</a></li>
+          <li><a href="#">Exterior Decor</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Copyright -->
+    <div class="footer-bottom">
+      &copy; 2025 Alphaentitytech solutions. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>

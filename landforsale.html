@@ -1,0 +1,2334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <title>Land Listings</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      flex-direction: row;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 300px;
+      background: #fff;
+      border-right: 1px solid #058b0c;
+      padding: 20px;
+      height: 100vh;
+      overflow-y: auto;
+      position: sticky;
+      top: 0;
+    
+    }
+
+
+.divider {
+  border: none;
+  border-bottom: 1px solid  #868b87;
+  margin: 1rem 0;
+}
+
+
+.filter-section .fas{
+  color: #058b0c;
+}
+
+
+    .sidebar h3 {
+     font-size: 14px;
+  margin-bottom: 12px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 100;
+}
+    
+
+
+    .filter-section select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  background: white;
+  color: #333;
+  transition: border-color 0.3s ease;
+  appearance: none; /* removes default arrow on some browsers */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg fill="%23777" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px 12px;
+}
+
+    .filter-section {
+      margin-bottom: 20px;
+    }
+
+    .filter-section select:hover,
+.filter-section select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+    .filter-section label,
+    .filter-section input,
+    .filter-section select {
+      display: block;
+      margin: 6px 0;
+    }
+
+    .filter-section input[type="radio"],
+    .filter-section input[type="checkbox"] {
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .filter-section input[type="text"],
+    .filter-section input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+/* 
+    .reset-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.reset-btn:hover {
+  background-color: #c82333;
+}
+ */
+    /* Mobile toggle */
+  
+
+
+    .filter-toggle {
+      padding: 1em;
+      background: #007bff;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1001;
+    }
+    .de
+    .sidebar.mobile-hidden {
+      display: none;
+    }
+
+    /* Main content */
+    .main {
+      flex-grow: 1;
+      padding: 0;
+    }
+
+
+    header {
+  position: fixed;
+  top: 0;
+  left: 299px;  /* make space for sidebar */
+  right: 0;
+  height: 80px;
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+ 
+}
+
+
+/* header {
+  background-color: #c2ccd6;
+  
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   position: fixed;
+    top: 0;
+    left: 275px;
+    right: 0;
+    z-index: 1000;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ 
+}
+ */
+.search-bar {
+ display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 50px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex-wrap: nowrap;
+}
+
+.search-bar input[type="text"] {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 50px;
+  min-width: 0;
+}
+
+.search-bar button {
+  background-color: #058b0c;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.search-bar button:hover {
+  background-color: #0056b3;
+}
+
+.back-arrow {
+  background-color: transparent;
+  color: #333;
+  font-size: 1.2rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.back-arrow:hover {
+  color: #058b0c;
+}
+
+
+
+/* landform for sale */
+
+/* 🔄 Mobile Styles */
+@media (max-width: 480px) {
+  .search-bar {
+    padding: 0.5rem;
+    gap: 0.25rem;
+  }
+
+  .search-bar input[type="text"] {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .search-bar button,
+  .back-arrow {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+    
+  }
+}
+
+
+  /* Mobile filter bar with icons */
+    .mobile-filter-bar {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      padding: 10px;
+      background: #fff;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+    .mobile-filter-bar .filter-btn {
+      flex: 0 0 auto;
+      padding: 8px 14px;
+      background: #e6e6e6;
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      white-space: nowrap;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mobile-filter-bar .filter-btn i {
+      color:#058b0c;
+      font-size: 16px;
+    }
+    /* Popup overlay styling */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+
+    .mobile-filter-bar {
+  display: none; /* hide by default */
+}
+
+    /* Popup content */
+    .popup-content {
+      background: #fff;
+      padding: 20px 20px 40px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 8px;
+      position: relative;
+      box-sizing: border-box;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    /* Close button X top-right */
+    .popup-content .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      line-height: 1;
+      color: #999;
+      cursor: pointer;
+      font-weight: bold;
+      transition: color 0.2s ease;
+    }
+    .popup-content .close-btn:hover {
+      color: #dc3545;
+    }
+    /* Popup headings with icons */
+    .popup-content h3,
+    .filter-section h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    .popup-content h3 i,
+    .filter-section h3 i {
+      color: #007bff;
+      font-size: 18px;
+    }
+    /* Filter sections inside popup */
+    .filter-section {
+      margin-bottom: 20px;
+    }
+    /* Reset and Apply buttons container */
+    .popup-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    /* Reset button */
+    .popup-footer button.reset-btn {
+      flex: 1;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .popup-footer button.reset-btn:hover {
+      background-color: #b02a37;
+    }
+    /* Apply button */
+    .popup-footer button.apply-btn {
+      flex: 1;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .popup-footer button.apply-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .desktop-filter-bar{
+      display: none;
+    }
+
+    .filter-section.collapsible h3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.filter-section.collapsible h3 .toggle-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  color:#058b0c ;
+  width: 30px;
+  height: 30px;
+  line-height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  user-select: none;
+}
+
+.filter-content {
+  padding-left: 10px;
+  margin-top: 8px;
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+}
+
+
+
+
+
+.filter-section.collapsible {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.filter-section.collapsible h3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+  color: #333;
+}
+
+.filter-section.collapsible h3 span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-section.collapsible .toggle-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: bold;
+  color: #058b0c;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
+  user-select: none;
+}
+
+.filter-section.collapsible .toggle-btn.open {
+  transform: rotate(45deg);
+}
+
+.filter-section.collapsible .filter-content {
+  margin-top: 10px;
+  padding-left: 10px;
+}
+
+.range-inputs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  width:50px;
+}
+
+.range-inputs input[type="number"] {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 120px;
+}
+
+.filter-section.collapsible label {
+  display: block;
+  margin: 6px 0;
+  cursor: pointer;
+  color: #555;
+  font-size: 14px;
+}
+
+.filter-section.collapsible hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 10px 0;
+}
+
+
+@media (max-width: 480px) {
+  .popup-content {
+    padding: 16px 16px 32px;
+    width: 95%;
+    max-width: none;
+    border-radius: 6px;
+  }
+
+  .popup-content h3,
+  .filter-section h3 {
+    font-size: 0.7rem;
+    gap: 6px;
+  }
+
+  .filter-section span{
+    font-size: 0.8rem;
+
+  }
+
+
+
+  .filter-section .fas{
+    font-size: 0.8rem;
+
+  }
+  .popup-content .close-btn {
+    top: 10px;
+    right: 10px;
+    font-size: 25px;
+    color: red;
+  }
+
+ 
+
+  
+
+  .filter-section.collapsible label {
+    font-size: 13px;
+  }
+}
+
+
+
+
+
+
+
+    /* Responsive adjustments */
+    @media screen and (max-width: 768px) {
+      .main {
+        padding: 70px 10px;
+      }
+    .mobile-filter-bar {
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 999;
+    background: white;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    margin-top: 10px;
+
+    }
+  }
+
+
+
+    /* Hide mobile filter bar on desktop */
+.mobile-filter-bar {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .mobile-filter-bar {
+    display: flex;
+  }
+}
+
+
+    /* old search end */
+
+  /*   header {
+      background: #fff;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .search-bar {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 12px 16px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px 0 0 8px;
+      outline: none;
+    }
+
+    .search-bar button {
+      padding: 12px 20px;
+      border: none;
+      background: #007bff;
+      color: white;
+      font-size: 16px;
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
+    }
+ */
+
+ /* old search end */
+
+
+ /* start land */
+
+  /* MODAL */
+    
+ /* end start land */
+
+
+
+   
+    .pagination {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .pagination button {
+      margin: 0 2px;
+      padding: 10px 16px;
+      font-size: 14px;
+      border: none;
+      background:#058b0c;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+
+
+    .category-banner {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  margin-top: 90px;
+  flex-wrap: wrap;
+  
+}
+
+.land-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f1f5ff;
+  padding: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 140px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #004bb1;
+  transition: all 0.3s ease;
+}
+
+.category-item:hover {
+  background: #dde8ff;
+}
+
+.filter-row {
+  display: flex;
+  gap: 10px;
+}
+.filter-row input[type="number"] {
+  flex: 1;
+}
+
+.category-item{
+  text-align: center;
+  font-size: 12px;
+  padding: 10px 50px;
+}
+
+.desktop-filter-bar{
+  display: none;
+}
+
+
+
+/* mobile interchange */
+
+/* Ensure .main is a flex container in column direction */
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Default order (desktop or wider screens) */
+header {
+  order: 1;
+}
+
+.category-banner {
+  order: 2;
+}
+
+.mobile-filter-bar {
+  order: 3;
+}
+
+.cards-grid {
+  order: 4;
+}
+
+.pagination {
+  order: 5;
+}
+
+/* ======= MOBILE STYLES ======= */
+@media (max-width: 768px) {
+  header {
+    order: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+ 
+  .mobile-filter-bar {
+    order: 2;
+    position: fixed;
+    top: 60px; /* adjust based on your header height */
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .category-banner {
+    order: 3;
+    margin-top: 60px; /* header + mobile filter bar height */
+  }
+
+  .cards-grid {
+    order: 4;
+    margin-top: 10px;
+  }
+
+  .pagination {
+    order: 5;
+  }
+}
+
+/* end of cnag */
+
+
+
+
+/* imported filter */
+/* ======= MOBILE STYLES ======= */
+@media (max-width: 1280px) {
+  header {
+  max-width: 100%;
+
+
+   
+  }
+
+}
+
+@media (min-width: 1280px) {
+  header {
+
+   
+  }
+}
+
+
+/* ======= MOBILE STYLES ======= */
+
+
+
+
+/* end of filters */
+
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        display: none;
+        width: 100%;
+        position: relative;
+        height: auto;
+      }
+
+      .sidebar.mobile-visible {
+        display: block;
+      }
+
+    
+    .category-banner {
+flex-direction: row;
+padding: 10px
+}
+
+.category-item {
+width: 10px;
+}
+
+
+.category-item span{
+ font-size: 8px;
+}
+
+}
+
+
+
+/* Hide mobile filter bar on desktop */
+@media (min-width: 769px) {
+  .mobile-filter-bar {
+    display: none;
+    
+  }
+}
+
+
+/* cards start */
+ .cards-grid {
+  padding: 24px 12px;
+  gap: 50px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1200px;
+  margin: 0 auto;
+  
+}
+    .land-card-vertical {
+      position: relative;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .land-card-vertical:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .land-type-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background-color: #058b0c;
+      color: #fff;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      z-index: 2;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .land-image-vertical {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .land-details-vertical {
+      padding: 16px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .land-price {
+      font-size: 18px;
+      font-weight: bold;
+      color: #058b0c;
+      margin-bottom: 6px;
+    }
+
+    .land-title-vertical {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0 0 4px;
+      color: #222;
+    }
+
+    .land-description {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .land-location-vertical {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .land-info-vertical {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .badge-vertical {
+      background: #058b0c;
+      color: white;
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .icon-location {
+      width: 16px;
+      height: 16px;
+      fill: #007bff;
+    }
+
+.land-price-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.buy-button {
+  background-color: #f50b0b;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.buy-button:hover {
+  background-color: #046f0a;
+}
+
+
+    /*start reg nlogin */
+
+  /* Auth Modal Styles */
+  .auth-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    overflow-y: auto;
+    padding: 20px;
+  }
+  .auth-modal__content {
+    background: white;
+    max-width: 400px;
+    margin: 80px auto;
+    border-radius: 12px;
+    padding: 30px 30px 40px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    position: relative;
+    animation: slideDown 0.35s ease forwards;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .auth-modal__close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .auth-modal__close:hover { color: #000; }
+  .auth-modal__title, .auth-modal__subtitle {
+    margin-top: 0;
+    color: #222;
+    font-weight: 600;
+    text-align: center;
+  }
+  .auth-input__wrapper {
+    position: relative;
+    margin-top: 15px;
+  }
+  .auth-input__icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    fill: #888;
+  }
+  .auth-input__field {
+    width: 100%;
+    padding: 14px 44px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1.8px solid #ddd;
+    transition: border-color 0.3s ease;
+    outline-offset: 2px;
+    box-shadow: inset 0 1px 3px #ddd;
+  }
+  .auth-input__field:focus {
+    border-color: #4f46e5;
+    outline-color: #4f46e5;
+    box-shadow: 0 0 8px rgba(79, 70, 229, 0.3);
+  }
+  .auth-btn {
+    margin-top: 25px;
+    padding: 14px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    background: #4f46e5;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.45);
+    transition: background 0.3s ease;
+  }
+  .auth-btn:hover { background: #4338ca; }
+  .auth-link {
+    margin-top: 10px;
+    text-align: right;
+    font-size: 14px;
+    color: #4f46e5;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .auth-link:hover { color: #3730a3; }
+  .auth-password__wrapper { position: relative; }
+  .auth-password__toggle {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 20px;
+    color: #888;
+  }
+  .auth-password__toggle:hover { color: #4f46e5; }
+  .auth-toggle__message {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+  }
+  .auth-toggle__link {
+    color: #4f46e5;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .auth-toggle__link:hover { color: #3730a3; }
+@media (max-width: 600px) {
+  .auth-modal__content {
+    margin: 40px auto;
+    max-width: 90%;
+    padding: 20px 20px 30px;
+  }
+
+  .auth-modal__title, .auth-modal__subtitle {
+    font-size: 18px;
+  }
+
+  .auth-input__field {
+    padding: 12px 40px;
+    font-size: 14px;
+  }
+
+  .auth-btn {
+    padding: 12px 18px;
+    font-size: 16px;
+  }
+
+  .auth-link {
+    font-size: 13px;
+  }
+
+  .auth-toggle__message {
+    font-size: 13px;
+  }
+
+  .auth-modal__close {
+    font-size: 20px;
+    top: 10px;
+    right: 10px;
+  }
+
+}
+
+
+    /* end of reg n login */
+
+   
+    @media (max-width: 1024px) {
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .mobile-filter-bar .filter-btn{
+font-size: 0.7rem;
+
+margin-top: 5px;
+      }
+     .mobile-filter-bar .filter-btn .fas{
+font-size: 0.6rem;
+
+      }
+
+      .land-type-tag{
+        font-size: 0.4rem;
+      }
+
+      
+
+      .category-item {
+  padding: 10px 50px;
+  font-size: 1.2rem;
+}
+   
+.category-item span{
+  font-size: 0.55rem;
+
+}
+  .cards-grid {
+  /*   grid-template-columns: repeat(2, 1fr);  *//* from 1fr to 2fr */
+   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    padding: 24px 10px;
+   gap: 16px;
+   margin: 0;
+   
+  }
+
+     .land-card-vertical {
+    max-width: 280px;
+    max-height: 330px;
+    margin: 5px auto;
+   
+  }
+
+  .badge-vertical{
+  flex-direction: row;
+  font-size: 10px;
+  }
+
+  .land-image-vertical {
+    height: 140px;
+  }
+
+  .land-price {
+    font-size: 0.8rem;
+  }
+
+  .land-title-vertical {
+    font-size: 0.7rem;
+    color: red;
+  }
+.land-description{
+  font-size: 0.6rem;
+}
+
+.land-location-vertical{
+  font-size: 0.7rem;
+
+}
+    .pagination button {
+      font-size: 11px;
+    
+    }
+
+
+}
+
+
+@media (max-width: 400px) {
+  .cards-grid {
+  /*   grid-template-columns: repeat(2, 1fr);  *//* from 1fr to 2fr */
+   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    padding: 24px 10px;
+    gap: 16px;
+   
+  }
+
+
+  .land-card-vertical {
+    max-width: 280px;
+    max-height: 280px;
+    margin: 5px auto;
+   
+  }
+    
+
+
+  .badge-vertical{
+  flex-direction: row;
+  font-size: 8px;
+  }
+
+  .land-image-vertical {
+    height: 140px;
+  }
+.land-price {
+    font-size: 0.8rem;
+    margin-left: -6px;
+  }
+
+  .land-title-vertical {
+    font-size: 0.7rem;
+    color: red;
+  }
+.land-description{
+  font-size: 0.6rem;
+  margin-top: 10px;
+}
+
+.land-location-vertical{
+  font-size: 0.7rem;
+  margin-top: -0.5px;
+
+}
+
+    .pagination button {
+      font-size: 8px;
+    
+    }
+.category-item {
+  padding: 10px 40px;
+  font-size: 1.2rem;
+}
+   
+.category-item span{
+  font-size: 0.55rem;
+
+}
+
+.land-price-container {
+ 
+  margin-bottom: 10px;
+  gap: 11px;
+}
+
+.buy-button {
+  font-size: 0.5rem;
+  margin-top: -11px;
+  padding: 6px 12px;
+}
+
+}
+
+
+
+
+
+
+/* pop reg n sign */
+
+
+/* Modal base styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal content box */
+.modal-content {
+  background-color: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+/* Close button (X) */
+.close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #333;
+}
+
+/* Form inputs */
+.modal-content form input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Button */
+.modal-content form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #058b0c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal-content form button:hover {
+  background-color: #046a09;
+}
+
+/* pop reg n sign */
+/* cards end */
+
+
+
+  </style>
+  
+</head>
+<body>
+
+ <div class="desktop-filter-bar">
+    <div class="filter-btn" onclick="togglePopup('allFiltersPopup')"><i class="fas fa-sliders-h"></i> All Filters</div>
+    <div class="filter-btn" onclick="togglePopup('pricePopup')"><i class="fas fa-money-bill"></i> Price</div>
+    <div class="filter-btn" onclick="togglePopup('locationPopup')"><i class="fas fa-map-marker-alt"></i> Location</div>
+    <div class="filter-btn" onclick="togglePopup('typePopup')"><i class="fas fa-building"></i> Type</div>
+    
+  </div>
+
+ 
+  <aside class="sidebar">
+  <!-- Property Type -->
+  <div class="filter-section">
+    <h3><i class="fas fa-home"></i> Property Type</h3>
+    <label><input type="radio" name="property" checked> Residential</label>
+    <label><input type="radio" name="property"> Commercial</label>
+  </div>
+
+   <hr class="divider" />
+
+
+  <!-- Recommendation -->
+  <div class="filter-section">
+    <h3><i class="fas fa-thumbs-up"></i> Recommendation</h3>
+    <select>
+      <option value="newest">Newest</option>
+      <option value="oldest">Oldest</option>
+      <option value="lowest">Lowest Price</option>
+      <option value="highest">Highest Price</option>
+    </select>
+  </div>
+
+   <hr class="divider" />
+
+
+  <!-- Price Range -->
+  <div class="filter-section">
+    <h3><i class="fas fa-money-bill-wave"></i> Price Range (₦)</h3>
+    <div class="filter-row">
+      <input type="number" placeholder="Min Price" />
+      <input type="number" placeholder="Max Price" />
+    </div>
+    <div class="price-presets">
+      <label><input type="radio" name="priceRange" value="0-2000000"> Under ₦2M</label>
+      <label><input type="radio" name="priceRange" value="2000000-4000000"> ₦2M - ₦4M</label>
+      <label><input type="radio" name="priceRange" value="4000000+"> Above ₦4M</label>
+    </div>
+  </div>
+   <hr class="divider" />
+
+
+  <!-- Location -->
+  <div class="filter-section">
+    <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
+    <input type="text" placeholder="Search location..." />
+  </div>
+
+   <hr class="divider" />
+
+  <!-- Land Size -->
+  <div class="filter-section">
+    <h3><i class="fas fa-ruler-combined"></i> Land Size (sqm)</h3>
+    <div class="filter-row">
+      <input type="number" placeholder="Min Size" />
+      <input type="number" placeholder="Max Size" />
+    </div>
+  </div>
+   <hr class="divider" />
+
+
+  <!-- Document Type -->
+  <div class="filter-section">
+    <h3><i class="fas fa-file-alt"></i> Title / Document</h3>
+    <label><input type="checkbox"> C of O</label>
+    <label><input type="checkbox"> Governor’s Consent</label>
+    <label><input type="checkbox"> R of O</label>
+    <label><input type="checkbox"> Gazette</label>
+  </div>
+ <hr class="divider" />
+
+  <!-- Reset Button -->
+  <div class="sidebar-footer">
+    <button class="reset-btn" onclick="resetFilters('sidebarFilters')">Reset Filters</button>
+  </div>
+</aside>
+
+  
+
+  <div class="main">
+   <header>
+  <form class="search-bar" onsubmit="event.preventDefault();">
+    <button type="button" class="back-arrow" onclick="goBack()" aria-label="Go back">
+      &#8592;
+    </button>
+    <input 
+      type="text" 
+      placeholder="Search for land by location or title..." 
+      name="search" 
+      aria-label="Search input"
+      required
+    />
+    <button type="submit">Search</button>
+  </form>
+</header>
+
+
+
+
+
+ <div class="mobile-filter-bar">
+      <button class="filter-btn" onclick="togglePopup('allFiltersPopup')"><i class="fas fa-sliders-h"></i> All Filters</button>
+      <button class="filter-btn" onclick="togglePopup('pricePopup')"><i class="fas fa-money-bill"></i> Price</button>
+      <button class="filter-btn" onclick="togglePopup('locationPopup')"><i class="fas fa-map-marker-alt"></i> Location</button>
+      <button class="filter-btn" onclick="togglePopup('typePopup')"><i class="fas fa-building"></i> Type</button>
+        <button class="filter-btn" onclick="togglePopup('recommendationPopup')">
+  <i class="fas fa-thumbs-up"></i> Recommendation
+</button>
+
+    </div>
+
+    
+
+    <div class="category-banner">
+  <div class="category-item">
+    🏡
+    <span>Residential Land</span>
+  </div>
+  <div class="category-item">
+    🏢
+    <span sy>Commercial Land</span>
+  </div>
+  <div id="postPropertyBtn" class="category-item" role="button" tabindex="0">
+  🏢
+  <span>Post Property</span>
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+  <!-- end of reg modal -->
+
+
+
+    <div class="mobile-filter-bar">
+      <button class="filter-btn" onclick="togglePopup('allFiltersPopup')"><i class="fas fa-sliders-h"></i> All Filters</button>
+      <button class="filter-btn" onclick="togglePopup('pricePopup')"><i class="fas fa-money-bill"></i> Price</button>
+      <button class="filter-btn" onclick="togglePopup('locationPopup')"><i class="fas fa-map-marker-alt"></i> Location</button>
+      <button class="filter-btn" onclick="togglePopup('typePopup')"><i class="fas fa-building"></i> Type</button>
+        <button class="filter-btn" onclick="togglePopup('recommendationPopup')">
+  <i class="fas fa-thumbs-up"></i> Recommendation
+</button>
+
+    </div>
+
+
+
+
+
+<!-- Place this inside .main, below search & banner -->
+
+
+
+<!-- main -->
+  <!-- <div class="filter-toggle" onclick="toggleSidebar()">Toggle Filters</div> -->
+
+
+
+
+    <div class="cards-grid">
+
+
+
+      <!-- Cards go here -->
+<a href="viewproperty.html" class="land-card-link">
+  <div class="land-card-vertical">
+    <div class="land-type-tag">Residential</div>
+    <img class="land-image-vertical" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Land image">
+    <div class="land-details-vertical">
+      
+      <div class="land-price-container">
+  <div class="land-price">₦3,200,000</div>
+  <button class="buy-button">Buy</button>
+</div>
+
+      
+      <h3 class="land-title-vertical">600sqm Land in Lugbe</h3>
+      <p class="land-description">This is a land for farming.</p>
+      <p class="land-location-vertical">
+        <svg class="icon-location" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        Lugbe, Abuja
+      </p>
+      <div class="land-info-vertical">
+        <span class="badge-vertical">600 sqm</span>
+        <span class="badge-vertical">C of O</span>
+      </div>
+    </div>
+  </div>
+</a>
+
+       <!-- Cards go here -->
+<a href="viewproperty.html" class="land-card-link">
+  <div class="land-card-vertical">
+    <div class="land-type-tag">Residential</div>
+    <img class="land-image-vertical" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Land image">
+    <div class="land-details-vertical">
+      
+      <div class="land-price-container">
+  <div class="land-price">₦3,200,000</div>
+  <button class="buy-button">Buy</button>
+</div>
+
+      
+      <h3 class="land-title-vertical">600sqm Land in Lugbe</h3>
+      <p class="land-description">This is a land for farming.</p>
+      <p class="land-location-vertical">
+        <svg class="icon-location" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        Lugbe, Abuja
+      </p>
+      <div class="land-info-vertical">
+        <span class="badge-vertical">600 sqm</span>
+        <span class="badge-vertical">C of O</span>
+      </div>
+    </div>
+  </div>
+</a>
+      <!-- Cards go here -->
+<a href="viewproperty.html" class="land-card-link">
+  <div class="land-card-vertical">
+    <div class="land-type-tag">Residential</div>
+    <img class="land-image-vertical" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Land image">
+    <div class="land-details-vertical">
+      
+      <div class="land-price-container">
+  <div class="land-price">₦3,200,000</div>
+  <button class="buy-button">Buy</button>
+</div>
+
+      
+      <h3 class="land-title-vertical">600sqm Land in Lugbe</h3>
+      <p class="land-description">This is a land for farming.</p>
+      <p class="land-location-vertical">
+        <svg class="icon-location" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        Lugbe, Abuja
+      </p>
+      <div class="land-info-vertical">
+        <span class="badge-vertical">600 sqm</span>
+        <span class="badge-vertical">C of O</span>
+      </div>
+    </div>
+  </div>
+</a>
+      <!-- Cards go here -->
+<a href="viewproperty.html" class="land-card-link">
+  <div class="land-card-vertical">
+    <div class="land-type-tag">Residential</div>
+    <img class="land-image-vertical" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Land image">
+    <div class="land-details-vertical">
+      
+      <div class="land-price-container">
+  <div class="land-price">₦3,200,000</div>
+  <button class="buy-button">Buy</button>
+</div>
+
+      
+      <h3 class="land-title-vertical">600sqm Land in Lugbe</h3>
+      <p class="land-description">This is a land for farming.</p>
+      <p class="land-location-vertical">
+        <svg class="icon-location" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        Lugbe, Abuja
+      </p>
+      <div class="land-info-vertical">
+        <span class="badge-vertical">600 sqm</span>
+        <span class="badge-vertical">C of O</span>
+      </div>
+    </div>
+  </div>
+</a>
+      <!-- Cards go here -->
+<a href="viewproperty.html" class="land-card-link">
+  <div class="land-card-vertical">
+    <div class="land-type-tag">Residential</div>
+    <img class="land-image-vertical" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Land image">
+    <div class="land-details-vertical">
+      
+      <div class="land-price-container">
+  <div class="land-price">₦3,200,000</div>
+  <button class="buy-button">Buy</button>
+</div>
+
+      
+      <h3 class="land-title-vertical">600sqm Land in Lugbe</h3>
+      <p class="land-description">This is a land for farming.</p>
+      <p class="land-location-vertical">
+        <svg class="icon-location" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        Lugbe, Abuja
+      </p>
+      <div class="land-info-vertical">
+        <span class="badge-vertical">600 sqm</span>
+        <span class="badge-vertical">C of O</span>
+      </div>
+    </div>
+  </div>
+</a>
+      <!-- Cards go here -->
+<a href="viewproperty.html" class="land-card-link">
+  <div class="land-card-vertical">
+    <div class="land-type-tag">Residential</div>
+    <img class="land-image-vertical" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Land image">
+    <div class="land-details-vertical">
+      
+      <div class="land-price-container">
+  <div class="land-price">₦3,200,000</div>
+  <button class="buy-button">Buy</button>
+</div>
+
+      
+      <h3 class="land-title-vertical">600sqm Land in Lugbe</h3>
+      <p class="land-description">This is a land for farming.</p>
+      <p class="land-location-vertical">
+        <svg class="icon-location" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        Lugbe, Abuja
+      </p>
+      <div class="land-info-vertical">
+        <span class="badge-vertical">600 sqm</span>
+        <span class="badge-vertical">C of O</span>
+      </div>
+    </div>
+  </div>
+</a>
+      <!-- Cards go here -->
+<a href="viewproperty.html" class="land-card-link">
+  <div class="land-card-vertical">
+    <div class="land-type-tag">Residential</div>
+    <img class="land-image-vertical" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Land image">
+    <div class="land-details-vertical">
+      
+      <div class="land-price-container">
+  <div class="land-price">₦3,200,000</div>
+  <button class="buy-button">Buy</button>
+</div>
+
+      
+      <h3 class="land-title-vertical">600sqm Land in Lugbe</h3>
+      <p class="land-description">This is a land for farming.</p>
+      <p class="land-location-vertical">
+        <svg class="icon-location" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        Lugbe, Abuja
+      </p>
+      <div class="land-info-vertical">
+        <span class="badge-vertical">600 sqm</span>
+        <span class="badge-vertical">C of O</span>
+      </div>
+    </div>
+  </div>
+</a>
+      <!-- Cards go here -->
+<a href="viewproperty.html" class="land-card-link">
+  <div class="land-card-vertical">
+    <div class="land-type-tag">Residential</div>
+    <img class="land-image-vertical" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Land image">
+    <div class="land-details-vertical">
+      
+      <div class="land-price-container">
+  <div class="land-price">₦3,200,000</div>
+  <button class="buy-button">Buy</button>
+</div>
+
+      
+      <h3 class="land-title-vertical">600sqm Land in Lugbe</h3>
+      <p class="land-description">This is a land for farming.</p>
+      <p class="land-location-vertical">
+        <svg class="icon-location" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        Lugbe, Abuja
+      </p>
+      <div class="land-info-vertical">
+        <span class="badge-vertical">600 sqm</span>
+        <span class="badge-vertical">C of O</span>
+      </div>
+    </div>
+  </div>
+</a>
+
+
+
+       
+    </div>
+    <div class="pagination">
+      <button>&laquo; Prev</button>
+      <button class="active">1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>Next &raquo;</button>
+    </div>
+  </div>
+
+
+
+
+    <!-- Popups -->
+
+  <!-- All Filters Popup -->
+ <!-- All Filters Popup -->
+
+<div id="allFiltersPopup" class="popup-overlay" onclick="closePopup(event)">
+  <div class="popup-content" onclick="event.stopPropagation()">
+    <button class="close-btn" onclick="hidePopupById('allFiltersPopup')">×</button>
+    <h3><i class="fas fa-sliders-h"></i> All Filters</h3>
+    
+    <div class="filter-section collapsible">
+      <h3>
+        <span><i class="fas fa-home"></i> Property Type</span>
+        <button class="toggle-btn" onclick="toggleFilterSection(this)">+</button>
+      </h3>
+      <div class="filter-content" style="display:none;">
+        <label><input type="radio" name="all_property" checked> Residential</label>
+        <label><input type="radio" name="all_property"> Commercial</label>
+      </div>
+    </div>
+    
+    <div class="filter-section collapsible">
+      <h3>
+        <span><i class="fas fa-thumbs-up"></i> Recommendation</span>
+        <button class="toggle-btn" onclick="toggleFilterSection(this)">+</button>
+      </h3>
+      <div class="filter-content" style="display:none;">
+        <select>
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="lowest">Lowest Price</option>
+          <option value="highest">Highest Price</option>
+        </select>
+      </div>
+    </div>
+
+
+
+    <!-- price
+     -->
+<div class="filter-section collapsible">
+  <h3>
+    <span><i class="fas fa-money-bill-wave"></i> Price Range (₦)</span>
+    <button class="toggle-btn" onclick="toggleFilterSection(this)">+</button>
+  </h3>
+  <div class="filter-content" style="display:none;">
+    <!-- Min-Max Inputs FIRST -->
+    <div class="range-inputs">
+      <input type="number" placeholder="Min Price" min="0" />
+      <input type="number" placeholder="Max Price" min="0" />
+    </div>
+    <hr />
+    <!-- Radio Ranges BELOW -->
+    <div>
+      <label><input type="radio" name="price" value="0-2000000"> Under 2,000,000</label><br />
+      <label><input type="radio" name="price" value="2000000-4000000"> 2,000,000 - 4,000,000</label><br />
+      <label><input type="radio" name="price" value="4000000+"> Above 4,000,000</label>
+    </div>
+  </div>
+ 
+
+</div>
+
+<!-- Land Size Filter Section -->
+<div class="filter-section collapsible">
+  <h3>
+    <span><i class="fas fa-ruler-combined"></i> Land Size (sqm)</span>
+    <button class="toggle-btn" onclick="toggleFilterSection(this)">+</button>
+  </h3>
+  <div class="filter-content" style="display:none;">
+    <div class="range-inputs">
+      <input type="number" placeholder="Min Size (sqm)" min="0" />
+      <input type="number" placeholder="Max Size (sqm)" min="0" />
+    </div>
+  </div>
+</div>
+
+
+
+
+    
+    
+    <div class="filter-section collapsible">
+      <h3>
+        <span><i class="fas fa-map-marker-alt"></i> Location</span>
+        <button class="toggle-btn" onclick="toggleFilterSection(this)">+</button>
+      </h3>
+      <div class="filter-content" style="display:none;">
+        <input type="text" placeholder="Search location..." />
+      </div>
+    </div>
+
+   
+    
+    <div class="filter-section collapsible">
+      <h3>
+        <span><i class="fas fa-file-alt"></i> Title/Document</span>
+        <button class="toggle-btn" onclick="toggleFilterSection(this)">+</button>
+      </h3>
+      <div class="filter-content" style="display:none;">
+        <label><input type="checkbox"> C of O</label>
+        <label><input type="checkbox"> Governor’s Consent</label>
+      </div>
+    </div>
+
+
+
+
+
+
+  
+
+<!-- <div id="recommendationPopup" class="popup-overlay" onclick="closePopup(event)">
+  <div class="popup-content" onclick="event.stopPropagation()">
+    <button class="close-btn" onclick="hidePopupById('recommendationPopup')">×</button>
+    <h3><i class="fas fa-thumbs-up"></i> Recommendation</h3>
+    <select>
+      <option value="newest">Newest</option>
+      <option value="oldest">Oldest</option>
+      <option value="lowest">Lowest Price</option>
+      <option value="highest">Highest Price</option>
+    </select>
+    <div class="popup-footer">
+      <button class="reset-btn" onclick="resetFilters('recommendationPopup')">Reset</button>
+      <button class="apply-btn" onclick="applyFilters('recommendationPopup')">Apply</button>
+    </div>
+  </div>
+</div>
+
+ -->
+
+    <div class="popup-footer">
+      <button class="reset-btn" onclick="resetFilters('allFiltersPopup')">Reset</button>
+      <button class="apply-btn" onclick="applyFilters('allFiltersPopup')">Apply</button>
+    </div>
+
+
+    
+  </div>
+</div>
+
+
+
+<!-- individaul clicks -->
+<div id="pricePopup" class="popup-overlay" onclick="closePopup(event)" style="display:none;">
+  <div class="popup-content" onclick="event.stopPropagation()">
+    <button class="close-btn" onclick="hidePopupById('pricePopup')">×</button>
+    <h3><i class="fas fa-money-bill-wave"></i> Price Range (₦)</h3>
+    <div class="filter-section">
+      <div class="range-inputs">
+        <input type="number" placeholder="Min Price" min="0" />
+        <input type="number" placeholder="Max Price" min="0" />
+      </div>
+      <hr />
+      <div>
+        <label><input type="radio" name="price" value="0-2000000"> Under 2,000,000</label><br />
+        <label><input type="radio" name="price" value="2000000-4000000"> 2,000,000 - 4,000,000</label><br />
+        <label><input type="radio" name="price" value="4000000+"> Above 4,000,000</label>
+      </div>
+    </div>
+    <div class="popup-footer">
+      <button class="reset-btn" onclick="resetFilters('pricePopup')">Reset</button>
+      <button class="apply-btn" onclick="applyFilters('pricePopup')">Apply</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Location Popup -->
+<div id="locationPopup" class="popup-overlay" onclick="closePopup(event)" style="display:none;">
+  <div class="popup-content" onclick="event.stopPropagation()">
+    <button class="close-btn" onclick="hidePopupById('locationPopup')">×</button>
+    <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
+    <div class="filter-section">
+      <input type="text" placeholder="Search location..." />
+    </div>
+
+    <div class="popup-footer">
+      <button class="reset-btn" onclick="resetFilters('locationPopup')">Reset</button>
+      <button class="apply-btn" onclick="applyFilters('locationPopup')">Apply</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- price -->
+
+<div id="typePopup" class="popup-overlay" onclick="closePopup(event)" style="display:none;">
+  <div class="popup-content" onclick="event.stopPropagation()">
+    <button class="close-btn" onclick="hidePopupById('typePopup')">×</button>
+    <h3><i class="fas fa-home"></i> Property Type</h3>
+    <div class="filter-section">
+      <label><input type="radio" name="property" checked> Residential</label>
+      <label><input type="radio" name="property"> Commercial</label>
+    </div>
+    <div class="popup-footer">
+      <button class="reset-btn" onclick="resetFilters('typePopup')">Reset</button>
+      <button class="apply-btn" onclick="applyFilters('typePopup')">Apply</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Recommendation Popup -->
+<div id="recommendationPopup" class="popup-overlay" onclick="closePopup(event)" style="display:none;">
+  <div class="popup-content" onclick="event.stopPropagation()">
+    <button class="close-btn" onclick="hidePopupById('recommendationPopup')">×</button>
+    <h3><i class="fas fa-thumbs-up"></i> Recommendation</h3>
+    
+    <div class="filter-section collapsible">
+      <div class="filter-content" style="display:block;"> <!-- Use block since you want it always visible -->
+        <select>
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="lowest">Lowest Price</option>
+          <option value="highest">Highest Price</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="popup-footer">
+      <button class="reset-btn" onclick="resetFilters('recommendationPopup')">Reset</button>
+      <button class="apply-btn" onclick="applyFilters('recommendationPopup')">Apply</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Auth Modals -->
+<div class="auth-modal" id="authChoiceModal">
+  <div class="auth-modal__content">
+    <span class="auth-modal__close" onclick="closeModal('authChoiceModal')">&times;</span>
+    <h2 class="auth-modal__title">Login or Register</h2>
+    <button class="auth-btn" onclick="showModal('loginModal')">Login</button>
+    <button class="auth-btn" onclick="showModal('registerModal')">Register</button>
+  </div>
+</div>
+
+<div class="auth-modal" id="loginModal">
+  <div class="auth-modal__content">
+    <span class="auth-modal__close" onclick="closeModal('loginModal')">&times;</span>
+    <h2 class="auth-modal__title">Login</h2>
+    <div class="auth-input__wrapper">
+      <svg class="auth-input__icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <input class="auth-input__field" type="text" placeholder="Username or Email" />
+    </div>
+    <div class="auth-password__wrapper auth-input__wrapper">
+      <svg class="auth-input__icon" viewBox="0 0 24 24"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-7h-1V7a5 5 0 00-10 0v3H6a2 2 0 00-2 2v7a2 2 0 002 2h12a2 2 0 002-2v-7a2 2 0 00-2-2zm-6-3a3 3 0 013 3v3H9v-3a3 3 0 013-3z"/></svg>
+      <input class="auth-input__field" type="password" placeholder="Password" id="loginPassword" />
+      <span class="auth-password__toggle" onclick="togglePasswordVisibility('loginPassword', this)">👁️</span>
+    </div>
+    <span class="auth-link" onclick="showModal('forgotPasswordModal'); closeModal('loginModal')">Forgot Password?</span>
+    <button class="auth-btn" onclick="alert('Logged in')">Login</button>
+    <div class="auth-toggle__message">Don't have an account? <span class="auth-toggle__link" onclick="showModal('registerModal'); closeModal('loginModal')">Register</span></div>
+  </div>
+</div>
+
+<div class="auth-modal" id="registerModal">
+  <div class="auth-modal__content">
+    <span class="auth-modal__close" onclick="closeModal('registerModal')">&times;</span>
+    <h2 class="auth-modal__title">Register</h2>
+    <div class="auth-input__wrapper">
+      <svg class="auth-input__icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <input class="auth-input__field" type="text" placeholder="Full Name" />
+    </div>
+    <div class="auth-input__wrapper">
+      <svg class="auth-input__icon" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      <input class="auth-input__field" type="email" placeholder="Email" />
+    </div>
+    <div class="auth-password__wrapper auth-input__wrapper">
+      <svg class="auth-input__icon" viewBox="0 0 24 24"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-7h-1V7a5 5 0 00-10 0v3H6a2 2 0 00-2 2v7a2 2 0 002 2h12a2 2 0 002-2v-7a2 2 0 00-2-2zm-6-3a3 3 0 013 3v3H9v-3a3 3 0 013-3z"/></svg>
+      <input class="auth-input__field" type="password" placeholder="Password" id="registerPassword" />
+      <span class="auth-password__toggle" onclick="togglePasswordVisibility('registerPassword', this)">👁️</span>
+    </div>
+    <button class="auth-btn" onclick="startRegistration()">Register</button>
+    <div class="auth-toggle__message">Already have an account? <span class="auth-toggle__link" onclick="showModal('loginModal'); closeModal('registerModal')">Login</span></div>
+  </div>
+</div>
+
+<div class="auth-modal" id="forgotPasswordModal">
+  <div class="auth-modal__content">
+    <span class="auth-modal__close" onclick="closeModal('forgotPasswordModal')">&times;</span>
+    <h3 class="auth-modal__subtitle">Enter your email to reset password</h3>
+    <div class="auth-input__wrapper">
+      <svg class="auth-input__icon" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      <input class="auth-input__field" type="email" placeholder="Email" />
+    </div>
+    <button class="auth-btn" onclick="alert('OTP sent'); showModal('otpModal'); closeModal('forgotPasswordModal')">Send OTP</button>
+  </div>
+</div>
+
+<div class="auth-modal" id="otpModal">
+  <div class="auth-modal__content">
+    <span class="auth-modal__close" onclick="closeModal('otpModal')">&times;</span>
+    <h3 class="auth-modal__subtitle">Enter OTP</h3>
+    <div class="auth-input__wrapper">
+      <svg class="auth-input__icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z"/></svg>
+      <input class="auth-input__field" type="text" placeholder="OTP Code" />
+    </div>
+    <button class="auth-btn" onclick="alert('OTP Verified'); showModal('newPasswordModal'); closeModal('otpModal')">Verify OTP</button>
+  </div>
+</div>
+
+<div class="auth-modal" id="newPasswordModal">
+  <div class="auth-modal__content">
+    <span class="auth-modal__close" onclick="closeModal('newPasswordModal')">&times;</span>
+    <h3 class="auth-modal__subtitle">Set New Password</h3>
+    <div class="auth-password__wrapper auth-input__wrapper">
+      <svg class="auth-input__icon" viewBox="0 0 24 24"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-7h-1V7a5 5 0 00-10 0v3H6a2 2 0 00-2 2v7a2 2 0 002 2h12a2 2 0 002-2v-7a2 2 0 00-2-2zm-6-3a3 3 0 013 3v3H9v-3a3 3 0 013-3z"/></svg>
+      <input class="auth-input__field" type="password" placeholder="New Password" />
+    </div>
+    <button class="auth-btn" onclick="alert('Password Reset Successful')">Reset Password</button>
+  </div>
+</div>
+
+<div class="auth-modal" id="registerOtpModal" tabindex="-1" aria-modal="true" role="dialog">
+  <div class="auth-modal__content">
+    <span class="auth-modal__close" onclick="closeModal('registerOtpModal')" aria-label="Close">&times;</span>
+    <h3 class="auth-modal__subtitle">Enter OTP to verify your email</h3>
+    <div class="auth-input__wrapper">
+      <svg class="auth-input__icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z"/></svg>
+      <input class="auth-input__field" type="text" placeholder="OTP Code" />
+    </div>
+    <button class="auth-btn" onclick="alert('Email verified! Registration complete.'); closeModal('registerOtpModal')">Verify OTP</button>
+  </div>
+</div>
+
+<!-- 🔐 Login Modal -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('loginModal')">&times;</span>
+    <h2>Login</h2>
+    <form action="process_login.php" method="POST">
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Register</a></p>
+  </div>
+</div>
+
+<!-- 🧾 Register Modal -->
+<div class="modal" id="registerModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('registerModal')">&times;</span>
+    <h2>Register</h2>
+    <form action="process_register.php" method="POST">
+      <input type="text" name="name" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required />
+      <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Login</a></p>
+  </div>
+</div>
+
+
+<script>
+
+
+
+
+
+  // Modal functions
+  function showModal(id) {
+    document.getElementById(id).style.display = 'block';
+  }
+  
+  function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+  
+  function togglePasswordVisibility(inputId, iconElement) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      iconElement.textContent = '🙈';
+    } else {
+      input.type = 'password';
+      iconElement.textContent = '👁️';
+    }
+  }
+  
+  function startRegistration() {
+    alert('Registration info submitted. OTP sent to your email.');
+    closeModal('registerModal');
+    showModal('registerOtpModal');
+  }
+  
+  // Add click handler for postPropertyBtn
+  document.getElementById('postPropertyBtn').addEventListener('click', function() {
+    showModal('authChoiceModal');
+  });
+  
+  // Your existing JavaScript functions can remain here
+ 
+  
+  // Other existing functions...
+/*     function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('mobile-visible');
+    }
+
+
+    function togglePopup(id) {
+  const popup = document.getElementById(id);
+  if (!popup) return;
+
+  if (popup.classList.contains('active')) {
+    popup.classList.remove('active');
+  } else {
+    // Close any other open popups first
+    document.querySelectorAll('.popup-overlay.active').forEach(el => el.classList.remove('active'));
+    popup.classList.add('active');
+  }
+}
+
+function closePopup(event) {
+  if (event.target.classList.contains('popup-overlay')) {
+    event.target.classList.remove('active');
+  }
+}
+
+
+  function togglePopup(id) {
+    document.getElementById(id).style.display = 'flex';
+  }
+
+  function closePopup(event) {
+    event.target.style.display = 'none';
+  }
+ */
+  function goBack() {
+  window.history.back();
+}
+
+
+
+
+/* new from me */
+
+
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('visible');
+    }
+    function togglePopup(id) {
+      document.getElementById(id).style.display = 'flex';
+    }
+    function closePopup(event) {
+      if (event.target.classList.contains('popup-overlay')) {
+        event.target.style.display = 'none';
+      }
+    }
+    function hidePopupById(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+    function resetFilters(popupId) {
+      const popup = document.getElementById(popupId);
+      if (!popup) return;
+      popup.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = radio.defaultChecked;
+      });
+      popup.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+      });
+      popup.querySelectorAll('select').forEach(select => {
+        select.selectedIndex = 0;
+      });
+      popup.querySelectorAll('input[type="number"], input[type="text"]').forEach(input => {
+        input.value = '';
+      });
+    }
+    function applyFilters(popupId) {
+      alert("Filters applied! (Implement your filter logic here.)");
+      hidePopupById(popupId);
+    }
+
+    document.addEventListener('click', function(event) {
+  const sidebar = document.querySelector('.sidebar');
+  const toggle = document.querySelector('.filter-toggle');
+  if (!sidebar.contains(event.target) && !toggle.contains(event.target)) {
+    sidebar.classList.remove('visible');
+  }
+});
+
+/* + button js */
+
+function toggleFilterSection(button) {
+  const filterSection = button.closest('.filter-section');
+  const content = filterSection.querySelector('.filter-content');
+  
+  if (content.style.display === 'none' || content.style.display === '') {
+    content.style.display = 'block';
+    button.textContent = '−'; // change + to −
+  } else {
+    content.style.display = 'none';
+    button.textContent = '+';
+  }
+}
+
+
+
+
+/* js for pop registration/login */
+ 
+
+
+/* js for end of pop registration/login */
+
+
+  </script>
+
+</body>
+</html>

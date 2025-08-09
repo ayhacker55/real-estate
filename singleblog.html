@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DreamHomes</title>
+  <link rel="stylesheet" href="styles/style.css" />
+   <link rel="stylesheet" href="styles/nav.css" />
+  <link rel="stylesheet" href="styles/slider.css" />
+  <link rel="stylesheet" href="styles/about.css" />
+  <link rel="stylesheet" href="styles/button.css" />
+  <link rel="stylesheet" href="styles/whatsapp.css" />
+  <link rel="stylesheet" href="styles/popularcard.css" />
+  <link rel="stylesheet" href="styles/blog.css" />
+    <link rel="stylesheet" href="styles/team.css" />
+     <link rel="stylesheet" href="styles/footer.css" />
+      <link rel="stylesheet" href="styles/single.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17/build/css/intlTelInput.css">
+
+  
+
+
+<!--   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
+
+  <!-- CSS -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17/build/css/intlTelInput.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17/build/js/intlTelInput.min.js"></script>
+ <script src="Js/Team.js" defer></script>
+
+  <script src="Js/script.js"></script>
+  <script src="Js/slider.js"></script>
+  <script src="Js/button.js"></script>
+    <script src="Js/popularcard.js"></script>
+  <script src="Js/singleblog.js" ></script>
+  
+</head>
+<body>
+<div class="scroll-buttons">
+ <!--  <button class="scroll-down" onclick="scrollDown()">↓</button> -->
+  <button class="scroll-up" onclick="scrollUp()">↑</button>
+</div>
+
+<!-- WhatsApp Button (if you're adding that too) -->
+<a href="https://wa.me/1234567890" class="whatsapp-float" target="_blank" rel="noopener">
+  <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp Chat">
+</a>
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-container">
+
+    <!-- Left: Hamburger (mobile only) -->
+    <div class="mobile-left mobile-only">
+      <i class="fas fa-bars" id="hamburgerMenu"></i>
+    </div>
+
+    <!-- Center: Logo -->
+    <div class="top-left">
+      <img src="images/logo.png" alt="Logo" class="logo" />
+    </div>
+
+    <!-- Middle: Socials (desktop only) -->
+    <div class="top-center desktop-only">
+      <a href="#" class="social"><i class="fab fa-tiktok"></i></a>
+      <a href="#" class="social"><i class="fab fa-youtube"></i></a>
+      <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="social"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <!-- Right: Buttons (desktop) + 3-dot (mobile) -->
+    <div class="top-right">
+      <button class="btn quote-btn desktop-only" id="openQuoteModal">Request Quote</button>
+      <button class="btn sell-btn desktop-only">Sell Property</button>
+
+      <!-- 3-dot menu icon for mobile -->
+      <div class="mobile-right mobile-only">
+        <i class="fas fa-ellipsis-v" id="mobileMenuToggle"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Popup Menu (triggered by 3-dot icon) -->
+  <div class="mobile-popup-menu mobile-only" id="mobilePopup">
+    <button class="btn quote-btn" >Request Quote</button>
+    <button class="btn sell-btn">Sell Property</button>
+    <div class="social-row">
+      <a href="#"><i class="fab fa-tiktok"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+</div>
+
+
+<nav class="main-nav">
+  <div class="nav-container">
+    <!-- Desktop Menu -->
+    <ul class="nav-list desktop-only">
+      <li><a href="#">Home</a></li>
+      <li class="has-dropdown">
+        <a href="#">Real Estate <i class="fas fa-chevron-down"></i></a>
+        <ul class="dropdown">
+          <li><a href="#">Land for sale (residential)</a></li>
+          <li><a href="#">Land for sale (commercial)</a></li>
+          <li><a href="#">Properties for sale (residential)</a></li>
+          <li><a href="#">Properties for rent (commercial)</a></li>
+          <li><a href="#">Apartment for shortlet</a></li>
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="#">Building Materials <i class="fas fa-chevron-down"></i></a>
+        <ul class="dropdown">
+          <li><a href="#">Cement</a></li>
+          <li><a href="#">Bricks</a></li>
+          <li><a href="#">Sand</a></li>
+          <li><a href="#">Steel Bars</a></li>
+          <li><a href="#">Paint</a></li>
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="#">Decor <i class="fas fa-chevron-down"></i></a>
+        <ul class="dropdown">
+          <li><a href="#">Interior Decor</a></li>
+          <li><a href="#">Exterior Decor</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+
+    <!-- Mobile Nav Menu (Hamburger) -->
+    <div class="mobile-nav mobile-only" id="mobileNavMenu">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li class="mobile-has-dropdown">
+          <a href="#">Real Estate <i class="fas fa-chevron-down arrow"></i></a>
+          <ul class="mobile-dropdown">
+            <li><a href="#">Land for sale (residential)</a></li>
+            <li><a href="#">Land for sale (commercial)</a></li>
+            <li><a href="#">Properties for sale (residential)</a></li>
+            <li><a href="#">Properties for rent (commercial)</a></li>
+            <li><a href="#">Apartment for shortlet</a></li>
+          </ul>
+        </li>
+        <li class="mobile-has-dropdown">
+          <a href="#">Building Materials <i class="fas fa-chevron-down arrow"></i></a>
+          <ul class="mobile-dropdown">
+            <li><a href="#">Cement</a></li>
+            <li><a href="#">Bricks</a></li>
+            <li><a href="#">Sand</a></li>
+            <li><a href="#">Steel Bars</a></li>
+            <li><a href="#">Paint</a></li>
+          </ul>
+        </li>
+        <li class="mobile-has-dropdown">
+          <a href="#">Decor <i class="fas fa-chevron-down arrow"></i></a>
+          <ul class="mobile-dropdown">
+            <li><a href="#">Interior Decor</a></li>
+            <li><a href="#">Exterior Decor</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE 3-DOTS POPUP MENU -->
+<div id="mobilePopup" class="mobile-popup-menu mobile-only">
+  <button class="btn">Login</button>
+  <button class="btn">Register</button>
+
+  <div class="social-row">
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal Overlay -->
+<div class="modal-overlay" id="modalOverlay"></div>
+
+<!-- Modal -->
+<div class="modal" id="quoteModal">
+  <span class="close-btn" id="closeModal">&times;</span>
+
+  <h2>Contact Us</h2>
+  <p class="subtitle">Do you have a property to sell or need a quote? Let’s talk.</p>
+
+  <div class="contact-options">
+    <div class="contact-method">
+      <i class="fas fa-phone-alt"></i>
+      <p>+234 800 123 4567</p>
+    </div>
+    <div class="contact-method">
+      <i class="fab fa-whatsapp"></i>
+      <p><a href="https://wa.me/2348001234567" target="_blank">Chat on WhatsApp</a></p>
+    </div>
+  </div>
+
+  <button id="toggleForm">Request via Form</button>
+
+  <form id="quoteForm" class="hidden" onsubmit="return validateForm(event)">
+    <input type="text" id="name" placeholder="Full Name" required />
+    <input type="email" id="email" placeholder="Email Address" required />
+
+    <div class="phone-group">
+     
+      <input id="phone" type="tel" placeholder="Enter phone number" required />
+    </div>
+
+    <textarea id="message" placeholder="Describe your property or quote needs..." required></textarea>
+    <button type="submit">Submit Request</button>
+  </form>
+</div>
+
+
+<!-- multiple blog -->
+
+  <div id="progressContainer"><div id="progressBar"></div></div>
+
+  <div class="header-banner">
+    <h2>Single Blog</h2>
+  </div>
+
+  <div class="container">
+    <!-- Main Blog Content -->
+    <div class="main-content">
+      <img src="img/house.jpeg" alt="Blog Image" class="media" />
+
+      <h1 class="post-title">Post One: Design Tips</h1>
+      <p class="date">Published on May 21, 2025</p>
+
+      <div class="views">
+        <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 24 24" fill="#6b7280"><path d="M12 4.5C7 4.5 2.7 8.3 1 12c1.7 3.7 6 7.5 11 7.5s9.3-3.8 11-7.5c-1.7-3.7-6-7.5-11-7.5zm0 13c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6zm0-10a4 4 0 100 8 4 4 0 000-8z"/></svg>
+        <span>1,203 views</span>
+      </div>
+
+      <div class="content">
+        <p>In today's digital world, design plays a crucial role in how users experience your product. A clean and modern blog layout can help boost engagement and retention.</p>
+        <blockquote>"Design is not just how it looks, but how it works." – Steve Jobs</blockquote>
+        <p>We explore color theory, spacing, and responsive UI components to improve your blog's appearance. Learn about real-world UI examples and how to apply them with minimal CSS.</p>
+        <p>You can experiment with card layouts, hover effects, and mobile-friendly adjustments. Small changes in typography and spacing can make a huge impact.</p>
+
+        <div class="social-icons">
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn"></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111710.png" alt="TikTok"></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-title">Recent Posts</div>
+      <a href="singleblog.html" class="recent-card">
+        <img src="img/client.jpg" alt="Recent 1" class="recent-img" />
+        <div class="recent-info">
+          <h4>Product Demo Walkthrough</h4>
+          <span>May 19, 2025</span>
+        </div>
+      </a>
+      <a href="singleblog.html" class="recent-card">
+        <img src="img/house.jpeg" alt="Recent 2" class="recent-img" />
+        <div class="recent-info">
+          <h4>Community Reaches 10k</h4>
+          <span>May 15, 2025</span>
+        </div>
+      </a>
+      <a href="singleblog.html" class="recent-card">
+        <img src="img/house.jpeg" alt="Recent 3" class="recent-img" />
+        <div class="recent-info">
+          <h4>Dark Mode Now Available</h4>
+          <span>May 12, 2025</span>
+        </div>
+      </a>
+       <a href="singleblog.html" class="recent-card">
+        <img src="img/house.jpeg" alt="Recent 3" class="recent-img" />
+        <div class="recent-info">
+          <h4>Dark Mode Now Available</h4>
+          <span>May 12, 2025</span>
+        </div>
+      </a>
+    </div>
+  </div>
+<!-- end -->
+
+    
+  
+
+</body>
+
+</body>
+</html>

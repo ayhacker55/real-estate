@@ -1,0 +1,1885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Real Estate Admin Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<style>
+  :root {
+    --bg: #f4f4f4;
+    --panel-bg: #ffffff;
+    --text: #333;
+    --card-bg: linear-gradient(135deg, #4e73df, #224abe);
+    --sidebar-bg: #343a40;
+    --hover-bg: #007bff;
+    --danger-red: #dc3545;
+  }
+  [data-theme="dark"] {
+    --bg: #1e1e1e;
+    --panel-bg: #2a2a2a;
+    --text: #eee;
+    --card-bg: linear-gradient(135deg, #2c3e50, #34495e);
+    --sidebar-bg: #111;
+    --hover-bg: #0056b3;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    transition: .3s all;
+  }
+  .wrapper {
+    display: flex;
+    height: 100%;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 220px;
+    background: var(--sidebar-bg);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    transition: transform .3s;
+  }
+  .sidebar.visible { transform: translateX(0); }
+  .sidebar.hidden { transform: translateX(-100%); }
+  .sidebar .close-btn {
+    display: none;
+  }
+  .sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+    letter-spacing: 1px;
+  }
+  .sidebar a, .sidebar button.category-btn {
+    color: white;
+    text-decoration: none;
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    border-radius: 6px;
+    display: block;
+    transition: background .2s;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-size: 15px;
+  }
+  .sidebar a.active,
+  .sidebar a:hover,
+  .sidebar button.category-btn:hover {
+    background: var(--hover-bg);
+  }
+  .sidebar .close-btn {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-bottom: 20px;
+  }
+
+  /* MAIN AREA */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+  }
+
+  /* TOPBAR */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background: var(--bg);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    z-index: 5;
+  
+  }
+  .hamburger {
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+  }
+
+  /* DARK MODE SWITCH */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px; height: 26px;
+  }
+  .switch input {
+    opacity: 0; width: 0; height: 0;
+  }
+  .slider {
+    position: absolute; cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #ccc; transition: .4s; border-radius: 30px;
+  }
+  .slider:before {
+    position: absolute; content: "";
+    height: 20px; width: 20px;
+    left: 3px; bottom: 3px;
+    background: white; transition: .4s; border-radius: 50%;
+  }
+  input:checked + .slider { background: #4e73df; }
+  input:checked + .slider:before { transform: translateX(24px); }
+
+  /* CONTENT PANEL */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px;
+    background: var(--bg);
+  }
+
+  #sidebar button.active {
+  background-color: var(--sidebar-active-bg, #ddd);
+  font-weight: bold;
+}
+
+  /* Centered white panel on desktop */
+  @media (min-width: 769px) {
+    .content {
+      background: var(--panel-bg);
+      margin: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+      padding: 40px;
+    }
+  }
+
+  /* DASHBOARD CARDS */
+  .cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+  }
+  .cards::-webkit-scrollbar {
+    height: 8px;
+  }
+  .cards::-webkit-scrollbar-thumb {
+    background: var(--hover-bg);
+    border-radius: 4px;
+  }
+ /*  .card {
+    flex: 0 0 250px;
+    background: var(--card-bg);
+    color: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .2s;
+    text-align: center;
+    user-select: none;
+  }
+  .card:hover { transform: translateY(-5px); }
+  .card i {
+    font-size: 40px;
+    margin-bottom: 15px;
+  }
+  .card span {
+    display: block;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .card-title {
+    font-size: 18px;
+    margin-top: 8px;
+  }
+
+  
+ */
+
+ .card {
+  flex: 0 0 220px;
+  background: var(--card-bg);
+  color: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  user-select: none;
+  transition: transform 0.2s;
+}
+
+.card i {
+  font-size: 28px; /* was 40px */
+  margin-bottom: 10px;
+}
+
+.card span {
+  display: block;
+  font-size: 28px; /* was 40px */
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.card-title {
+  font-size: 14px; /* was 18px */
+  margin-top: 6px;
+}
+
+
+.card {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+  /* FORM STYLES */
+  form {
+    max-width: 600px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  form label {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  form input, form select, form textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: var(--panel-bg);
+    color: var(--text);
+  }
+  form textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  form button {
+    width: 160px;
+    padding: 12px;
+    background: var(--hover-bg);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background .3s;
+  }
+  form button:hover {
+    background: #0056b3;
+  }
+
+   .remove-image-btn {
+    width: 50px;
+    height: 40px;
+    padding: 12px;
+    position: relative;
+bottom: -30px;
+    left:-70px;
+background-color: red;
+margin-bottom: 30px;
+  
+  }
+
+  /* CATEGORY SUBMENU */
+  .submenu {
+    margin-left: 15px;
+    margin-bottom: 15px;
+  }
+  .submenu button.category-btn {
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  #formContainer {
+
+     margin: 30px auto;
+  }
+.image-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.image-preview-container img {
+  width: 100px;   /* smaller width */
+  height: 100px;  /* fixed height */
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+
+
+.table-wrapper {
+  overflow-x: auto;
+  padding: 1rem;
+  background: #fdfdfd;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.search-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 8px 12px;
+  margin-bottom: 1rem;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.listing-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-family: sans-serif;
+}
+
+.listing-table thead tr:first-child {
+  background: #007bff;
+  color: white;
+}
+
+.listing-table th,
+.listing-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #eee;
+}
+
+.column-filter {
+  width: 100%;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.pagination {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border: 1px solid #007bff;
+  background: white;
+  color: #007bff;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.pagination button.active,
+.pagination button:hover {
+  background: #007bff;
+  color: white;
+}
+
+
+/* Dropdown Filters (select) */
+.column-filter {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  color: #333;
+  transition: border 0.3s ease;
+}
+
+.column-filter:focus {
+  border-color: #007bff;
+  outline: none;
+  background-color: #fff;
+}
+
+
+
+
+
+/* Search Box */
+/* Container for the search input */
+.search-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.search-box {
+  width: 250px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.search-box:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Responsive scroll wrapper */
+.table-responsive-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 6px;
+}
+
+/* Table styles */
+.listing-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  
+}
+
+.listing-table th, .listing-table td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  color: #34495e;
+}
+
+.listing-table thead tr:first-child th {
+  background: #f9f9f9;
+  font-weight: 600;
+}
+
+.listing-table thead tr:nth-child(2) th {
+  background: #fafafa;
+}
+
+/* Filter dropdown */
+.column-filter {
+  width: 100%;
+  padding: 4px 8px;
+  font-size: 13px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Pagination container */
+.pagination-container {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  position: ;
+}
+
+.pagination-container button {
+  background: #6b6161;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.pagination-container button:hover {
+  background-color: #ccc;
+}
+
+.pagination-container button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+
+
+
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .search-container {
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  
+  .search-box {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+
+
+
+.column-filter:hover {
+  border-color: #007bff;
+  background-color: #f1f5ff;
+}
+
+/* Overlay for zoomed image */
+.image-zoom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: zoom-out;
+  z-index: 9999;
+}
+
+.image-zoom-overlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+  transition: transform 0.3s ease;
+  cursor: zoom-out;
+}
+
+
+
+ .fixed-pagination {
+    padding: 6px 0;
+    gap: 6px;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .fixed-pagination button {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+
+  .dropdown-action {
+  position: relative;
+  display: inline-block;
+}
+
+.action-toggle {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 24px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.dropdown-menu button {
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f3f3f3;
+}
+
+
+/* Wrapper Styles */
+.approval-section-wrapper {
+  padding: 1rem;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.approval-table-wrapper {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Table Styles */
+.approval-listing-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.approval-listing-table th,
+.approval-listing-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.approval-listing-table th {
+  background-color: #f9f9f9;
+  font-weight: 600;
+}
+
+.approval-listing-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Search Styles */
+.approval-search-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.approval-search-box {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 200px;
+}
+
+/* Filter Select */
+.approval-column-filter {
+  padding: 5px 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* Action Dropdown */
+.approval-dropdown-action {
+  position: relative;
+}
+
+.approval-action-toggle {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.approval-dropdown-menu {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+
+.approval-dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.approval-dropdown-menu button:hover {
+  background-color: #f2f2f2;
+}
+
+/* Pagination */
+.approval-pagination {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.approval-pagination button {
+  margin: 0 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.approval-pagination button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Optional: Fixed Pagination Position */
+.approval-fixed-pagination {
+  position: sticky;
+  bottom: 0;
+  background-color: #fff;
+  padding: 10px 0;
+}
+
+
+
+.floating-action-menu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  border-radius: 6px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.floating-action-menu button {
+  background: none;
+  border: none;
+  padding: 6px 12px;
+  text-align: left;
+  cursor: pointer;
+}
+.floating-action-menu button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .approval-search-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .approval-search-box {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .approval-listing-table {
+    font-size: 13px;
+  }
+
+  .approval-dropdown-menu {
+    right: auto;
+    left: 0;
+  }
+
+  .approval-section-wrapper{
+    padding: -100px;
+  }
+}
+
+
+
+
+
+
+  /* MOBILE OVERRIDES */
+  @media (max-width: 768px) {
+    .wrapper { flex-direction: column; }
+    .sidebar {
+      position: absolute; top: 0; left: 0;
+      height: 100%; transform: translateX(-100%);
+      z-index: 10;
+    }
+    .sidebar.visible { transform: translateX(0); }
+    .sidebar .close-btn {
+      display: block;
+      font-size: 24px;
+      cursor: pointer;
+      align-self: flex-end;
+      margin-bottom: 20px;
+    }
+    .hamburger { display: block; }
+    .content { padding: 20px; margin: 0; box-shadow: none; border-radius: 0; }
+    .cards {
+      gap: 12px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+    .card { flex: 0 0 140px; padding: 18px 20px; }
+    form button { width: 100%; }
+
+    .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+ 
+  #closeSidebar{
+   position: relative;
+   color: red;
+
+   top: 45px;
+  }
+
+  #sidebar{
+     position: fixed;
+    top: 0;
+    left: 0;
+    width: 60%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+  }
+  
+  .content {
+    margin-top: 60px; /* height of topbar (adjust if needed) */
+    overflow-y: auto; /* content scrolls vertically */
+    height: calc(100vh - 60px); /* full viewport height minus topbar */
+  }
+
+  body{
+    overflow: auto;
+  }
+.remove-image-btn{
+    padding: 10px 5px;
+    background-color: red;
+}
+.fixed-pagination {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  z-index: 999;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.table-wrapper {
+  padding-bottom: 80px; /* Give space for fixed pagination */
+}
+
+ /* .search-box {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .listing-table th, .listing-table td {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .pagination-container {
+    gap: 4px;
+    padding: 12px 8px;
+  } */
+
+
+
+}
+
+  
+
+  
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <nav class="sidebar visible" id="sidebar">
+    <i class="fas fa-times close-btn" id="closeSidebar"></i>
+    <h2>Mathew</h2>
+    <a class="nav-link active" data-target="dashboard">🏠 Dashboard</a>
+    <a class="nav-link" id="addPropertyToggle">➕ Add Property ▾</a>
+    <div id="addPropertySubmenu" class="submenu" style="display:none;">
+     <button class="category-btn" data-category="land">Land for Rent</button>
+<button class="category-btn" data-category="sale">Land for Sale</button>
+<button class="category-btn" data-category="rent">Properties for Rent</button>
+<button class="category-btn" data-category="property-sale">Properties for Sale</button>
+<button class="category-btn" data-category="shortlet">Apartment for Shortlet</button>
+
+    </div>
+    <a class="nav-link" id="viewPropertyToggle" >👁️ View Properties ▾</a>
+    <div id="viewPropertySubmenu" class="submenu" style="display:none;">
+      <!-- You can add view sub categories here -->
+      <button class="category-btn" data-view="land">ALL</button>
+      <button class="category-btn" data-view="sale">land</button>
+     <!--  <button class="category-btn" data-view="rent">View Properties for Rent</button> -->
+      <!--  <button class="category-btn" data-view="rent">View Properties for sale</button>
+      <button class="category-btn" data-view="shortlet">View Shortlet Apartments</button> -->
+    </div>
+    
+  
+
+
+    <a href="#" id="pendingApproval" class="nav-link">⏳ Pending Approval</a>
+
+    <a href="#" id="logoutBtn" class="nav-link" style="margin-top:auto; color:#ff6b6b;">🚪 Logout</a>
+  </nav>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="hamburger" id="hamburgerBtn"><i class="fas fa-bars"></i></div>
+      <h3 id="pageTitle">Seller Dashboard</h3>
+      <label class="switch" title="Toggle Dark Mode">
+        <input type="checkbox" id="darkModeToggle" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <section class="content">
+      <!-- Dashboard cards -->
+      <div id="dashboardContent">
+        <div class="cards" id="dashboardCards">
+          <div class="card">
+            <i class="fas fa-landmark"></i>
+            <span>25</span>
+            <div class="card-title">Land for Rent</div>
+          </div>
+          <div class="card">
+            <i class="fas fa-home"></i>
+            <span>12</span>
+            <div class="card-title">Properties for Sale</div>
+          </div>
+          <div class="card">
+            <i class="fas fa-key"></i>
+            <span>18</span>
+            <div class="card-title">Properties for Rent</div>
+          </div>
+          <div class="card">
+            <i class="fas fa-building"></i>
+            <span>7</span>
+            <div class="card-title">Apartment for Shortlet</div>
+          </div>
+          <div class="card">
+            <i class="fas fa-clock"></i>
+            <span>5</span>
+            <div class="card-title">Pending Approval</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submenu content + forms container -->
+      <div id="submenuContent" style="margin-top:20px;"></div>
+      <div id="formContainer" style="margin-top:20px;"></div>
+
+      <!-- delete n update -->
+<div id="floatingActionMenu" class="floating-action-menu" style="display: none;">
+  <button id="actionUpdateBtn">Update</button>
+  <button id="actionDeleteBtn">Delete</button>
+</div>
+
+
+    </section>
+  </main>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const sidebar = document.getElementById('sidebar');
+  const addPropertyToggle = document.getElementById('addPropertyToggle');
+  const viewPropertyToggle = document.getElementById('viewPropertyToggle');
+  const addPropertySubmenu = document.getElementById('addPropertySubmenu');
+  const viewPropertySubmenu = document.getElementById('viewPropertySubmenu');
+  const formContainer = document.getElementById('formContainer');
+  const submenuContent = document.getElementById('submenuContent');
+  const dashboardContent = document.getElementById('dashboardContent');
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const closeSidebar = document.getElementById('closeSidebar');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  // Sidebar toggle for mobile
+  hamburgerBtn.addEventListener('click', () => {
+    sidebar.classList.add('visible');
+  });
+
+  closeSidebar.addEventListener('click', () => {
+    sidebar.classList.remove('visible');
+  });
+
+  // Clear active states
+  function clearActiveStates() {
+    navLinks.forEach(link => link.classList.remove('active'));
+  }
+
+
+
+  // Show Dashboard
+  document.querySelector('[data-target="dashboard"]').addEventListener('click', () => {
+    clearActiveStates();
+    dashboardContent.style.display = 'block';
+    formContainer.innerHTML = '';
+    submenuContent.innerHTML = '';
+    addPropertySubmenu.style.display = 'none';
+    viewPropertySubmenu.style.display = 'none';
+    addPropertyToggle.classList.remove('active');
+    viewPropertyToggle.classList.remove('active');
+    event.target.classList.add('active');
+    if (window.innerWidth <= 768) sidebar.classList.remove('visible');
+  });
+
+  // Toggle "Add Property" submenu
+  addPropertyToggle.addEventListener('click', () => {
+    const visible = addPropertySubmenu.style.display === 'block';
+    addPropertySubmenu.style.display = visible ? 'none' : 'block';
+    addPropertyToggle.classList.toggle('active');
+    viewPropertySubmenu.style.display = 'none';
+    viewPropertyToggle.classList.remove('active');
+  }); 
+
+  // Toggle "View Property" submenu
+  viewPropertyToggle.addEventListener('click', () => {
+    const visible = viewPropertySubmenu.style.display === 'block';
+    viewPropertySubmenu.style.display = visible ? 'none' : 'block';
+    viewPropertyToggle.classList.toggle('active');
+    addPropertySubmenu.style.display = 'none';
+    addPropertyToggle.classList.remove('active');
+  });
+
+  // Add Property submenu buttons
+  addPropertySubmenu.addEventListener('click', (e) => {
+    if (e.target.matches('button.category-btn')) {
+      const category = e.target.getAttribute('data-category');
+      dashboardContent.style.display = 'none';
+      submenuContent.innerHTML = '';
+      renderAddForm(category);
+      if (window.innerWidth <= 768) sidebar.classList.remove('visible');
+    }
+  });
+
+
+  // approval
+ const pendingApprovalLink = document.getElementById('pendingApproval');
+
+pendingApprovalLink.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  // Reset all visible views and toggles
+  dashboardContent.style.display = 'none';
+  submenuContent.innerHTML = '';
+  formContainer.innerHTML = '';
+
+  addPropertySubmenu.style.display = 'none';
+  viewPropertySubmenu.style.display = 'none';
+  addPropertyToggle.classList.remove('active');
+  viewPropertyToggle.classList.remove('active');
+
+  // Close mobile sidebar if screen is small
+  if (window.innerWidth <= 768) {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.remove('visible');
+  }
+
+  // Render Pending Approval Table
+  renderPendingApprovalTable();
+});
+
+// end of approval
+
+  
+  // View Property submenu buttons
+
+viewPropertySubmenu.addEventListener('click', (e) => {
+  if (e.target.matches('button.category-btn')) {
+    const label = e.target.textContent;
+    const category = e.target.getAttribute('data-view');
+
+    dashboardContent.style.display = 'none';
+    formContainer.innerHTML = '';
+    submenuContent.innerHTML = '';
+
+    if (category === "land") {
+      renderAllPropertiesTable(); // 🔥 only for "ALL"
+    } else {
+      submenuContent.innerHTML = `<p>Display list for ${label} (implement your view logic here)</p>`;
+    }
+
+    if (window.innerWidth <= 768) sidebar.classList.remove('visible');
+  }
+});
+
+
+
+ /*  viewPropertySubmenu.addEventListener('click', (e) => {
+    if (e.target.matches('button.category-btn')) {
+      const label = e.target.textContent;
+      dashboardContent.style.display = 'none';
+      formContainer.innerHTML = '';
+
+
+      submenuContent.innerHTML = `<p>Display list for ${label} (implement your view logic here)</p>`;
+      if (window.innerWidth <= 768) sidebar.classList.remove('visible');
+    }
+  }); */
+  
+  function renderAllPropertiesTable() {
+  submenuContent.innerHTML = ''; // Clear previous content
+
+  // === Create layout containers ===
+  const wrapper = document.createElement('div');
+  wrapper.className = 'table-section-wrapper';
+  submenuContent.appendChild(wrapper);
+
+  const tableContainer = document.createElement('div');
+  tableContainer.className = 'table-wrapper';
+  wrapper.appendChild(tableContainer);
+
+  const paginationContainer = document.createElement('div');
+  paginationContainer.id = 'pagination';
+  paginationContainer.className = 'pagination fixed-pagination'; // Sticky pagination
+  submenuContent.appendChild(paginationContainer);
+
+  // === Search Input ===
+  const searchContainer = document.createElement('div');
+  searchContainer.className = 'search-container';
+  const searchInput = document.createElement('input');
+  searchInput.type = 'text';
+  searchInput.placeholder = '🔍 Search properties...';
+  searchInput.className = 'search-box';
+  searchContainer.appendChild(searchInput);
+  wrapper.prepend(searchContainer);
+
+  // === Listings Data ===
+  const listings = [
+    {
+      title: 'Land in Ikeja',
+      price: 50000,
+      location: 'Lagos',
+      type: 'land',
+      image: 'img/house.jpeg',
+      status: 'approved'
+    },
+    {
+      title: 'Apartment Shortlet Abuja',
+      price: 30000,
+      location: 'Abuja',
+      type: 'shortlet',
+      image: 'img/house.jpeg',
+      status: 'approved'
+    },
+    {
+      title: 'House for Sale in Lekki',
+      price: 1000000,
+      location: 'Lagos',
+      type: 'property-sale',
+      image: 'https://via.placeholder.com/80x40?text=House+Lekki',
+      status: 'declined'
+    },
+    {
+      title: 'Land for Sale Enugu',
+      price: 40000,
+      location: 'Enugu',
+      type: 'sale',
+      image: 'img/house.jpeg',
+      status: 'approved'
+    },
+    {
+      title: 'Flat for Rent',
+      price: 15000,
+      location: 'Ibadan',
+      type: 'rent',
+      image: 'https://via.placeholder.com/80x40?text=Flat+Rent',
+      status: 'approved'
+    },
+    {
+      title: 'Luxury Villa',
+      price: 2000000,
+      location: 'Lagos',
+      type: 'property-sale',
+      image: 'https://via.placeholder.com/80x40?text=Villa+Lagos',
+      status: 'pending'
+    },
+    {
+      title: 'Commercial Land',
+      price: 60000,
+      location: 'Port Harcourt',
+      type: 'land',
+      image: 'https://via.placeholder.com/80x40?text=Land+PH',
+      status: 'approved'
+    },
+    {
+      title: 'Duplex for Rent',
+      price: 80000,
+      location: 'Abuja',
+      type: 'rent',
+      image: 'https://via.placeholder.com/80x40?text=Duplex+Abuja',
+      status: 'declined'
+    }
+  ];
+
+  const headers = ['title', 'price', 'location', 'type', 'image', 'status'];
+
+  // Build filters
+  const filters = {};
+  headers.forEach(key => {
+    filters[key] = Array.from(new Set(listings.map(item => item[key])));
+  });
+
+  // === Build Table ===
+  let html = `<table class='listing-table'><thead><tr>`;
+  headers.forEach(key => {
+    html += `<th>${key.charAt(0).toUpperCase() + key.slice(1)}</th>`;
+  });
+  html += `</tr><tr>`;
+  headers.forEach(key => {
+    html += `<th><select data-filter="${key}" class="column-filter"><option value="">All</option>`;
+    filters[key].forEach(val => {
+      html += `<option value="${val}">${val}</option>`;
+    });
+    html += `</select></th>`;
+  });
+  html += `</tr></thead><tbody id='tableBody'></tbody></table>`;
+  tableContainer.innerHTML = html;
+
+  let currentPage = 1;
+  const rowsPerPage = 5;
+  let filteredData = [...listings];
+
+  function applyFiltersAndSearch() {
+    const filterValues = {};
+    document.querySelectorAll('.column-filter').forEach(select => {
+      const key = select.getAttribute('data-filter');
+      const val = select.value;
+      if (val) filterValues[key] = val;
+    });
+
+    const search = searchInput.value.toLowerCase();
+
+    filteredData = listings.filter(item => {
+      return Object.entries(filterValues).every(([key, val]) => item[key] == val) &&
+        Object.values(item).some(v => String(v).toLowerCase().includes(search));
+    });
+
+    currentPage = 1;
+    renderTable();
+  }
+
+  function renderTable() {
+    const tableBody = document.getElementById('tableBody');
+    const start = (currentPage - 1) * rowsPerPage;
+    const paginated = filteredData.slice(start, start + rowsPerPage);
+
+    tableBody.innerHTML = '';
+    paginated.forEach(row => {
+      const tr = document.createElement('tr');
+      headers.forEach(key => {
+        const td = document.createElement('td');
+        if (key === 'image') {
+          td.innerHTML = `<img src="${row[key]}" alt="Image" style="width:80px; height:40px; object-fit:cover; border-radius:4px;" />`;
+        } else {
+          td.textContent = row[key];
+        }
+        tr.appendChild(td);
+      });
+      tableBody.appendChild(tr);
+    });
+
+    renderPagination();
+    enableImageZoom();
+  }
+
+  function renderPagination() {
+    const pageCount = Math.ceil(filteredData.length / rowsPerPage);
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+
+    for (let i = 1; i <= pageCount; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      btn.className = i === currentPage ? 'active' : '';
+      btn.addEventListener('click', () => {
+        currentPage = i;
+        renderTable();
+      });
+      pagination.appendChild(btn);
+    }
+  }
+
+  function enableImageZoom() {
+    document.querySelectorAll('.listing-table img').forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => {
+        const overlay = document.createElement('div');
+        overlay.className = 'image-zoom-overlay';
+
+        const zoomedImg = document.createElement('img');
+        zoomedImg.src = img.src;
+        zoomedImg.alt = img.alt || 'Zoomed Image';
+
+        overlay.appendChild(zoomedImg);
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener('click', () => {
+          document.body.removeChild(overlay);
+        });
+      });
+    });
+  }
+
+  document.querySelectorAll('.column-filter').forEach(select => {
+    select.addEventListener('change', applyFiltersAndSearch);
+  });
+
+  searchInput.addEventListener('input', applyFiltersAndSearch);
+
+  applyFiltersAndSearch();
+}
+
+
+
+  // Dummy form render function
+
+  
+// When the page loads, add event listeners to the buttons
+document.querySelectorAll('.category-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const category = button.getAttribute('data-category');
+    renderAddForm(category);
+  });
+});
+
+function renderAddForm(category) {
+  let formHtml = '';
+
+  switch(category) {
+    case 'land':
+      formHtml = `
+        <form id="landForm" class="add-form">
+          <h2>Add Land for Rent</h2>
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" required />
+          <label for="description">Description:</label>
+          <textarea id="description" name="description" required></textarea>
+
+          <label for="state">State:</label>
+          <select id="state" name="state" required></select>
+
+          <label for="lga">LGA:</label>
+          <select id="lga" name="lga" required></select>
+
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" required />
+
+          <label for="size">Size (in sq meters):</label>
+          <input type="number" id="size" name="size" min="1" required />
+
+          <label for="price">Price (₦):</label>
+          <input type="number" id="price" name="price" min="0" required />
+          
+    <label for="images">Upload Images:</label>
+<input type="file" id="images" name="images" multiple accept="image/*" />
+<div id="imagePreview" class="image-preview-container"></div>
+          <button type="submit">Add Land for Rent</button>
+        </form>
+      `;
+      break;
+
+    case 'sale':
+      formHtml = `
+        <form id="landSaleForm" class="add-form">
+          <h2>Add Land for Sale</h2>
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" required />
+          <label for="description">Description:</label>
+          <textarea id="description" name="description" required></textarea>
+
+          <label for="state">State:</label>
+          <select id="state" name="state" required></select>
+
+          <label for="lga">LGA:</label>
+          <select id="lga" name="lga" required></select>
+
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" required />
+
+          <label for="size">Size (in sq meters):</label>
+          <input type="number" id="size" name="size" min="1" required />
+
+          <label for="price">Price (₦):</label>
+          <input type="number" id="price" name="price" min="0" required />
+              <label for="images">Upload Images:</label>
+<input type="file" id="images" name="images" multiple accept="image/*" />
+<div id="imagePreview" class="image-preview-container"></div>
+
+          <button type="submit">Add Land for Sale</button>
+        </form>
+      `;
+      break;
+
+    case 'rent':
+      formHtml = `
+        <form id="propertyRentForm" class="add-form">
+          <h2>Add Property for Rent</h2>
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" required />
+          <label for="description">Description:</label>
+          <textarea id="description" name="description" required></textarea>
+
+          <label for="state">State:</label>
+          <select id="state" name="state" required></select>
+
+          <label for="lga">LGA:</label>
+          <select id="lga" name="lga" required></select>
+
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" required />
+
+          <label for="bedrooms">Bedrooms:</label>
+          <input type="number" id="bedrooms" name="bedrooms" min="1" required />
+
+          <label for="bathrooms">Bathrooms:</label>
+          <input type="number" id="bathrooms" name="bathrooms" min="1" required />
+
+          <label for="price">Price (₦):</label>
+          <input type="number" id="price" name="price" min="0" required />
+              <label for="images">Upload Images:</label>
+<input type="file" id="images" name="images" multiple accept="image/*" />
+<div id="imagePreview" class="image-preview-container"></div>
+
+          <button type="submit">Add Property for Rent</button>
+        </form>
+      `;
+      break;
+
+    case 'property-sale':
+      formHtml = `
+        <form id="propertySaleForm" class="add-form">
+          <h2>Add Property for Sale</h2>
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" required />
+          <label for="description">Description:</label>
+          <textarea id="description" name="description" required></textarea>
+
+          <label for="state">State:</label>
+          <select id="state" name="state" required></select>
+
+          <label for="lga">LGA:</label>
+          <select id="lga" name="lga" required></select>
+
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" required />
+
+          <label for="bedrooms">Bedrooms:</label>
+          <input type="number" id="bedrooms" name="bedrooms" min="1" required />
+
+          <label for="bathrooms">Bathrooms:</label>
+          <input type="number" id="bathrooms" name="bathrooms" min="1" required />
+
+          <label for="price">Price (₦):</label>
+          <input type="number" id="price" name="price" min="0" required />
+              <label for="images">Upload Images:</label>
+<input type="file" id="images" name="images" multiple accept="image/*" />
+<div id="imagePreview" class="image-preview-container"></div>
+
+          <button type="submit">Add Property for Sale</button>
+        </form>
+      `;
+      break;
+
+    case 'shortlet':
+      formHtml = `
+        <form id="shortletForm" class="add-form">
+          <h2>Add Apartment for Shortlet</h2>
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" required />
+          <label for="description">Description:</label>
+          <textarea id="description" name="description" required></textarea>
+
+          <label for="state">State:</label>
+          <select id="state" name="state" required></select>
+
+          <label for="lga">LGA:</label>
+          <select id="lga" name="lga" required></select>
+
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" required />
+
+          <label for="bedrooms">Bedrooms:</label>
+          <input type="number" id="bedrooms" name="bedrooms" min="1" required />
+
+          <label for="bathrooms">Bathrooms:</label>
+          <input type="number" id="bathrooms" name="bathrooms" min="1" required />
+
+          <label for="pricePerNight">Price per Night (₦):</label>
+          <input type="number" id="pricePerNight" name="pricePerNight" min="0" required />
+          <label for="images">Upload Images:</label>
+<input type="file" id="images" name="images" multiple accept="image/*" />
+<div id="imagePreview" class="image-preview-container"></div>
+
+
+          <button type="submit">Add Apartment for Shortlet</button>
+        </form>
+      `;
+      break;
+
+    default:
+      formHtml = '<p>Please select a valid category.</p>';
+  }
+
+  // Insert the form HTML into your container div
+  document.getElementById('formContainer').innerHTML = formHtml;
+
+  // After rendering, populate states and LGAs if selects exist
+  if (document.getElementById('state') && document.getElementById('lga')) {
+    populateStateAndLGA();
+  }
+
+  // Setup image preview and other common form logic here if needed
+  setupImagePreviewHandling();
+}
+
+// Example state/LGA function (reuse your full object here)
+function populateStateAndLGA() {
+  const nigeriaStatesLGAs = {
+  "Abia": ["Aba North", "Aba South", "Isiala Ngwa North", "Isiala Ngwa South", "Obi Ngwa", "Ugwunagbo", "Osisioma", "Ukwa East", "Ukwa West", "Ikwuano", "Umuahia North", "Umuahia South", "Ohafia"],
+  "Adamawa": ["Demsa", "Fufore", "Ganye", "Gayuk", "Gombi", "Grie", "Hong", "Jada", "Lamurde", "Madagali", "Maiha", "Mayo Belwa", "Michika", "Mubi North", "Mubi South", "Numan", "Shelleng", "Song", "Toungo", "Yola North", "Yola South"],
+  "Akwa Ibom": ["Abak", "Eastern Obolo", "Eket", "Esit Eket", "Essien Udim", "Etim Ekpo", "Etinan", "Ibeno", "Ibesikpo Asutan", "Ibiono-Ibom", "Ika", "Ikono", "Ikot Abasi", "Ikot Ekpene", "Ini", "Itu", "Mbo", "Mkpat-Enin", "Nsit-Atai", "Nsit-Ibom", "Nsit-Ubium", "Obot Akara", "Okobo", "Onna", "Oron", "Udung-Uko", "Ukanafun", "Uruan", "Urue-Offong/Oruko", "Uyo"],
+  "Anambra": ["Aguata", "Anambra East", "Anambra West", "Anaocha", "Awka North", "Awka South", "Dunukofia", "Ekwusigo", "Idemili North", "Idemili South", "Ihiala", "Njikoka", "Nnewi North", "Nnewi South", "Ogbaru", "Onitsha North", "Onitsha South", "Orumba North", "Orumba South", "Oyi"],
+  "Bauchi": ["Alkaleri", "Bauchi", "Bogoro", "Damban", "Darazo", "Dass", "Ganjuwa", "Giade", "Itas/Gadau", "Jama'are", "Katagum", "Kirfi", "Misau", "Ningi", "Shira", "Tafawa Balewa", "Toro", "Warji", "Zaki"],
+  "Bayelsa": ["Brass", "Ekeremor", "Kolokuma/Opokuma", "Nembe", "Ogbia", "Sagbama", "Southern Ijaw", "Yenagoa"],
+  "Benue": ["Ado", "Agatu", "Apa", "Buruku", "Gboko", "Guma", "Gwer East", "Gwer West", "Katsina-Ala", "Konshisha", "Kwande", "Logo", "Makurdi", "Obi", "Ogbadibo", "Ohimini", "Oju", "Okpokwu", "Otukpo", "Tarka", "Ukum", "Ushongo", "Vandeikya"],
+  "Borno": ["Abadam", "Askira/Uba", "Bama", "Bayo", "Biu", "Chibok", "Damboa", "Dikwa", "Gubio", "Guzamala", "Gwoza", "Hawul", "Jere", "Kaga", "Kala/Balge", "Konduga", "Kukawa", "Kwaya Kusar", "Mafa", "Magumeri", "Maiduguri", "Marte", "Mobbar", "Monguno", "Ngala", "Nganzai", "Shani"],
+  "Cross River": ["Abi", "Akamkpa", "Akpabuyo", "Bakassi", "Bekwara", "Biase", "Boki", "Calabar Municipal", "Calabar South", "Etung", "Ikom", "Obanliku", "Obubra", "Obudu", "Odukpani", "Ogoja", "Yakuur", "Yala"],
+  "Delta": ["Aniocha North", "Aniocha South", "Bomadi", "Burutu", "Ethiope East", "Ethiope West", "Ika North East", "Ika South", "Isoko North", "Isoko South", "Ndokwa East", "Ndokwa West", "Okpe", "Oshimili North", "Oshimili South", "Patani", "Sapele", "Udu", "Ughelli North", "Ughelli South", "Uvwie", "Warri North", "Warri South", "Warri South West"],
+  "Ebonyi": ["Abakaliki", "Afikpo North", "Afikpo South", "Ezza North", "Ezza South", "Ikwo", "Ishielu", "Ivo", "Izzi", "Ohaozara", "Ohaukwu", "Onicha"],
+  "Edo": ["Akoko-Edo", "Egor", "Esan Central", "Esan North-East", "Esan South-East", "Esan West", "Etsako Central", "Etsako East", "Etsako West", "Igueben", "Oredo", "Orhionmwon", "Ovia North-East", "Ovia South-West", "Owan East", "Owan West", "Uhunmwonde"],
+  "Ekiti": ["Ado Ekiti", "Efon", "Ekiti East", "Ekiti South-West", "Ekiti West", "Emure", "Ido-Osi", "Ijero", "Ikere", "Ikole", "Ilejemeje", "Irepodun/Ifelodun", "Ise/Orun", "Moba", "Oye"],
+  "Enugu": ["Aninri", "Awgu", "Enugu East", "Enugu North", "Enugu South", "Ezeagu", "Igbo Etiti", "Igbo Eze North", "Igbo Eze South", "Isi Uzo", "Nkanu East", "Nkanu West", "Nsukka", "Oji River", "Udenu", "Udi", "Uzo Uwani"],
+  "FCT": ["Abaji", "Bwari", "Gwagwalada", "Kuje", "Kwali", "Municipal Area Council"],
+  "Gombe": ["Akko", "Balanga", "Billiri", "Dukku", "Kaltungo", "Kwami", "Shomgom", "Funakaye", "Gombe"],
+  "Imo": ["Aboh Mbaise", "Ahiazu Mbaise", "Ehime Mbano", "Ezinihitte", "Ideato North", "Ideato South", "Ihitte/Uboma", "Ikeduru", "Isiala Mbano", "Isu", "Mbaitoli", "Ngor Okpala", "Njaba", "Nkwerre", "Nwangele", "Obowo", "Oguta", "Ohaji/Egbema", "Okigwe", "Onuimo", "Orlu", "Orsu", "Oru East", "Oru West", "Owerri Municipal", "Owerri North", "Owerri West"],
+  "Jigawa": ["Auyo", "Babura", "Birni Kudu", "Biriniwa", "Burtu", "Dutse", "Gagarawa", "Garki", "Gumel", "Guri", "Gwaram", "Gwiwa", "Hadejia", "Jahun", "Kafin Hausa", "Kaugama", "Kazaure", "Kiri Kasama", "Kiyawa", "Miga", "Ringim", "Roni", "Sule Tankarkar", "Taura", "Yankwashi"],
+  "Kaduna": ["Birnin Gwari", "Chikun", "Giwa", "Igabi", "Ikara", "Jaba", "Jema'a", "Kachia", "Kaduna North", "Kaduna South", "Kagarko", "Kajuru", "Kaura", "Kauru", "Kubau", "Kudan", "Lere", "Makarfi", "Sabon Gari", "Sanga", "Soba", "Zangon Kataf", "Zaria"],
+  "Kano": ["Ajingi", "Albasu", "Bagwai", "Bebeji", "Bichi", "Bunkure", "Dala", "Dambatta", "Dawakin Kudu", "Dawakin Tofa", "Doguwa", "Fagge", "Gabasawa", "Garko", "Garun Mallam", "Gaya", "Gezawa", "Gwale", "Gwarzo", "Kabo", "Kano Municipal", "Karaye", "Kibiya", "Kiru", "Kumbotso", "Kunchi", "Kura", "Madobi", "Makoda", "Minjibir", "Nasarawa", "Rano", "Rimin Gado", "Rogo", "Shanono", "Sumaila", "Takai", "Tarauni", "Tofa", "Tsanyawa", "Tudun Wada", "Ungogo", "Warawa", "Wudil"],
+  "Katsina": ["Bakori", "Batagarawa", "Batsari", "Baure", "Bindawa", "Charanchi", "Dandume", "Danja", "Daura", "Dutsi", "Dutsin Ma", "Faskari", "Funtua", "Ingawa", "Jibia", "Kafur", "Kaita", "Kankara", "Kankia", "Katsina", "Kurfi", "Kusada", "Mai'Adua", "Malumfashi", "Mani", "Mashi", "Matazu", "Musawa", "Rimi", "Sabuwa", "Safana", "Sandamu", "Zango"],
+  "Kebbi": ["Aleiro", "Arewa Dandi", "Argungu", "Augie", "Bagudo", "Birnin Kebbi", "Bunza", "Dandi", "Fakai", "Gwandu", "Jega", "Kalgo", "Koko/Besse", "Maiyama", "Ngaski", "Sakaba", "Shanga", "Suru", "Wasagu/Danko", "Yauri", "Zuru"],
+  "Kogi": ["Adavi", "Ajaokuta", "Ankpa", "Bassa", "Dekina", "Ibaji", "Idah", "Igalamela-Odolu", "Ijumu", "Kabba/Bunu", "Kogi", "Lokoja", "Mopa-Muro", "Ofu", "Ogori/Magongo", "Okehi", "Okene", "Olamaboro", "Omala", "Yagba East", "Yagba West"],
+  "Kwara": ["Asa", "Baruten", "Edu", "Ekiti", "Ifelodun", "Ilorin East", "Ilorin South", "Ilorin West", "Irepodun", "Isin", "Kaiama", "Moro", "Offa", "Oke Ero", "Oyun", "Pategi"],
+  "Lagos": ["Agege", "Ajeromi-Ifelodun", "Alimosho", "Amuwo-Odofin", "Apapa", "Badagry", "Epe", "Eti-Osa", "Ibeju-Lekki", "Ifako-Ijaiye", "Ikeja", "Ikorodu", "Kosofe", "Lagos Island", "Lagos Mainland", "Mushin", "Ojo", "Oshodi-Isolo", "Shomolu", "Surulere"],
+  "Nasarawa": ["Akwanga", "Awe", "Doma", "Karu", "Keana", "Keffi", "Kokona", "Lafia", "Nasarawa", "Nasarawa Egon", "Obi", "Toto", "Wamba"],
+  "Niger": ["Agaie", "Agwara", "Bida", "Borgu", "Bosso", "Chanchaga", "Edati", "Gbako", "Gurara", "Katcha", "Kontagora", "Lapai", "Lavun", "Mokwa", "Muya", "Pailoro", "Rafi", "Rijau", "Shiroro", "Suleja", "Tafa", "Wushishi"],
+  "Ogun": ["Abeokuta North", "Abeokuta South", "Ado-Odo/Ota", "Egbado North", "Egbado South", "Ewekoro", "Ifo", "Ijebu East", "Ijebu North", "Ijebu North East", "Ijebu Ode", "Ikenne", "Imeko Afon", "Ipokia", "Obafemi Owode", "Odeda", "Odogbolu", "Ogun Waterside", "Remo North", "Shagamu"],
+  "Ondo": ["Akoko North-East", "Akoko North-West", "Akoko South-West", "Akoko South-East", "Akure North", "Akure South", "Ese Odo", "Idanre", "Ifedore", "Ilaje", "Ile Oluji/Okeigbo", "Irele", "Odigbo", "Okitipupa", "Ondo East", "Ondo West", "Osogbo", "Ose", "Owo"],
+  "Osun": ["Atakunmosa East", "Atakunmosa West", "Boluwaduro", "Boripe", "Ede North", "Ede South", "Egbedore", "Ejigbo", "Ife Central", "Ife East", "Ife North", "Ife South", "Ifedayo", "Ifelodun", "Ila", "Ilesa East", "Ilesa West", "Irepodun", "Irewole", "Isokan", "Iwo", "Obokun", "Odo Otin", "Ola Oluwa", "Olorunda", "Oriade", "Orolu", "Osogbo"],
+  "Oyo": ["Afijio", "Akinyele", "Atiba", "Atisbo", "Egbeda", "Ibadan North", "Ibadan North-East", "Ibadan North-West", "Ibadan South-East", "Ibadan South-West", "Ibarapa Central", "Ibarapa East", "Ibarapa North", "Ido", "Irepo", "Iseyin", "Itesiwaju", "Iwajowa", "Kajola", "Lagelu", "Ogbomosho North", "Ogbomosho South", "Ogo Oluwa", "Olorunsogo", "Oluyole", "Ona Ara", "Orelope", "Ori Ire", "Oyo", "Saki East", "Saki West", "Surulere"],
+  "Plateau": ["Bokkos", "Barkin Ladi", "Bassa", "Jos East", "Jos North", "Jos South", "Kanam", "Kanke", "Langtang North", "Langtang South", "Mangu", "Mikang", "Pankshin", "Qua'an Pan", "Riyom", "Shendam", "Wase"],
+  "Rivers": ["Abua/Odual", "Ahoada East", "Ahoada West", "Akuku Toru", "Andoni", "Asari-Toru", "Bonny", "Degema", "Eleme", "Emuoha", "Etche", "Gokana", "Ikwerre", "Khana", "Obio/Akpor", "Ogba/Egbema/Ndoni", "Ogu/Bolo", "Okrika", "Omuma", "Opobo/Nkoro", "Oyigbo", "Port Harcourt", "Tai"],
+  "Sokoto": ["Binji", "Bodinga", "Dange Shuni", "Gada", "Goronyo", "Gudu", "Gwadabawa", "Illela", "Isa", "Kebbe", "Kware", "Rabah", "Sabon Birni", "Shagari", "Silame", "Sokoto North", "Sokoto South", "Tambuwal", "Tangaza", "Tureta", "Wamako", "Wurno", "Yabo"],
+  "Taraba": ["Ardo Kola", "Bali", "Donga", "Gashaka", "Gassol", "Ibi", "Jalingo", "Karim Lamido", "Kumi", "Lau", "Sardauna", "Takum", "Ussa", "Wukari", "Yorro", "Zing"],
+  "Yobe": ["Bade", "Bursari", "Damaturu", "Fika", "Fune", "Geidam", "Gujba", "Gulani", "Jakusko", "Karasuwa", "Machina", "Nangere", "Nguru", "Tarmuwa", "Yunusari", "Yusufari"],
+  "Zamfara": ["Anka", "Bakura", "Birnin Magaji/Kiyaw", "Bukkuyum", "Bungudu", "Gummi", "Gusau", "Kaura Namoda", "Maradun", "Maru", "Shinkafi", "Talata Mafara", "Chafe"]
+    // Add all other states and LGAs here
+  };
+
+  const stateSelect = document.getElementById('state');
+  const lgaSelect = document.getElementById('lga');
+
+  // Reset options
+  stateSelect.innerHTML = '<option value="">Select State</option>';
+  lgaSelect.innerHTML = '<option value="">Select LGA</option>';
+
+  for (const state in nigeriaStatesLGAs) {
+    const option = document.createElement('option');
+    option.value = state;
+    option.textContent = state;
+    stateSelect.appendChild(option);
+  }
+
+  stateSelect.addEventListener('change', () => {
+    const selectedState = stateSelect.value;
+    lgaSelect.innerHTML = '<option value="">Select LGA</option>';
+    if (selectedState && nigeriaStatesLGAs[selectedState]) {
+      nigeriaStatesLGAs[selectedState].forEach(lga => {
+        const option = document.createElement('option');
+        option.value = lga;
+        option.textContent = lga;
+        lgaSelect.appendChild(option);
+      });
+    }
+  });
+}
+
+// Placeholder for image preview setup
+function setupImagePreviewHandling() {
+  const imagesInput = document.getElementById('images');
+  const imagePreviewContainer = document.getElementById('imagePreview');
+  if (!imagesInput || !imagePreviewContainer) return; // no image input on this form
+
+  let imageFiles = [];
+
+  function renderImagePreviews() {
+    imagePreviewContainer.innerHTML = '';
+    imageFiles.forEach((file, index) => {
+      const imgURL = URL.createObjectURL(file);
+      const imgBox = document.createElement('div');
+      imgBox.className = 'image-box';
+
+      const img = document.createElement('img');
+      img.src = imgURL;
+      img.alt = `Image ${index + 1}`;
+
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.textContent = '×';
+      delBtn.title = 'Remove Image';
+      delBtn.className = 'remove-image-btn';
+      delBtn.addEventListener('click', () => {
+        imageFiles.splice(index, 1);
+        renderImagePreviews();
+      });
+
+      imgBox.appendChild(img);
+      imgBox.appendChild(delBtn);
+      imagePreviewContainer.appendChild(imgBox);
+    });
+  }
+
+  imagesInput.addEventListener('change', (e) => {
+    for (const file of e.target.files) {
+      if (file.type.startsWith('image/') && !imageFiles.some(f => f.name === file.name && f.size === file.size)) {
+        imageFiles.push(file);
+      }
+    }
+    renderImagePreviews();
+    imagesInput.value = ''; // reset input so same file can be added again if needed
+  });
+}
+
+  
+  // Default to showing dashboard on load
+  dashboardContent.style.display = 'block';
+});
+
+
+
+ document.getElementById('darkModeToggle').addEventListener('change', function () {
+    if (this.checked) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
+// approval info
+
+document.getElementById('pendingApproval').addEventListener('click', function (e) {
+  e.preventDefault();
+  dashboardContent.style.display = 'none';  // Hide dashboard
+  submenuContent.style.display = 'block';   // Show submenuContent (if hidden)
+  renderPendingApprovalTable();
+});
+
+
+function renderPendingApprovalTable() {
+  submenuContent.innerHTML = ''; // Clear previous content
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'approval-section-wrapper';
+  submenuContent.appendChild(wrapper);
+
+  const tableContainer = document.createElement('div');
+  tableContainer.className = 'approval-table-wrapper';
+  wrapper.appendChild(tableContainer);
+
+  const paginationContainer = document.createElement('div');
+  paginationContainer.id = 'approvalPagination';
+  paginationContainer.className = 'approval-pagination approval-fixed-pagination';
+  submenuContent.appendChild(paginationContainer);
+
+  const searchContainer = document.createElement('div');
+  searchContainer.className = 'approval-search-container';
+  const searchInput = document.createElement('input');
+  searchInput.type = 'text';
+  searchInput.placeholder = '🔍 Search...';
+  searchInput.className = 'approval-search-box';
+  searchContainer.appendChild(searchInput);
+  wrapper.prepend(searchContainer);
+
+  const listings = [
+    { id: 1, type: 'Land for Rent', status: 'pending', message: 'Waiting for manager review' },
+    { id: 2, type: 'Shortlet', status: 'declined', message: 'Incomplete documents' },
+    { id: 3, type: 'Property for Sale', status: 'approved', message: 'Approved by admin' },
+    { id: 4, type: 'Property for Rent', status: 'pending', message: '' },
+    { id: 5, type: 'Property for Rent', status: 'pending', message: '' },
+    { id: 6, type: 'Property for Rent', status: 'pending', message: '' },
+    { id: 7, type: 'Property for Rent', status: 'pending', message: '' }
+  ];
+
+  const headers = ['Type', 'Status', 'Message', 'Action'];
+
+  let html = `<table class='approval-listing-table'><thead><tr>`;
+  headers.forEach(h => html += `<th>${h}</th>`);
+  html += `</tr><tr>`;
+
+  headers.forEach(h => {
+    if (h === 'Type') {
+      html += `<th>
+        <select id="approvalTypeFilter" class="approval-column-filter">
+          <option value="">All</option>
+          <option value="Land for Rent">Land for Rent</option>
+          <option value="Land for Sale">Land for Sale</option>
+          <option value="Property for Rent">Property for Rent</option>
+          <option value="Property for Sale">Property for Sale</option>
+          <option value="Shortlet">Shortlet</option>
+        </select>
+      </th>`;
+    } else {
+      html += `<th></th>`;
+    }
+  });
+
+  html += `</tr></thead><tbody id='approvalTableBody'></tbody></table>`;
+  tableContainer.innerHTML = html;
+
+  let currentPage = 1;
+  const rowsPerPage = 5;
+  let filteredData = [...listings];
+
+  function applyFiltersAndSearch() {
+    const typeVal = document.getElementById('approvalTypeFilter').value;
+    const searchVal = searchInput.value.toLowerCase();
+
+    filteredData = listings.filter(item => {
+      const matchesType = typeVal === '' || item.type === typeVal;
+      const matchesSearch = Object.values(item).some(v => String(v).toLowerCase().includes(searchVal));
+      return matchesType && matchesSearch;
+    });
+
+    currentPage = 1;
+    renderTable();
+  }
+
+  function renderTable() {
+    const tableBody = document.getElementById('approvalTableBody');
+    const start = (currentPage - 1) * rowsPerPage;
+    const paginated = filteredData.slice(start, start + rowsPerPage);
+
+    tableBody.innerHTML = '';
+    paginated.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.type}</td>
+        <td>${item.status}</td>
+        <td>${item.message || '—'}</td>
+<td>
+  <button class="approval-action-toggle" data-id="${item.id}">⋮</button>
+</td>
+
+
+      `;
+      tableBody.appendChild(tr);
+    });
+
+    renderPagination();
+    attachDropdownHandlers();
+  }
+
+  function renderPagination() {
+    const pageCount = Math.ceil(filteredData.length / rowsPerPage);
+    const pagination = document.getElementById('approvalPagination');
+    pagination.innerHTML = '';
+
+    for (let i = 1; i <= pageCount; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      btn.className = i === currentPage ? 'active' : '';
+      btn.addEventListener('click', () => {
+        currentPage = i;
+        renderTable();
+      });
+      pagination.appendChild(btn);
+    }
+  }
+
+
+  // pop up modal
+  function attachDropdownHandlers() {
+  const menu = document.getElementById('floatingActionMenu');
+  const updateBtn = document.getElementById('actionUpdateBtn');
+  const deleteBtn = document.getElementById('actionDeleteBtn');
+
+  let currentItemId = null;
+
+  document.querySelectorAll('.approval-action-toggle').forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent triggering document click
+
+      const rect = button.getBoundingClientRect();
+      menu.style.top = `${window.scrollY + rect.bottom + 5}px`;
+      menu.style.left = `${window.scrollX + rect.left}px`;
+      menu.style.display = 'flex';
+
+      currentItemId = button.dataset.id;
+    });
+  });
+
+  updateBtn.addEventListener('click', () => {
+    alert(`Update clicked for item ID: ${currentItemId}`);
+    menu.style.display = 'none';
+  });
+
+  deleteBtn.addEventListener('click', () => {
+    if (confirm('Are you sure you want to delete this item?')) {
+      const index = listings.findIndex(i => i.id == currentItemId);
+      if (index !== -1) {
+        listings.splice(index, 1);
+        applyFiltersAndSearch();
+      }
+    }
+    menu.style.display = 'none';
+  });
+
+  // Close popup on outside click
+  document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target)) {
+      menu.style.display = 'none';
+    }
+  });
+}
+// end of approval
+
+
+  document.getElementById('approvalTypeFilter').addEventListener('change', applyFiltersAndSearch);
+  searchInput.addEventListener('input', applyFiltersAndSearch);
+
+  applyFiltersAndSearch();
+}
+
+
+</script>
+
+
+</body>
+</html>

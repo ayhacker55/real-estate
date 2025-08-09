@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Buyer Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-light: #f9f9f9;
+      --bg-dark: #1e1e1e;
+      --text-light: #333;
+      --text-dark: #f2f2f2;
+      --primary: #058b0c;
+      --card-light: white;
+      --card-dark: #2c2c2c;
+    }
+
+    html[data-theme="light"] {
+      --bg: var(--bg-light);
+      --text: var(--text-light);
+      --card: var(--card-light);
+    }
+
+    html[data-theme="dark"] {
+      --bg: var(--bg-dark);
+      --text: var(--text-dark);
+      --card: var(--card-dark);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 14px;
+      left: 16px;
+      background: var(--primary);
+      color: white;
+      font-size: 24px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      z-index: 1001;
+      cursor: pointer;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: var(--card);
+      border-right: 1px solid #ddd;
+      padding: 24px 16px;
+    }
+
+    .sidebar h2 {
+      font-size: 22px;
+      margin-bottom: 30px;
+      color: var(--primary);
+    }
+
+    .sidebar button {
+      display: block;
+      width: 100%;
+      margin-bottom: 16px;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 10px;
+      font-size: 15px;
+      color: var(--text);
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .sidebar button:hover,
+    .sidebar button.active {
+      background: #e6f4ea;
+      color: var(--primary);
+    }
+
+    .main {
+      flex: 1;
+      padding: 32px;
+      overflow-x: auto;
+    }
+
+    .tab {
+      display: none;
+    }
+
+    .tab.active {
+      display: block;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .notification {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .notif-box {
+      display: none;
+      position: absolute;
+      top: 25px;
+      right: 0;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 12px;
+      width: 200px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .notification:hover .notif-box {
+      display: block;
+    }
+
+    .status-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .status-tab {
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--primary);
+      background: none;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    .status-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .confirmed { background-color: #058b0c; color: white; }
+    .pending { background-color: #f0ad4e; color: white; }
+
+    .logout-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .theme-switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .theme-switch input[type="checkbox"] {
+      width: 40px;
+      height: 20px;
+      position: relative;
+      appearance: none;
+      background: #ccc;
+      outline: none;
+      border-radius: 20px;
+      transition: background 0.3s;
+      cursor: pointer;
+    }
+
+    .theme-switch input[type="checkbox"]::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      top: 1px;
+      left: 1px;
+      background: white;
+      transition: transform 0.3s;
+    }
+
+    .theme-switch input[type="checkbox"]:checked {
+      background: #058b0c;
+    }
+
+    .theme-switch input[type="checkbox"]:checked::before {
+      transform: translateX(20px);
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease;
+        padding-top: 60px;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        background: var(--card);
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .main {
+        padding-top: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()">☰</button>
+
+<div class="dashboard">
+  <div class="sidebar">
+    <h2>Dashboard</h2>
+    <button class="tab-btn active" data-tab="home">🏠 Home</button>
+    <button class="tab-btn" data-tab="purchases">🧾 Purchases</button>
+    <button class="tab-btn" data-tab="profile">👤 Profile</button>
+    <button class="logout-btn" onclick="alert('Logout')">🚪 Logout</button>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="notification">🔔
+        <div class="notif-box">
+          <p>Purchase Confirmed</p>
+          <p>Receipt Ready</p>
+        </div>
+      </div>
+      <div class="theme-switch">
+        <label for="themeToggle">🌓</label>
+        <input type="checkbox" id="themeToggle" onchange="toggleTheme()" />
+      </div>
+    </div>
+
+    <div id="home" class="tab active">
+      <h1>Welcome 👋</h1>
+    </div>
+
+    <div id="purchases" class="tab">
+      <h2>My Purchases</h2>
+      <div class="status-tabs">
+        <button class="status-tab active" data-filter="all">All</button>
+        <button class="status-tab" data-filter="confirmed">Confirmed</button>
+        <button class="status-tab" data-filter="pending">Pending</button>
+      </div>
+      <div class="table-container">
+        <table id="purchaseTable">
+          <thead>
+            <tr>
+              <th>Transaction ID</th>
+              <th>Property</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-status="confirmed">
+              <td>TXN1001</td>
+              <td>600sqm Lekki</td>
+              <td>₦35,000,000</td>
+              <td><span class="status-badge confirmed">Confirmed</span></td>
+              <td>2024-06-20</td>
+            </tr>
+            <tr data-status="pending">
+              <td>TXN1002</td>
+              <td>450sqm Lugbe</td>
+              <td>₦12,000,000</td>
+              <td><span class="status-badge pending">Pending</span></td>
+              <td>2024-07-01</td>
+            </tr>
+            <tr data-status="confirmed">
+              <td>TXN1003</td>
+              <td>300sqm Ikorodu</td>
+              <td>₦8,500,000</td>
+              <td><span class="status-badge confirmed">Confirmed</span></td>
+              <td>2024-06-10</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="profile" class="tab">
+      <h2>My Profile</h2>
+      <div class="table-container">
+        <table style="width: 100%; min-width: 300px;">
+          <tbody>
+            <tr>
+              <th style="text-align:left; width: 30%;">Name</th>
+              <td>John Doe</td>
+            </tr>
+            <tr>
+              <th style="text-align:left;">Email</th>
+              <td>john@example.com</td>
+            </tr>
+            <tr>
+              <th style="text-align:left;">Phone</th>
+              <td>+234-801-234-5678</td>
+            </tr>
+            <tr>
+              <th style="text-align:left;">Joined</th>
+              <td>Jan 15, 2024</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+      if (window.innerWidth <= 768) {
+        document.querySelector('.sidebar').classList.remove('active');
+      }
+    });
+  });
+
+  // Theme toggle
+  function toggleTheme() {
+    const html = document.documentElement;
+    html.dataset.theme = document.getElementById('themeToggle').checked ? "dark" : "light";
+  }
+
+  // Sidebar mobile toggle
+  function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('active');
+  }
+
+  // Purchases filter
+  document.querySelectorAll('.status-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.status-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('#purchaseTable tbody tr').forEach(row => {
+        const status = row.getAttribute('data-status');
+        row.style.display = (filter === 'all' || filter === status) ? '' : 'none';
+      });
+    });
+  });
+
+  // Close sidebar on mobile tap outside
+  document.addEventListener('click', function (e) {
+    const sidebar = document.querySelector('.sidebar');
+    const hamburger = document.querySelector('.hamburger');
+    if (
+      sidebar.classList.contains('active') &&
+      !sidebar.contains(e.target) &&
+      !hamburger.contains(e.target) &&
+      window.innerWidth <= 768
+    ) {
+      sidebar.classList.remove('active');
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+<title>Modern Image Slider with Side Controls</title>
+<style>
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    color: #333;
+  }
+
+ /*  .gallery {
+    max-width: 900px;
+    width: 100%;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    height: auto;
+  }
+ */
+
+ .gallery {
+  max-width: 1000px;
+  width: 100%;
+  
+  border-radius: 16px;
+ 
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: auto; /* Remove fixed height for mobile */
+}
+
+  .main-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    /* Removed fixed height for natural aspect ratio sizing */
+    /* height: 550px; */
+  }
+
+  .main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.3s ease;
+  }
+
+  .main-image:hover img {
+    filter: brightness(0.95);
+  }
+
+  /* Buttons on sides of main image */
+  .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #058b0c;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 2rem;
+    width: 48px;
+    height: 80px;
+    cursor: pointer;
+    border-radius: 0 40px 40px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: #058b0c;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+    z-index: 10;
+  }
+  .nav-btn:hover {
+    background: rgba(0, 120, 212, 0.9);
+    box-shadow: 0 6px 16px rgba(0, 120, 212, 0.7);
+  }
+  .nav-btn:active {
+    background: #058b0c;
+  }
+
+  /* Previous button on left side */
+  #prevBtn {
+    left: 0;
+    border-radius: 0 40px 40px 0;
+  }
+
+  /* Next button on right side */
+  #nextBtn {
+    right: 0;
+    border-radius: 40px 0 0 40px;
+  }
+
+  /* Counter in bottom right inside main image */
+  .counter {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    background: rgba(255 255 255 / 0.85);
+    color: #0078d4;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 6px 14px;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    user-select: none;
+    z-index: 10;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+
+  /*  */
+.thumbnails {
+  display: flex;
+  overflow-x: auto;
+  gap: 14px;
+  padding: 1rem 1.5rem;
+  background: #fafafa;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+}
+
+.thumbnails::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.thumbnails img {
+  flex: 0 0 auto;
+  width: 100px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 3px solid transparent;
+}
+
+.thumbnails img:hover {
+  opacity: 1;
+  transform: scale(1.07);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.thumbnails img.active {
+  opacity: 1;
+  border-color:#058b0c;
+  box-shadow: 0 6px 20px rgba(0, 120, 212, 0.3);
+  transform: scale(1.1);
+}
+
+
+  /*  */
+
+ /*  .thumbnails {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 14px;
+    padding: 1rem 1.5rem;
+    background: #fafafa;
+  }
+
+  .thumbnails img {
+    width: 100%;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 12px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 3px solid transparent;
+  }
+
+  .thumbnails img:hover {
+    opacity: 1;
+    transform: scale(1.07);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+
+  .thumbnails img.active {
+    opacity: 1;
+    border-color: #0078d4;
+    box-shadow: 0 6px 20px rgba(0, 120, 212, 0.3);
+    transform: scale(1.1);
+  } */
+
+  @media (max-width: 500px) {
+    .thumbnails {
+      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+      gap: 10px;
+      padding: 1rem;
+    }
+    .thumbnails img {
+      height: 50px;
+      border-radius: 10px;
+    }
+
+    .nav-btn {
+      width: 36px;
+      height: 56px;
+      font-size: 1.5rem;
+    }
+    .gallery {
+      max-height: none; /* Remove max-height so tabs appear properly */
+      width: 10000px;
+      background:none;
+    }
+  }
+
+  /* Tabs */
+
+  /* Tabs container */
+
+ /*  .tab {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.3s ease, color 0.3s ease;
+    user-select: none;
+  } */
+
+.tabs {
+  display: flex;
+  border-bottom: 2px solid #058b0c;
+  margin-top: 32px;
+  user-select: none;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 14px 0;
+  font-weight: 700;
+  font-size: 17px;
+  color: #555;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.tab.active {
+  color: #058b0c;
+  border-bottom: 3px solid #058b0c;
+}
+
+
+/* Tab Content */
+.tab-content {
+  display: none;
+  padding: 24px 0 0 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+
+
+
+
+
+
+
+/* content for description */
+
+.property-header {
+  border-bottom: 1px solid #058b0c;
+  padding-bottom: 0.5rem;
+}
+.property-title {
+  font-size: 1rem;
+   font-size: 1.6rem;
+  font-weight: 400;
+  white-space: nowrap;
+  
+}
+.property-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: #777;
+}
+
+.property-details {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+
+
+.property-price {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #5c6ac4;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.property-description {
+  font-size: 0.95rem;
+  color: #444;
+  padding: 1rem 0;
+}
+
+.property-location {
+  font-size: 0.9rem;
+  color: #777;
+  margin-top: 0.3rem;
+  color: red;
+  
+}
+
+.divider {
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  margin: 1rem 0;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+ 
+}
+.social-icons img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+.social-icons img:hover {
+  opacity: 1;
+
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+}
+
+.social-links a {
+  font-size: 1.25rem;
+  color:#058b0c;;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #333;
+}
+
+
+.offer-btn {
+  margin: 1rem auto 0;
+  display: block;
+  padding: 12px 20px;
+  background:#058b0c;;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.offer-btn:hover {
+  background: #4b57a2;
+}
+
+.offer-popup {
+  display: none;
+  margin-top: 1rem;
+  text-align: center;
+}
+.offer-popup input {
+  padding: 0.6rem;
+  width: 80%;
+  max-width: 300px;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+.offer-popup button {
+  padding: 10px 18px;
+  border: none;
+  background:#058b0c;
+  color: #fff;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 1rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #444;
+}
+
+.contact-item i {
+  font-size: 1.2rem;
+  color: #058b0c;
+  min-width: 20px;
+}
+
+.contact-divider {
+  border: none;
+  border-bottom: 1px solid #058b0c;
+  margin: 1.5rem 0;
+}
+
+
+  .offer-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .offer-modal-content {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    position: relative;
+  }
+
+  .offer-modal-content h3 {
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .offer-modal-content input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  .submit-offer {
+    background-color:#058b0c;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 1.4rem;
+    color:red;
+    cursor: pointer;
+  }
+
+  .offer-button {
+    background-color: #058b0c;
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 500px) {
+  .offer-modal-content {
+    width: 92%;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .offer-modal-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .offer-modal-content input {
+    font-size: 0.95rem;
+    padding: 0.65rem;
+  }
+
+  .submit-offer {
+    padding: 0.65rem 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  .close {
+    top: 8px;
+    right: 12px;
+    font-size: 1.2rem;
+  }
+
+  .offer-button {
+    font-size: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+
+
+  /* end of contact */
+
+
+@media (max-width: 600px) {
+  .contact-item {
+    font-size: 0.95rem;
+  }
+
+  .contact-info {
+    gap: 0.75rem;
+  }
+}
+
+
+
+/* start of review  */
+.review-container {
+  max-width: 600px;
+  margin: 0 auto;           /* centers container horizontally */
+  padding: 1rem;
+  text-align: center;       /* centers text inside container */
+}
+
+.review-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.review-header h3 {
+  margin: 0;
+}
+
+.review-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.stars, .review-stars {
+  font-size: 1.3rem;
+  color: #f4c150; /* gold color */
+}
+
+.sample-reviews {
+  margin-top: 1rem;
+  text-align: left;  /* reviews text aligned left for readability */
+}
+
+.reviewer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+.review-text {
+  margin-bottom: 0.2rem;
+}
+
+.review-form {
+  max-width: 400px;
+  margin: 1rem auto 0 auto;  /* centers the form */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;  /* inputs aligned left */
+}
+
+.review-form input,
+.review-form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  resize: vertical;
+  margin: 10px;
+}
+
+/* Star rating input styles */
+.star-rating {
+  direction: rtl;
+  font-size: 1.5rem;
+  unicode-bidi: bidi-override;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  user-select: none;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #f4c150;
+}
+.send-review {
+  background-color: #058b0c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 160px;
+  margin: 10px auto 0; /* top margin 10px, center horizontally */
+  display: block; /* important for margin auto to work on inline elements */
+}
+
+
+
+
+.submit-review-btn {
+  background-color: #058b0c;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+
+.buy-now-btn {
+  background-color: #f50b0b;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: point‹      ­YÛn·¾ïS“	­|Š[ol­©;6bÅ7A0àÿ¥†C²$g”íd¾Œ}½Ë¾IŸ¤øIÎi²‚Ğ…vÉÿûüÏ›Ôˆu†ç.ùêÄ­¸]ÃBÓ¼|¾ªe™UÖ­lf€æ.»†E–Ò=»ûÕŸşáÇÓ™®íêä‡ùğÑ½'?¦í“G÷ï=ør~©Iéé³‹–ÎÌ‰9MéŒ˜´e°¤µpó“ÓgnsúU®¤uÄ=k%­ÀjšÃ<±+jàR]"×$*§æ‰\œI•¤ÎPiu\I;oi«Zº¬â¶¢._Í“5©¶ŸÈbíÇi[¨(›ÍY©¤S 	'š,•!ÛO„€Y’îBeH0<ßô Ç ¬å…ÌµsJf~róä’e˜„$]Ğ¼Ü;[Ğ’4§21=üs³0k—¤¹ÒëLpYf¶Îs°6£‚Ë$CJ¥9˜Éíî2\NR¶tJgµ¶ Ä<yC­#±¥á,”aVUZUà¼~ ‰¡¶¨'—…7«×ÿLi- aAÎvÁ³•Ìoå1@î#2u-…¢,ZêsĞÇé¥ºŞÇÛO{¤Ë4-`¼:&gzœªç8OÄoÕ–\{Î‚s¤v ÑÓ&I+ñ¡Û6~ŞlRâ(Jê¸sD{÷tæIªxÉPû@õ>|&(ï#/£¹ÇÍPYpjŸ'ï´6(HT¿ ìĞº 1Oşi¸Ø9¬h	•RÕ2‡ ø„÷&¤¤’îRøÃ-Æ*™’ÂÔZ!Ğµ't½°£Ì<ùÈñáeéİºP 9#ïÍö¦éâ—0ŞZríÜ¬tæ+u{-KQ30¤& (Ü´ü	^q—U`­÷á6+:¼uÊ„üÙÛå$¼€^·\(ƒ×Öe9:©Y¶äl¦ÁTÜZ´¹ÎœRÂqåJº`òš¬¨	q\êĞ‡;Q
+ÿ4F9ãÖAd‰´ÏÎ@Î5Vƒ=Îóä›Îî; •rbÍî_ó¤Ç\@i`éÆ:˜yÛA{K*my½®(ÁìôîLCÑb'¹8¦ƒ„ƒxv…!L>hI¦¿¨*Oê'RQUˆÓƒ·2U;¡T9O>`öÀx©@0ŸÒ»ërÉMåcÏøàyïoH("Äàø{ÑŸ5®‡à¸ÕÀ6ÜÊ‘ ŒS¡ŠÌq'`â¿LÉÁ}_ÕB,·7X²Â©/ÒY¾Âš!BàkÅ'qŒ‰0„³Ô9LAÁdp]@wAL,VğÁË‹ß'/¬èo÷„˜şï&«6€Vï0{çU€KIàL+ëfÓA4FÃ%«Á¥DDO˜AÇúÄe*!˜1îl A²\Õ«§Ë
+p™ï§¦\a5	ï!á³´™…\IFÍKÑ­ö8 Q1²Ià,Á9ÊXò3´cæoAZ4Û6õ
+±:ØĞB‡5e@–†ú/X0X"x\­ÛÄ-º8yŞ)¬S#z	\Z²ŠØhÑfpKŸvŞòÜ(«–Äîø îq£îÈÁßíªlèlû-¯¶7<Faj)Q¨tI·± 7`$—Òb&FQ¿ì0/«Êl?1ÌÎm¸E«6XY€–7¡«”Ò{s û(‰‹È‘\×Fä}/ZßŠí'äùë¿W\2ÄjeĞ’%úõ?,âÀ8îòfû‹Á¼RóŒÈoÕ(ÃPÒ#nJì¥‚K„[<Ê¾ÃJ¨‚K4:âv“‰uÛŸ3º´4é¶!L0Ì)BEx¯
+¹R‹ÅYè”l©ÄÀ‹ë ]ş¤{,™l‡¸µy:<›
+qğ“ÆşkOÿ$«+º?D¢¥ƒ‘ç>|üe$3e—Ü:C±'’;ZÖÒÖZ+ã€e£®-˜±ÎS—0ò`ïõ˜]êíâ5ô/%×€ùİáJIğ.=È÷’’ç+£ª®Ç|Å,ÕO½hKe*,¢¾›î[¼N–Rx‘ R‚MXòôŞEÛR­¿¥l6OÏï]xIy4¸¥•£kÏ·ÛOA¦.¡{ª5ÆŞZ{h´·×XZòôşEÛjÃš¯¿7Ñï_ s>}pÑ¶Leß-¿·Ï\LÕˆ”ûêÁ¦Û_Ì¨È{J­–µ…}â†‹5Á^UéãPı;UáÍ‚dïúö>) ë¡:[J ùŠ:7rÂBeNu…îë˜Œ&¹—ËÌq`­Ï¡#+uó@¤KeJtêNLÿa—$c#Â É-]`»y©8˜´/†´êfä#Ç.YPŒÊZ@¥AúWÃÖÌ”ƒ£ÔÕ5¸H¹¤‹^$GQT»½)¡oØâ6bg1é!»…ÅÎ‰s£¿¬B/	û¾Aé²cèEü®¬DbÃüÛ›¡§÷6‹s–ì x”|iàï5H'ÖYmÑâïpÎğœİ0Ôî‘Èı˜¨ò¸J¾]^ôÁİ÷ÿCkLø±ŠîT7Äç„Öi„²ç“5fI‰#7T0£è£m ¡Ke|œå+X+Â÷BÂƒk£pÒéºı(ë_|Ò
+g˜¨p`$õy<Ò½¹îSEpœ »æn…¡]ãâpÊ¹êĞÚ6Ş	Y·¼¦Ø¯YUãx& §×˜ç‡a¥|ü¶õ_<Çåàf%„Iné§Bší²Á>à “]AÊ[‘İŠ–ijÜ[YëÒKì
+ğ;[)%exÏ eÑÄ@r`#/è:Jv|jÚø,ë*m¾ôõ¯¿ÙlÒûzüàáãÿk¹[K¾äÀ>ø,ó™ínHE—ºÆ®V@]@î‹’—2j8íÜè#…ƒØ•‚‰ŒÂ/â9¨:ÛOèÛv”ÁZÛÆ!ß\ Y^a!ô¯;Bé…ºîŒPÂÏcdÍ„¹;iX]…x‰k:á×l!šMÈİµ½¼mñJçôMé‘‚¼qn·~›»?Ç4üÜ;Óî¡¥ÑŞÇwı
+-ºíkÔ7µØ”ƒ”¤mı•ÍfºSŠÔÆÚÿşó—şÜ‡dŞ›Â‡6¦ÛK†e#*àY‡Xt19b'iÃ¿2™˜Ñ€­…³è˜:ˆÆÌ¨µÎ¹ğáØ’x Ô€\šuYúnç¥Œ¼Ğ€(ÆUÀçÉ+›vçDËåkÁ^û«á€Æ‡Å|s…«Ö  Ía¥Ã]ş‡íMIÂ^£K1ÌÀù±ÿ™wç°¸ÂG´‘6ÓØÔİ¶ÔPüŒíEÚ"‚]}¾•j¿_áÑÏv©»…Ô”«¿`{ƒŸ7›3.e˜ÕæÑ"mébJçqZõuhÂ³#Ë
+£jªÄ]™\³m==Ø%6û\'¼Á~1Á}lÏ€àMx„¾–¿‡zşà1¶m(XMÇ²UËycÎ'¯”hQ*R¢$´_ô¿ëï¢Ü
+ÌèÆ˜Ø]«‘ıı»ã8·€øD¹õuo·TÆ
+Z‡Ä¡Œû•$òış&­50ÊÛI_àÇQ‡Ûl;bÍßüxúÕÎÏ¿ VÕ&‡·Tk.‹ï¿{ólåœ¶óós_Âg¾)©å’ç0ËUuîWTÛóµ+`gÔZpöÜwGg¾G?åÿÌWÿ³{Oş=yüè!,ÿøhvegÕÿõu¤Ë                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ‹      ¥YÛÜ6}ß¯ :/3@wí£cØŞ ñ-ˆ=	 ªÅj‰EjIª;3Jû5ûù“ı’E)µú2gódÈ:U,Öå{Òz>8•‡Ég¡T~¾Áeyõ¬lM•Õ> Ô>syÈ6¸Ìr­Ğ„§Ÿ¾õ·ß~şå|Ş´¾<ûùçï=~tï—iwÿÁç÷ï=^œá¦îüéeçæîÎ§n.Ï`ÚI\A«Ãâìüé¥Ù‘[ãƒ0O;5úr\L|	ßÛ÷¤u2Õ6‹‰Ñ3£'ÓàÀxAYãä¹mMÈjåky¹˜|‹¢¶„]£óy	j4Â 8!QtÖ ôv;K’BÁŠ„­E@!iû|2=Î
+4èT¾˜\EülD#ÀHtâ.`ïUa²e‚5YÀ_ÃbòŞâF}¸A3™.!¯ÑµÅdšƒÉQï/}iL«Ñ‘\n›ëL+Se¾Ísô>myi›µ2…P^XÙF!:98ÜH{şø£JôU°MÖ6µ^LÛÑ$¹2­Í iÄÚZ'¼AMÖ¾¿xàèöÃİœ2Åü7[‚1èî€'*nÇ’	#yj1ùªuíRƒd¬~ıøx;Qc7ƒø›öc"MÈ(p1ùáV#§·‹:yúğÇ²•jÈUÖ FÜXº±5Jt±]—şŞn§¢R*Q*dK=ßÎb2m²Etî(ô¦éc/¾ÒrÆÍBÀ,F2/&/ĞÛHyDÕ‘Œ†%êÅä›Jl”>X£ıc[“cÄ{ÎÁcvhàPˆÿè7ÖDƒÎ[k¦¢paW‡rƒ¹:g)Üpg³òÂ(¢@‰¨å\|çìÑ‰’jIc¶›ù ä%C¥s}¥>h(ØdCG8±Ó«Ì´ªUÈjôcf»QU‰ÂY*FDÚK|>u¿’këqˆ×wºUao±•ÙJiôYƒ®VŞ“÷$šë,X«ƒj²ÜšÀ^¿K4¡wDMQ…ds,`
+2kN£A#‚BâŠ%ú@µÏ,Niu˜«†úÅ‘‹ÉK0¢@ÆŠø8ğ
+H‡ŞSÁyânğt¿g|:Š2äë5:µŠn.¾ŞÓ!J\.i¿-PSªŒ›Ÿº…rèÙtòi@:—Äƒ£ö%ec¼¢Åä5ÅâÑ¸İ®­ºü…?a“[ağÜOnÌl´µÕbòµ´2ˆpİŒAÍJ¹š[lÊ¶ÅäÇcÕ£]C}KÑ1¹ßÄddG¶V¸YLŞ¦,äóÁ÷+ˆT m‘4„¾´fù/5Àp`nóY^RgÑ±X4Vr_A´Fl¬“A[¥$>Õ İQ%ˆjvõgôáÏU“ˆÁåËÀ)[¯6â­ÁçN­qdîÿagãŞã¾84VSÿ˜.!Bª Öh<Á¡Íİ'HèÔ†”)üˆ:ßí&íYn[M6d†Œ&Ÿ”ÿë![e›K -ïÏ<æÖHp×‹É'xäLëôbrõı«Á%Ÿ¤¼uú”jÅ‰ZO]T}à¾NØwK¬Á°¯Q,İøèê€¢ÑPUhy`vÏ¢'/ÙJEjeÛhopH•l©>ğé#[Ç²C|0_«ÜYoWA$’}ü6wv¤
+ÍX ¶åWn“ÂhU(pmÑI²lƒu;Ñ8µ†üz¦(è4sQf~d«ŸyPyÅlÖˆw°§æâKíE;ÑHr£t =OŸŠ ˆ6RÒ(,.Ñ¶
+[ºŒKñ]´`J·IâÙ	È²ÊÖñ0'œĞÅ¾x£ae¹Z"×å#s©÷XŒŸé²”Yk‹’n×6Â·nı™½¯OÛB™XÓúéc©P†Ø¾˜ ú€­<*÷®çÚø2ÓÄÓRóªQËD¸ÚØ «fDµ|^Z«{åg¯DÅÎ2Uâ2œÏÅÄZPË€œÂ‰Á$‚òï2jœ–Xr›t"ÂRr0İ`›b Íi±Õ0Vª‚µ­5¾mëÊ,%Üø 1’8rI\Ò0©âÍ°QSFç°œ>2£~Óî,/dSñ¬t¶F2óÊáÊşmÌ£à .Ê4| ‡ÑÛˆ˜N•VU˜¦ğäŞe×AÓ¼·Û'÷.‰bPR2²E÷ï‡Õ\<·~ƒ‚f "š¸t­ªFiUe­“|äâ'÷/».¥ä•Ó¤ãş%Å©DñäÁe×tµ»ºò˜–\öušfÿh	çøˆia‰•Üax»j=K%ë=óÀÉ%Hsú¨'Wãøt[fÏ¤ÂvL½{HFö6½YÔPÄ<ë‰Ïİî_nPä%ìb±°Y°}Ë{3Èı²2YãlAôğ€îôºw£Ä.97;âe*ŠpC¼.2Ff4i°!ŸÊÃR£Q±`+/¨gEÌ>[¢ÏKU-Ü\¼57(ğ×¼õècEáÎ`hh¨öuXÒi=‚£ç™÷°¤Q<8K,”1IóÅëKÏÌ	bÛ:æ“ıSÇx½ÚìudTáH„)K,™‘³ÓÖ¡>îd¢\Ã8›xÏn ?¢¦Ğy±V o•_9üg‹&èë¬õt? TƒúÃ­’s>m^Â&ßóìS~äÉ1qşHó¶#†`-E†uµĞR554Ïc½D·ËŠjÿ8Eâ–’ÄÖ’ëoĞJÆ4’½¼a³4õSA2ùëTÎœçuÔ‚gñ ĞŸ”Nb¯Ñ´âHöv‰l£BIiÓh¸¦ËškÂäœèº´3Öèv:qV·4Úi¤)%¹ÈZi¬¬íšB¢ëøÃ3j ÛíP·İ˜#ó(éŠL”©„FéŞëôÊ'5*Œ&ócB©œÌpáš8±¢'Ü—hŒò®™rğ]Æ"J‡ 3ˆY(Ñ(”»Há«¡¦ÒÌÂÒcuP©b\L¶ÛíôÑãG=üKÏÍ­Q+…òW¨;Ş›cË”iZ"Ès¢¹5Ôûã¦œ‚]\¦MtüøDEåÎ®öó4¡¬û{ØCéºA¢£¼®KÃv¼5ºjÇUq„3÷‰@ÅÈÒ»¡²õBûÓñQ}lÒ‹?~7‚6íÉï‰ûÉwméÓƒ·ÇÌ8	OÏ @®`X§bşŒş9XjĞ6ß¥«Ü-óË^Šdf¸œ8ÃŒè:ŞÁ)¼÷äd›³†ÑùÍÌÿı×¿‡.IûàJê!Qè›Qˆ)Ãc!?†ú¾ŒF,kUğCÌúVO±‘ªeêƒÙº´–‡”™­5@‘ú7#!?¤=wmETõ…ái›—“.¢¤ÜfQ¯é¦Èktˆ¦²ôs}[Û°$¿Cà³£)ƒh£!ÇÒjI?2üÄ4c÷«¿_‹d8Øß Ô\ŒHæ¶·æá!-bôöJy”‡{™³cîw‰î&ÿo(eödç‡Âıë×¾fü¤÷ŠşŞnÿ‰‹ş ]—¤ú@‘K.zØ
+*£2+œm›ØT>IWÊ	ˆ®ciÊµ÷Ä.uœ®ˆ·TÁ»…]x»tkşú#ÃúÖ 45ß±]õj1IIÈål*İ:ĞSavŸõQÌQGq¾6”èv;BÿƒÂŞ¦C¿ŞbÅúW½œÃæGä¹`¢¼K¤µFNÙ³À¥‰Oñ(éÛM{?"QH*j^c^z£üNƒ=<J?Lïöi€Ûn·Û_Î¿øÛÅÅgÂÛÖåøšF™âêûWOË¿¸¸à†?g‚;·«•ÊqÛú"î¯¡ñ%øå¼Çà/˜QÍ˜ûÏ"Y˜1W˜İÏ?†{«‡Ÿ¯äƒ|.çü¼†æÏyà;‹                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ‹      ­YÍ#·¾ç)ˆöeĞhvgwíDŞ ÙÇ°×»ğ¬÷bRwu‹Ól’!Ù+m¹äQÆ@ 7ëMò$A‘ìnµ~f'Hn’ÈúªX¬Ÿ¥¤±È¬3<sÉ—'nÁíôç²êå¢‘UZ[‡PÛÔ d.½Áyš	Ò½xøÖ_~ùñ§Ó©nìâäÇ¿xôìé“/~š´Ÿ?½xúûg³œÀÄœ¾¸lÍÔœÀéÄLó˜´9Ğ7;9}qéÖ§_fJZÇÜ‹VBVC†³Ä.Ààõ´&¡28K¤<“*™8Ò
+p\I;k!ËT#]Zs[ƒË³äUÃêÍ-›¯2Çk[¬‹õú¬RÒ)”Œ3Ì
+eØæ–å(pšLv‘Ò%=Æ1ky)Óyãœ’©ÃŸİ,ùÀ…2¹Äd2‡¬Ú[›C…É$™¡/şq97+—L2¥W©à²Jm“ehm\ÿFiÁe	«”æhF›ûM<¬ÓŞd’£­œÒi£-
+1K¾ë˜ÄœÙÊğ%Î•É-hÒŸÌ€­À »¢ë`N…CŸ)­.¹,§»€é¤Dó)\ä=ô=X¹º‘BAİrô¸ T7ûÂB;¥K5”8KŞ1ï¸L¯n–ˆj£Jun¢âz–üDÎ
+5kHŠ&‚AÂI&5JŠóx›m¿¯×f¯±ªXãXÎá,™hƒŞ(:uØÿ>ü‚ÆÚ'U
+™Ì‚Ã4D,¡’‡J†ÜÑ™så€€9ŠYòºdK.vÖj¨0)U#3`¯PøäC.YvEü—°­Æœi4VÉ	+M£52‚¢v$×[š¢1ÊÌ’œU”ÈxU]£ÏARIÙFy1eïÍænÙ¥'[ íÕ›[&WÎM{\ç [xÜxÄ¯e%š[b.°,ì´ü¯˜
+^s—Öh­œa·ÏG
+rë”	h(h”æ¯°?b&”Å!`›ªÚZiò´àmªÑÔÜZrbr•:¥„ã:Í”tÁõ[€‰^›»Õ²7£ädÌ*A–ş÷­EFà’Âh_£ÁŒkª÷{ÊgÉ7 £¦’PkåT`@ÿ4h¼Ú“–ê­Qñ00eo#6‰ş¬HK›ƒH4czúp½¥rİÉGÎlâÃµÊ¹p³äêzsËjä¦ßªjMWì
+9“ªRLÕ!yîKUã„RÕ,¹¢jBU©F‘ûZÔm—7µï„1¯(+ìÁõ><Ş§9Š!öJBºäx3KŞimĞùºPnn—¸ävËˆœƒPeê¸8Šæ\É!˜ß4B›;jQaÕ·ä4[P¿¡hÅGÉmÑQ"9Ayğ#*‚®Ën^^£d¹3Z@ßª}8ùR€gZY½¹_(Ô~•€¡JÁƒíå’½“øŠzÁCìÕÉãä¡!p)£åSFÅ-¹Ì¡)ÑM˜*™öøÇ,ĞÔ§¸,C;¤"Ñc²ét!ÒL5‚z¨KKt©g€;Î\PsñtXü¤|j1S2³¢æ´mï¾K`4Fl»%¨—èä†ŠØ'd·µ¿Ei) Ø\pã‹u´¼	®D
+ˆ@¬¶• ãş›@¥w½àµòfd†;çèHoò
+}lX§rßä‚52ÉÈeÉ`ÙÑ5ğµç-ÏŒ²ªp,Òá¸û~%ìR…òµcwz{×©¡.·ÚÜ­Lh˜¥i¤$Ã®  Ã™å±a/ÑH.¥u\xÛ©•[­}&ÁB Ş³r4Sö¦cÌP9¾$ßæ¾1oÁÀÄÓí¼aåæÖÛõ^²÷$ş†¾õFĞ-X±¹%#ûçeÜ÷¹{ùí_<ãĞ8îó†®³q¾’‡R½k'i­”Èm¬K4Ô—b€fßQ%TÉ%9Ÿ0»w‰u›;çúŞ¢¿œC£›ÏÎüñÕª,Cé »¹VóùYdW¶R;ÍTªNèŒ; —§SöÎ¶ ¯*4QÚ”%[\£Ğ}ÚT·BöÉçÏ¢@x:@^sÉ­3@ìÈëİ9U#m£µ2ótnÔE³}Æ`ÓÒÓ–À÷bàúBBÂM¢qyCWÆäÊWÏ%{­$ú8|—8a/FÕí|ÃêçŞ®B™šÚ§'×=İÛüU‚<â5S‘QÄ aÏ]¶-hıÔ¸^??tÙİ¸…Ú@9e1§|˜›¦êR!<”J•;¬èÏ_¶­6|	Ùê#ìñ%ÅŞó‹Ë¶uhjû®øÁb\»¸›%÷0ä0šJl~5[mİKzhU4÷…—\T›Û@uÉøN0>šï#éeõPzŞÁY”y§¼Ã¾‡èÒvìøÒ–ß³8‡CÌ•*uªëm_Åj3ª³\¦ş	‡ÖúZ‰=«ë¬}
+V¿ş%Ø‘Fì‡.Ó[fÂq{3Â;’[˜ÌwK2Bª£°CátSö‘³9úÚ¤Œ…ŠJ×Ñ¬5ŒÁÌé¤ÁĞŒäƒYUU7½ &àÙÍ]‹qÔ02ŒØb7ŒØ~A¾ÑoV5Â€'$]å3±NÉş-Ø¦,ÑÑHk2ï8ºa…ÙÜFè£ …Á¿4(X¥%§¿+öÚŠÌüSQeq •|·Xv}t„ø¾.îT÷(ˆ·cÚÂ¡
+~§¡2)é)õÍV†}”Tä£0.ò5½bkª‘»©âUh£èÅÓ±şhûŸLS	kT—Î@84_”boQ®úúÑÉHo¸[P–h+×ZÛÆ=¡òv€7@\¥Lë†^iéñáú¤óúèuX«%ECÛú^ÒDp½’ÓºzÓe¡WIPÓ]EÔşªÙÕì¼Ú-¸ÉSÆ­ˆÒrš’~0˜_#ıf·¸[„<…n9JùV@ôjÊrtãÔ-ıÌel…1’õz=yòìÉ³‹ÿiªÛH^pÌ¯|úÄX7ª”Kİ»˜!È|»²aS
+†CKAäY)t$e+'#œÃºóşH¼mH”kmßÊtï9+®)˜§c”Ş¦Ã,!”ÏûAÒåáü²aj½mÆkî
+?‰ó’#A{ŸdÛÒ–.ê;š…‘{œ`i|½[ÿ&ù¹_§Âü’‚hoQ£Òtûïã•Ë~¬ãõk©¼›Èy*R²¶õÛÖëa4cÿxåşûo¿öË¾DzgøÜñJÿ„òóH:ˆ¯¾aT£,ôï )aÉK?=9Ó m„³TAØ{ªZS¤D"añ hpÊBk&"ôÚnc“^¢¸ŞV¨Ò î)Vôò”%Jâ¾Eq`ßÈ²¯ıÖ° ş~iÚuMšÙ ®d¸P"§¡şÕæ®
+]ÃÏ‰©?ÅDÛòî	úˆ3,z‡H¨%:@ë&¿ÈÇÃß}Èîy¾—uC¶(»~¯Ôğ"=y'<İ•îæTc­ıÌí[ú¾^Ÿq)Ã‹mÆ|>Pr±ÀsFlê¾/tP¡ÌÓÒ¨F‡ñPe_1Ú¶^2îñ†}-‡‹ßà¿Pë>-uĞ‡…ùÿ8ZM‡Œ€m
+Kà‚úê¶au1Kbâù:6aZ4Ä„)‰ígÇ£~Í”[ ¹Ë®CA!ÿı1”{ |ÉÜ¼P(cıMs‘^lÜO(U£áÏ‰0¶›£1Ã?%ló.}ßşÃ…49"ê·^¯×?~ù»óóÏ˜UÉğ-hÍeùÃ÷ß¾X8§íìüÜ÷ñ©g«SU<Ãi¦êó°¿mÏ`˜Ÿµèì¹gIgÀŸpæ)ÀYñôâO?Ê²‹>şâÑôÚNkĞÿåió€É                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ‹      ­YIÇ¾çWÚ—€¢ä5màÈI€È²klÇêG²z©êÔ¢N7MÀdà?Ë@Hùstòø—¯za7ÍÉ‘¬zk½å{¯g«·Áç'v!Ì¸Ài<y¶p2	3c2jnÃ§!OJûôşWúé‡OÇ¹3‹“~øä÷~ôøñ£åg¿ÿøñ'''8‚‘8}z¶c}§#1N`´Œp.µ““Ó§gfuú9WÒXf.%dhrà8	Ì4«s’ŒRÅ!ÅI§ò4YÒ¤`…’f²Î•“6Ì„ÉÀòÅ$xáŒ0Ëu…›Ëõ¯Êõ/Ìˆõ5“À%­bË%f ÒÕŠòT$ÀcÁ¼¸ƒiÉ\¤Œ]_çR¬£]!á%jÁ'Á—;—G,«ÅW™@ú£‘X0g6—.ª5V1b.Ã©³VÉĞâßì$x©«2¦
+FSàÉğìµ±È«`ÄArL‡g_J—º8q•—a*dÇ9Óœ¿JT.TR1:í_¬/<W¹pqs¡I¬ÊC—LÓIğRMêªóÔúš%)˜’Wr}Õø«*Mäçªœš
+YT	Ø\‚ÈfN&äŞ‹ÎMñ¾ÛÇ»bÃ)H‰ú^Ò¥«ÒX’_µÌÛ¼Õ*R…0	ì³T!SQãÈ;ä'—ªØcaQCµGbPÚ0‡96Q3tY‘Í”¶,×ÀËÑqòNö$È“Î&9=µ´¥t.fS¬XÍ¤€`”¡¤¤jBb¹l~¯V#frE´ù³jŒr^²½\¬PZ·¶û{†\#Xëˆ'®“àÂôhôbQ˜ì¤0Åt<[ğõõÎQ	† ¥r’cÃmZ	HHwúÃ›Êñ#6×.ÈR7õ¤›KUˆºÓ9D­•ßd™Ú¼“0HüÆ³W¹¾½™ºxx#Ë•T…8î˜[|á™7ö^Õ<]_G¤^uù’"(Œ¨0LE&l˜¡1>®¾ï‘0³¾bÕ´´,r›wÈ"ÕSIÓ–é ”ôÔóTì‚ü{È’á¡‹Â™HÑ„9êLCîP–¡U*µ"¹’Ö¿“÷˜Š9Š')pó÷Z¯J`JŞctGÛ’/EöíM19$O#95¢=Ñ;ÏDìé:îi4`U6¾?ßæıOzœ«u9‰*(‘·FÙ—^ ,Sóõ£:˜	ì©pú$Ï5÷N.jC˜qzˆ™YP~Öo0	¾WSà+ÄúšãöùT–Óë6ñ÷R£ŠqµyËè²ƒCålªT2	^S»b…€HejóvıËö¾œ	ù6İäà$x]nŞmzğV&ç…Š¡Ï”UÊXê'½VrÁ{&|#°ğUæöF“~‘JÚm‰"©š‡VØÆ}¤ä6ìÿ¬¬*º¢âáCÈÔ£Òº¶äJôŠDRëŸ‰¹Ó.Æ¬d%«Ğä·7›Ë^•h«£ƒÿHñx(åºÓ¹‰‹£µg}µ_|jæ9j£$Ü×bæëkö­Ä¯´xƒ¿Å\#=Ëƒ¨ÔATgQÏ†ˆpÌššÃ¬b*‘Š	jHC©GdQŸr>	Îu¬‘BJ3Şò C®\JŞ†s´¡‡ÀµÖ.¢&Á$d5®ÌÕT“êç…|áYm.ooŠ;ù…¹’èrÜË‘9œÙjã‹ƒcß}}u_‰—*â&Š™ğ5¹óµi`dËœx³iÏÓõU:L°"I‘Ân®â¼¾.í0¼.]_åbsÉ¦ÔÃ"–7šl#Ù+CÕw‡-ã‚keÔÌ¶Ğú€„÷:zG)aóşõ~âiÇ*#ãvÔÚ3”ü¢
+9æŒ…Âw\–ë² +ë¨‹”-yµ¾â5VM1ªü¥L¬¯£ªd…°º”	Vô]Ì‘½‚h1f#‹r;äXµ†#Oh‹SSSv);c/5ÎP£ä1ú_­bë_è¦LåTşúó¿¾çouu,W4Š®¯~ıùŸ<iQ[áùUÓ\|Î4}¨n2[µ,&‡ùæ²,ÒĞ¶µ²Âä‚½Æé1¿uHÕ\ÈIp®šIŒX¨©¯c.Æ;ßñ·~t4ÓfE½¤Nº$èªdnó®äÂyÁÀHäæİTdMS%*•ôë$ÆÍÛTÔØÈB"°VötÌşRŸÈ9åX4ñC,reu…S#©LñrDi*-$„Æ½.ƒ(R«Á*ËS°3¥³²—;ö©gù~û4.Ï•¶…S­
+ƒºïá8ì2(@Û:°ö“¤Ø¾f79×8IB,Uaªõ+P›¸öi¯Îl5ÿc4Ç{¶Ğ*«QüŸ„Æ™ú[§:™JèÂ-X~ŠDRR¥UU¹;£š:c‚Îuä}ñèl¹„<ÿ2\­¾xøèÌÃTŒéµHK²lÌ7ãh¼¾â¬òçİ#	ÇÜÖ/cÌ¾øğl¹Ìµx¼¼Ğ)ñığŒ	öÅGgË¥E™og›£Î†V5„ûÖU` *™â­d9¨<^‚š9ƒû<
+ĞN&ÂÇ±M|ãìĞS³¹ør}—ÌÕ~	nù”Q«É®r]Qšrs¹$ørÂ+à}*´ªmà/{Uq'ÛûB†¹VsÆôaLm5ÛNa])0‰¾½áhF{!ZT+Jãõî´«gza`šb´+ï@ÎÄh,YIİQª+ÖJâ˜‘u¹SAV²
+¨nDj®¢úå‡2-LÉ/AÓŞìy
+éÓZ[­ª\Q‡"SJS¹D}4;&Âë·7õò¨êœ^w(l”Tí&`ï¶Gt“à|8Ô íÈd°ï¶-ÓùÍvÇĞàÅíà5	.x…ÆJÁKßÄyeËFÚQ&3u(mZ†ÎĞ+>«Ö×ÆªA{A¥p”…FîŠ7«Íà[cÁÊº4Õ¥óışÔ20ù$²ª[4ôÛô–4ÈŠŞİ¢µ»Í¬iµI;Ì¦¨ï·#ªØ¼óB7o™k^"è“Úºñ@T®ºí(×±şß¾YÀ„‡2xº!{Ò±ú?7 >NÂ.(wóªá{¸ĞãÿX.ÊºŸ´b
+ĞRÈy˜9ÜS¤1ÓvÂkA‹‚L½¡@[.ıÏh?½ZõÜŞl`EW!ân;tg+Ô9?(r+ñb+‚ÕÒkıï#Ì.„Â´-i´ì¿(`ŞGÃLHI›Z…FˆB¨KADÈ6êÇU*±Û¼c¼Ú\*é£Å®ª×yÎƒ¯B°Z­FŸ=yòäÉÇÿÓ
+'ÅL`ôÊ—Î;¾PÔõ52w4†¤È	<q%ßPNûK!hm¾.§šŠ­'Ëz+9Èÿ†Å¬}“ùr¹@ˆPÓÚv¹lv*«ûõç0g!«ÆC>V÷eTxïÁ&|óQk‘šôÙ#­?´ìûC±#”S¿óP›»É±%,I"j2¦cT«Û¬tÌ$xîc§Ü?§ñ¬»{”£Ê)¾¥wÛùm/`#UçÄİ$Åæ[.ıÕÕªİêİŞ['Ûcüúó¿»;¾`4jt™ qRPí"s	NòpU”Õ2>ò [éŞˆ¹ß°âƒö©5 Twbúø@¢¤ï´ÓÁ„l~{£××4U²ˆv_5¸Pˆz`³o€‹Í[j,öGiQ×}¨Õp©QF…µàÚŸ-û+á*EY×¿Dş !i·©Gó8.TÑ·¨×AÜíñzQÔÑïW¤ªb}]'uıÉ¡ì»ºÕ2ŠvÒñ+B†9tÑv½R·90Ş%l™}y¯0á15)ƒ~{û5ı½ZMX¤GMÕTÿ¢Ş{¥Èhl¬kjITC£p®•Ëë&s/‘”nm”²åÒ“?[€='h²/äPY¼hKß{=¸O¹õaÇa¯5ÄNş¬«v¸šŞ€H©÷µÊf“ É?_ÈF,O†tÄ”ÄåWmH×ÃÂu\¯ØÖ¢ÿBÔœ‰Ë@–ÇO•] >zºëÈ#ZS:lYÔÄï¡ôÅö8½qA£oí„vRGnxÒt+üzÛRùê&Û?àm7¶LÚ^ÆÉnìò5¥­”†jLpbõãéç¿{øğf”Ó_@9¿øîë§ks3yøĞ£ƒ±Óc5›	c®²‡õırópfÑ0­yèÙ?—<¨‘Å,<Š>}}òÙÇŸ<züáôÑãOÇ±gÿ4	†ê!                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          badge-vertical">bathrooms 1</span>
+    </div>
+  </div>
+</div>
+
+
+   
+ 
+  
+    </div>
+    
+
+    <button class="slider-btn right" onclick="scrollRight()">&#10095;</button>
+  </div>
+</section>
+<!-- ğŸ” Login Modal -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('loginModal')">&times;</span>
+    <h2>Login</h2>
+    <form action="process_login.php" method="POST">
+      <input type="email" name="email" placeholder="Email" required />
+
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Register</a></p>
+  </div>
+</div>
+
+<!-- ğŸ§¾ Register Modal -->
+<div class="modal" id="registerModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('registerModal')">&times;</span>
+    <h2>Register</h2>
+    <form action="process_register.php" method="POST">
+      <input type="text" name="name" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+        <input type="number" name="number" placeholder="Phone No" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required />
+      <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Login</a></p>
+  </div>
+</div>
+
+
+
+<!-- end of similar ads -->
+<script>
+
+
+function openModal(id) {
+  document.getElementById(id).style.display = 'flex';
+}
+
+function closeModal(id) {
+  document.getElementById(id).style.display = 'none';
+}
+
+function switchModal(current, target) {
+  closeModal(current);
+  openModal(target);
+}
+
+// Optional: Close modal when clicking outside content
+window.onclick = function(event) {
+  document.querySelectorAll('.modal').forEach(modal => {
+    if (event.target === modal) modal.style.display = "none";
+  });
+};
+
+  const mainImage = document.getElementById("mainImage");
+  const thumbnails = document.querySelectorAll("#thumbnails img");
+  const counter = document.getElementById("counter");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  let currentIndex = 0;
+  let autoPlayInterval = null;
+  const autoPlayDelay = 3000; // 3 seconds
+
+  function updateGallery(index) {
+    currentIndex = index;
+
+    // Update main image src and alt from thumbnails
+    const thumb = thumbnails[index];
+    mainImage.src = thumb.src;
+    mainImage.alt = thumb.alt;
+
+    // Update counter text
+    counter.textContent = `${index + 1} / ${thumbnails.length}`;
+
+    // Update active thumbnail highlight
+    thumbnails.forEach((img, i) => {
+      img.classList.toggle("active", i === index);
+    });
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % thumbnails.length;
+    updateGallery(currentIndex);
+  }
+
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
+    updateGallery(currentIndex);
+  }
+
+  prevBtn.addEventListener("click", () => {
+    prevImage();
+    resetAutoPlay();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    nextImage();
+    resetAutoPlay();
+  });
+
+  thumbnails.forEach((thumb, i) => {
+    thumb.addEventListener("click", () => {
+      updateGallery(i);
+      resetAutoPlay();
+    });
+  });
+
+  function startAutoPlay() {
+    autoPlayInterval = setInterval(nextImage, autoPlayDelay);
+  }
+
+  function resetAutoPlay() {
+    clearInterval(autoPlayInterval);
+    startAutoPlay();
+  }
+
+  // Tabs functionality
+  const tabs = document.querySelectorAll(".tab");
+  const tabContents = document.querySelectorAll(".tab-content");
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const target = tab.getAttribute("aria-controls");
+
+      // Update tabs active states
+      tabs.forEach(t => {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+        t.tabIndex = -1;
+      });
+      tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
+      tab.tabIndex = 0;
+      tab.focus();
+
+      // Show the correct tab content
+      tabContents.forEach(content => {
+        content.classList.toggle("active", content.id === target);
+      });
+    });
+  });
+
+
+    function toggleOfferForm() {
+    const form = document.getElementById("offerForm");
+    form.style.display = form.style.display === "block" ? "none" : "block";
+  }
+
+  function submitOffer() {
+    const input = document.querySelector("#offerForm input");
+    const offer = input.value;
+    if (!offer || offer <= 0) {
+      alert("Please enter a valid offer amount.");
+      return;
+    }
+    alert(`Your offer of â‚¦${offer} has been sent!`);
+    input.value = "";
+    toggleOfferForm();
+  }
+
+
+
+  /* for contact */
+
+  function openOfferModal() {
+    document.getElementById("offerModal").style.display = "flex";
+  }
+
+  function closeOfferModal() {
+    document.getElementById("offerModal").style.display = "none";
+  }
+
+  function submitOffer() {
+    const input = document.querySelector("#offerModal input");
+    const offer = input.value.trim();
+
+    if (!offer || isNaN(offer)) {
+      alert("Please enter a valid amount.");
+      return;
+    }
+
+    // You can handle the offer here (e.g., send to server)
+    alert(`Offer of $${offer} submitted!`);
+    input.value = "";
+    closeOfferModal();
+  }
+
+  // Optional: close modal when clicking outside of the modal content
+  window.addEventListener("click", function (e) {
+    const modal = document.getElementById("offerModal");
+    if (e.target === modal) {
+      closeOfferModal();
+    }
+  });
+
+
+
+
+
+  /* review start */
+
+
+function toggleReviewForm() {
+  const reviewForm = document.getElementById('reviewForm');
+  const submitBtn = document.querySelector('.submit-review-btn');
+
+  if (reviewForm.style.display === 'block') {
+    reviewForm.style.display = 'none';
+    submitBtn.textContent = 'Submit Review';
+  } else {
+    reviewForm.style.display = 'block';
+    submitBtn.textContent = 'Cancel';
+    reviewForm.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// Optional: clear form on submit or handle submit action
+document.querySelector('.send-review').addEventListener('click', () => {
+  // Here you can add form validation and send review logic
+  alert('Review submitted! Thank you.');
+  toggleReviewForm(); // Hide form after submission
+});
+
+  /* review start */
+  
+  /* end of contact */
+
+
+  /* similar ads */
+  
+  function scrollLeft() {
+    document.getElementById("similarAdsScroll").scrollBy({ left: -220, behavior: "smooth" });
+  }
+
+  function scrollRight() {
+    document.getElementById("similarAdsScroll").scrollBy({ left: 220, behavior: "smooth" });
+  }
+
+  // Optional: Auto-scroll every 4 seconds
+  setInterval(() => {
+    const container = document.getElementById("similarAdsScroll");
+    if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
+      container.scrollTo({ left: 0, behavior: "smooth" });
+    } else {
+      container.scrollBy({ left: 220, behavior: "smooth" });
+    }
+  }, 4000);
+  /* end of similar ads */
+
+
+
+
+  
+  // Initialize
+  updateGallery(0);
+  startAutoPlay();
+
+
+  /* backward arrow  */
+
+  document.getElementById('backBtn').addEventListener('click', function () {
+    window.history.back();
+  });
+
+
+
+  /* end of backward arrow */
+</script>
+
+</body>
+</html>

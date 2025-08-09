@@ -1,0 +1,70 @@
+<h2>Property for Shortlet</h2>
+  <form class="shortlet-form">
+    <label for="titleShortlet">Title:</label>
+    <input type="text" id="titleShortlet" name="title" required />
+
+    <label for="descriptionShortlet">Description:</label>
+    <textarea id="descriptionShortlet" name="description" required></textarea>
+
+    <label for="statelet">State:</label>
+    <select id="statelet" name="state" required></select>
+
+    <label for="lgalet">LGA:</label>
+    <select id="lgalet" name="lga" required></select>
+
+    <label for="addressShortlet">Address:</label>
+    <input type="text" id="addressShortlet" name="address" required />
+
+    <label for="priceShortlet">Price (₦):</label>
+    <input type="number" id="priceShortlet" name="price" min="0" required />
+
+    <label for="durationShortlet">Duration (e.g., 3 nights, 1 week):</label>
+    <input type="text" id="durationShortlet" name="duration" required />
+
+    <label for="conditionShortlet">Condition:</label>
+    <select id="conditionShortlet" name="condition" required>
+      <option value="">Select condition</option>
+      <option value="used">Used</option>
+      <option value="fairly_used">Fairly Used</option>
+      <option value="newly_built">Newly Built</option>
+    </select>
+
+    <label for="furnishedShortlet">Furnished:</label>
+    <select id="furnishedShortlet" name="furnished" required>
+      <option value="">Select furnishing</option>
+      <option value="furnished">Furnished</option>
+      <option value="semi_furnished">Semi Furnished</option>
+      <option value="unfurnished">Unfurnished</option>
+    </select>
+
+    <label for="smokingShortlet">Smoking Allowed?</label>
+    <select id="smokingShortlet" name="smoking" required>
+      <option value="">Select</option>
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </select>
+
+    <label for="parkingShortlet">Parking Available?</label>
+    <select id="parkingShortlet" name="parking" required>
+      <option value="">Select</option>
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </select>
+
+    <label for="facilitiesShortlet">Facilities:</label>
+    <textarea id="facilitiesShortlet" name="facilities" placeholder="e.g., electricity, Wi-Fi, water..." rows="3"></textarea>
+
+    <label for="bedroomsShortlet">Number of Rooms:</label>
+    <input type="number" id="bedroomsShortlet" name="bedrooms" min="0" required />
+
+    <label for="bathroomsShortlet">Number of Bathrooms:</label>
+    <input type="number" id="bathroomsShortlet" name="bathrooms" min="0" required />
+
+    <div id="imagePreview5" class="image-preview-container"></div>
+
+    <label for="images5">Upload Images:</label>
+    <input type="file" id="images5" name="images5" multiple accept="image/*" />
+
+    <button type="submit">Add Property for Shortlet</button>
+  </form>
+</div>

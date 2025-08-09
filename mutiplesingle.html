@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DreamHomes</title>
+  <link rel="stylesheet" href="styles/style.css" />
+   <link rel="stylesheet" href="styles/nav.css" />
+  <link rel="stylesheet" href="styles/slider.css" />
+  <link rel="stylesheet" href="styles/about.css" />
+  <link rel="stylesheet" href="styles/button.css" />
+  <link rel="stylesheet" href="styles/whatsapp.css" />
+  <link rel="stylesheet" href="styles/popularcard.css" />
+  <link rel="stylesheet" href="styles/blog.css" />
+    <link rel="stylesheet" href="styles/team.css" />
+     <link rel="stylesheet" href="styles/footer.css" />
+      <link rel="stylesheet" href="styles/multiplesingle.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17/build/css/intlTelInput.css">
+
+  
+
+
+<!--   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
+
+  <!-- CSS -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17/build/css/intlTelInput.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17/build/js/intlTelInput.min.js"></script>
+ <script src="Js/Team.js" defer></script>
+
+  <script src="Js/script.js"></script>
+  <script src="Js/slider.js"></script>
+  <script src="Js/button.js"></script>
+    <script src="Js/popularcard.js"></script>
+  
+</head>
+<body>
+<div class="scroll-buttons">
+ <!--  <button class="scroll-down" onclick="scrollDown()">↓</button> -->
+  <button class="scroll-up" onclick="scrollUp()">↑</button>
+</div>
+
+<!-- WhatsApp Button (if you're adding that too) -->
+<a href="https://wa.me/1234567890" class="whatsapp-float" target="_blank" rel="noopener">
+  <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp Chat">
+</a>
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-container">
+
+    <!-- Left: Hamburger (mobile only) -->
+    <div class="mobile-left mobile-only">
+      <i class="fas fa-bars" id="hamburgerMenu"></i>
+    </div>
+
+    <!-- Center: Logo -->
+    <div class="top-left">
+      <img src="images/logo.png" alt="Logo" class="logo" />
+    </div>
+
+    <!-- Middle: Socials (desktop only) -->
+    <div class="top-center desktop-only">
+      <a href="#" class="social"><i class="fab fa-tiktok"></i></a>
+      <a href="#" class="social"><i class="fab fa-youtube"></i></a>
+      <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="social"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <!-- Right: Buttons (desktop) + 3-dot (mobile) -->
+    <div class="top-right">
+      <button class="btn quote-btn desktop-only" id="openQuoteModal">Request Quote</button>
+      <button class="btn sell-btn desktop-only">Sell Property</button>
+
+      <!-- 3-dot menu icon for mobile -->
+      <div class="mobile-right mobile-only">
+        <i class="fas fa-ellipsis-v" id="mobileMenuToggle"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Popup Menu (triggered by 3-dot icon) -->
+  <div class="mobile-popup-menu mobile-only" id="mobilePopup">
+    <button class="btn quote-btn" >Request Quote</button>
+    <button class="btn sell-btn">Sell Property</button>
+    <div class="social-row">
+      <a href="#"><i class="fab fa-tiktok"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+</div>
+
+
+<nav class="main-nav">
+  <div class="nav-container">
+    <!-- Desktop Menu -->
+    <ul class="nav-list desktop-only">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-dropdown">
+        <a href="#">Real Estate <i class="fas fa-chevron-down"></i></a>
+        <ul class="dropdown">
+          <li><a href="#">Land for sale (residential)</a></li>
+          <li><a href="#">Land for sale (commercial)</a></li>
+          <li><a href="#">Properties for sale (residential)</a></li>
+          <li><a href="#">Properties for rent (commercial)</a></li>
+          <li><a href="#">Apartment for shortlet</a></li>
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="#">Building Materials <i class="fas fa-chevron-down"></i></a>
+        <ul class="dropdown">
+          <li><a href="#">Cement</a></li>
+          <li><a href="#">Bricks</a></li>
+          <li><a href="#">Sand</a></li>
+          <li><a href="#">Steel Bars</a></li>
+          <li><a href="#">Paint</a></li>
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="#">Decor <i class="fas fa-chevron-down"></i></a>
+        <ul class="dropdown">
+          <li><a href="#">Interior Decor</a></li>
+          <li><a href="#">Exterior Decor</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+
+    <!-- Mobile Nav Menu (Hamburger) -->
+    <div class="mobile-nav mobile-only" id="mobileNavMenu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li class="mobile-has-dropdown">
+          <a href="#">Real Estate <i class="fas fa-chevron-down arrow"></i></a>
+          <ul class="mobile-dropdown">
+            <li><a href="#">Land for sale (residential)</a></li>
+            <li><a href="#">Land for sale (commercial)</a></li>
+            <li><a href="#">Properties for sale (residential)</a></li>
+            <li><a href="#">Properties for rent (commercial)</a></li>
+            <li><a href="#">Apartment for shortlet</a></li>
+          </ul>
+        </li>
+        <li class="mobile-has-dropdown">
+          <a href="#">Building Materials <i class="fas fa-chevron-down arrow"></i></a>
+          <ul class="mobile-dropdown">
+            <li><a href="#">Cement</a></li>
+            <li><a href="#">Bricks</a></li>
+            <li><a href="#">Sand</a></li>
+            <li><a href="#">Steel Bars</a></li>
+            <li><a href="#">Paint</a></li>
+          </ul>
+        </li>
+        <li class="mobile-has-dropdown">
+          <a href="#">Decor <i class="fas fa-chevron-down arrow"></i></a>
+          <ul class="mobile-dropdown">
+            <li><a href="#">Interior Decor</a></li>
+            <li><a href="#">Exterior Decor</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE 3-DOTS POPUP MENU -->
+<div id="mobilePopup" class="mobile-popup-menu mobile-only">
+  <button class="btn">Login</button>
+  <button class="btn">Register</button>
+
+  <div class="social-row">
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal Overlay -->
+<div class="modal-overlay" id="modalOverlay"></div>
+
+<!-- Modal -->
+<div class="modal" id="quoteModal">
+  <span class="close-btn" id="closeModal">&times;</span>
+
+  <h2>Contact Us</h2>
+  <p class="subtitle">Do you have a property to sell or need a quote? Let’s talk.</p>
+
+  <div class="contact-options">
+    <div class="contact-method">
+      <i class="fas fa-phone-alt"></i>
+      <p>+234 800 123 4567</p>
+    </div>
+    <div class="contact-method">
+      <i class="fab fa-whatsapp"></i>
+      <p><a href="https://wa.me/2348001234567" target="_blank">Chat on WhatsApp</a></p>
+    </div>
+  </div>
+
+  <button id="toggleForm">Request via Form</button>
+
+  <form id="quoteForm" class="hidden" onsubmit="return validateForm(event)">
+    <input type="text" id="name" placeholder="Full Name" required />
+    <input type="email" id="email" placeholder="Email Address" required />
+
+    <div class="phone-group">
+     
+      <input id="phone" type="tel" placeholder="Enter phone number" required />
+    </div>
+
+    <textarea id="message" placeholder="Describe your property or quote needs..." required></textarea>
+    <button type="submit">Submit Request</button>
+  </form>
+</div>
+
+
+<!-- multiple blog -->
+
+
+ <div class="header">
+    <h1>Latest News From Us</h1>
+  </div>
+
+  <div class="filters">
+    <input type="text" placeholder="Search blog posts..." />
+    <input type="date" placeholder="Filter by date" />
+    <button>Search</button>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <svg class="like-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <img src="img/house.jpeg" alt="Blog 1" />
+      <div class="card-content">
+        <h3>Blog Post Title 1</h3>
+        <div class="date">May 20, 2025</div>
+        <p>This is the first paragraph of the blog post... <a href="singleblog.html" class="read-more">Read More</a></p>
+      </div>
+    </div>
+
+     <div class="card">
+      <svg class="like-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <img src="img/house.jpeg" alt="Blog 1" />
+      <div class="card-content">
+        <h3>Blog Post Title 1</h3>
+        <div class="date">May 20, 2025</div>
+        <p>This is the first paragraph of the blog post... <a href="singleblog.html" class="read-more">Read More</a></p>
+      </div>
+    </div>
+ <div class="card">
+      <svg class="like-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <img src="img/house.jpeg" alt="Blog 1" />
+      <div class="card-content">
+        <h3>Blog Post Title 1</h3>
+        <div class="date">May 20, 2025</div>
+        <p>This is the first paragraph of the blog post... <a href="singleblog.html" class="read-more">Read More</a></p>
+      </div>
+    </div>
+
+    
+    <!-- Additional cards... -->
+  </div>
+
+  <div class="pagination">
+    <button>&laquo; Prev</button>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>Next &raquo;</button>
+  </div>
+
+<!-- end -->
+
+    
+  
+<!-- start footer -->
+ <footer class="footer">
+    <div class="footer-container">
+      <!-- Logo and Info -->
+      <div class="footer-logo">
+        <img src="logo.png" alt="Real Estate Logo" />
+        <p>Your Trusted Real Estate Partner for Buying, Selling, and Building Dreams.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="footer-column">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Real Estate Category -->
+      <div class="footer-column">
+        <h4>Real Estate</h4>
+        <ul>
+          <li><a href="#">Land for sale</a></li>
+          <li><a href="#">Land for rent</a></li>
+          <li><a href="#">Properties for sale</a></li>
+          <li><a href="#">Properties for rent</a></li>
+          <li><a href="#">Apartment for shortlet</a></li>
+        </ul>
+      </div>
+
+      <!-- Building Materials -->
+      <div class="footer-column">
+        <h4>Building Materials</h4>
+        <ul>
+          <li><a href="#">Cement</a></li>
+          <li><a href="#">Bricks</a></li>
+          <li><a href="#">Sand</a></li>
+          <li><a href="#">Steel Bars</a></li>
+          <li><a href="#">Paint</a></li>
+        </ul>
+      </div>
+
+      <!-- Decor -->
+      <div class="footer-column">
+        <h4>Decor</h4>
+        <ul>
+          <li><a href="#">Interior Decor</a></li>
+          <li><a href="#">Exterior Decor</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Copyright -->
+    <div class="footer-bottom">
+      &copy; 2025 Alphaentitytech solutions. All rights reserved.
+    </div>
+  </footer>
+
+<!-- end footer -->
+
+
+</body>
+
+</body>
+</html>

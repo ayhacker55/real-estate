@@ -1,0 +1,123 @@
+
+
+.team-section-header {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+
+.team-section-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #222;
+  position: relative;
+  display: inline-block;
+}
+
+.team-section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: #0077cc;
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+.team-section-subtitle {
+  color: #555;
+  font-size: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.team-slider-container {
+  max-width: 1200px;
+  margin: 40px auto 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.team-slider-track {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.team-slide {
+  flex: 0 0 33.3333%;
+  box-sizing: border-box;
+  padding: 20px;
+  text-align: center;
+}
+
+.team-slide img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  margin-bottom: 15px;
+}
+
+.team-member-name {
+  margin: 10px 0 5px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.team-member-role {
+  margin: 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.team-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  gap: 10px;
+}
+
+.team-dot {
+  width: 12px;
+  height: 12px;
+  background: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.team-dot.active {
+  background: #0077cc;
+}
+
+@media (max-width: 900px) {
+  .team-slide {
+    flex: 0 0 48%;
+  }
+}
+
+@media (max-width: 600px) {
+  .team-section-title {
+    font-size: 1.5rem;
+  }
+
+  .team-section-subtitle {
+    font-size: 0.9rem;
+    padding: 0 10px;
+  }
+
+  .team-slide {
+    flex: 0 0 100%;
+  }
+
+  .team-member-name {
+    font-size: 1rem;
+  }
+
+  .team-member-role {
+    font-size: 0.85rem;
+  }
+}

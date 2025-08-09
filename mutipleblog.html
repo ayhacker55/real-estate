@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Blog Posts</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 0;
+      color: #1f2937;
+    }
+
+    .header {
+      padding: 20px;
+      background: #1f2937;
+      color: white;
+      text-align: center;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+      background: #fff;
+      align-items: center;
+    }
+
+    .filters input[type="text"],
+    .filters input[type="date"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1em;
+      width: 200px;
+    }
+
+    .filters button {
+      padding: 10px 16px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    .filters button:hover {
+      background: #2563eb;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      max-width: 100%;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img, .card video {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-content h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+
+    .card-content .date {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .card-content p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .read-more {
+      color: #3b82f6;
+      text-decoration: underline;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+
+    .like-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      fill: #e5e7eb;
+      transition: transform 0.2s, fill 0.3s ease-in-out;
+    }
+
+    .like-icon.liked {
+      fill: #ef4444;
+      animation: bounce 0.4s;
+    }
+
+    @keyframes bounce {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    .pagination button {
+      background: none;
+      border: 1px solid #3b82f6;
+      padding: 8px 14px;
+      border-radius: 6px;
+      color: #3b82f6;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .pagination button:hover {
+      background: #3b82f6;
+      color: white;
+    }
+
+    @media (max-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+        padding: 10px;
+      }
+
+      .filters {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .filters input[type="text"],
+      .filters input[type="date"] {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .pagination {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .filters input[type="text"],
+      .filters input[type="date"] {
+        font-size: 0.9em;
+        padding: 8px;
+      }
+
+      .filters button {
+        padding: 8px 12px;
+        font-size: 0.9em;
+      }
+
+      .card-content h3 {
+        font-size: 1rem;
+      }
+
+      .card-content p {
+        font-size: 0.9rem;
+      }
+
+      .pagination button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Latest News From Us</h1>
+  </div>
+
+  <div class="filters">
+    <input type="text" placeholder="Search blog posts..." />
+    <input type="date" placeholder="Filter by date" />
+    <button>Search</button>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <svg class="like-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <img src="img/house.jpeg" alt="Blog 1" />
+      <div class="card-content">
+        <h3>Blog Post Title 1</h3>
+        <div class="date">May 20, 2025</div>
+        <p>This is the first paragraph of the blog post... <a href="singleblog.html" class="read-more">Read More</a></p>
+      </div>
+    </div>
+
+     <div class="card">
+      <svg class="like-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <img src="img/house.jpeg" alt="Blog 1" />
+      <div class="card-content">
+        <h3>Blog Post Title 1</h3>
+        <div class="date">May 20, 2025</div>
+        <p>This is the first paragraph of the blog post... <a href="singleblog.html" class="read-more">Read More</a></p>
+      </div>
+    </div>
+ <div class="card">
+      <svg class="like-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <img src="img/house.jpeg" alt="Blog 1" />
+      <div class="card-content">
+        <h3>Blog Post Title 1</h3>
+        <div class="date">May 20, 2025</div>
+        <p>This is the first paragraph of the blog post... <a href="singleblog.html" class="read-more">Read More</a></p>
+      </div>
+    </div>
+
+    
+    <!-- Additional cards... -->
+  </div>
+
+  <div class="pagination">
+    <button>&laquo; Prev</button>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>Next &raquo;</button>
+  </div>
+
+  <script>
+    document.querySelectorAll('.like-icon').forEach(icon => {
+      icon.addEventListener('click', () => {
+        icon.classList.toggle('liked');
+      });
+    });
+  </script>
+</body>
+</html>

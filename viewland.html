@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+<title>Modern Image Slider with Side Controls</title>
+<style>
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    color: #333;
+  }
+
+ /*  .gallery {
+    max-width: 900px;
+    width: 100%;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    height: auto;
+  }
+ */
+
+ .gallery {
+  max-width: 1000px;
+  width: 100%;
+  
+  border-radius: 16px;
+ 
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: auto; /* Remove fixed height for mobile */
+}
+
+  .main-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    /* Removed fixed height for natural aspect ratio sizing */
+    /* height: 550px; */
+  }
+
+  .main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.3s ease;
+  }
+
+  .main-image:hover img {
+    filter: brightness(0.95);
+  }
+
+  /* Buttons on sides of main image */
+  .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #058b0c;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 2rem;
+    width: 48px;
+    height: 80px;
+    cursor: pointer;
+    border-radius: 0 40px 40px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: #058b0c;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+    z-index: 10;
+  }
+  .nav-btn:hover {
+    background: rgba(0, 120, 212, 0.9);
+    box-shadow: 0 6px 16px rgba(0, 120, 212, 0.7);
+  }
+  .nav-btn:active {
+    background: #058b0c;
+  }
+
+  /* Previous button on left side */
+  #prevBtn {
+    left: 0;
+    border-radius: 0 40px 40px 0;
+  }
+
+  /* Next button on right side */
+  #nextBtn {
+    right: 0;
+    border-radius: 40px 0 0 40px;
+  }
+
+  /* Counter in bottom right inside main image */
+  .counter {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    background: rgba(255 255 255 / 0.85);
+    color: #0078d4;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 6px 14px;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    user-select: none;
+    z-index: 10;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+
+  /*  */
+.thumbnails {
+  display: flex;
+  overflow-x: auto;
+  gap: 14px;
+  padding: 1rem 1.5rem;
+  background: #fafafa;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+}
+
+.thumbnails::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.thumbnails img {
+  flex: 0 0 auto;
+  width: 100px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 3px solid transparent;
+}
+
+.thumbnails img:hover {
+  opacity: 1;
+  transform: scale(1.07);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.thumbnails img.active {
+  opacity: 1;
+  border-color:#058b0c;
+  box-shadow: 0 6px 20px rgba(0, 120, 212, 0.3);
+  transform: scale(1.1);
+}
+
+
+  /*  */
+
+ /*  .thumbnails {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 14px;
+    padding: 1rem 1.5rem;
+    background: #fafafa;
+  }
+
+  .thumbnails img {
+    width: 100%;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 12px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 3px solid transparent;
+  }
+
+  .thumbnails img:hover {
+    opacity: 1;
+    transform: scale(1.07);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+
+  .thumbnails img.active {
+    opacity: 1;
+    border-color: #0078d4;
+    box-shadow: 0 6px 20px rgba(0, 120, 212, 0.3);
+    transform: scale(1.1);
+  } */
+
+  @media (max-width: 500px) {
+    .thumbnails {
+      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+      gap: 10px;
+      padding: 1rem;
+    }
+    .thumbnails img {
+      height: 50px;
+      border-radius: 10px;
+    }
+
+    .nav-btn {
+      width: 36px;
+      height: 56px;
+      font-size: 1.5rem;
+    }
+    .gallery {
+      max-height: none; /* Remove max-height so tabs appear properly */
+      width: 10000px;
+      background:none;
+    }
+  }
+
+  /* Tabs */
+
+  /* Tabs container */
+
+ /*  .tab {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.3s ease, color 0.3s ease;
+    user-select: none;
+  } */
+
+.tabs {
+  display: flex;
+  border-bottom: 2px solid #058b0c;
+  margin-top: 32px;
+  user-select: none;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 14px 0;
+  font-weight: 700;
+  font-size: 17px;
+  color: #555;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.tab.active {
+  color: #058b0c;
+  border-bottom: 3px solid #058b0c;
+}
+
+
+/* Tab Content */
+.tab-content {
+  display: none;
+  padding: 24px 0 0 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+
+
+
+
+
+
+
+/* content for description */
+
+.property-header {
+  border-bottom: 1px solid #058b0c;
+  padding-bottom: 0.5rem;
+}
+.property-title {
+  font-size: 1rem;
+   font-size: 1.6rem;
+  font-weight: 400;
+  white-space: nowrap;
+  
+}
+.property-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: #777;
+}
+
+.property-details {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+
+
+.property-price {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #5c6ac4;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.property-description {
+  font-size: 0.95rem;
+  color: #444;
+  padding: 1rem 0;
+}
+
+.property-location {
+  font-size: 0.9rem;
+  color: #777;
+  margin-top: 0.3rem;
+  color: red;
+  
+}
+
+.divider {
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  margin: 1rem 0;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+ 
+}
+.social-icons img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+.social-icons img:hover {
+  opacity: 1;
+
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+}
+
+.social-links a {
+  font-size: 1.25rem;
+  color:#058b0c;;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #333;
+}
+
+
+.offer-btn {
+  margin: 1rem auto 0;
+  display: block;
+  padding: 12px 20px;
+  background:#058b0c;;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.offer-btn:hover {
+  background: #4b57a2;
+}
+
+.offer-popup {
+  display: none;
+  margin-top: 1rem;
+  text-align: center;
+}
+.offer-popup input {
+  padding: 0.6rem;
+  width: 80%;
+  max-width: 300px;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+.offer-popup button {
+  padding: 10px 18px;
+  border: none;
+  background:#058b0c;
+  color: #fff;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 1rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #444;
+}
+
+.contact-item i {
+  font-size: 1.2rem;
+  color: #058b0c;
+  min-width: 20px;
+}
+
+.contact-divider {
+  border: none;
+  border-bottom: 1px solid #058b0c;
+  margin: 1.5rem 0;
+}
+
+
+  .offer-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .offer-modal-content {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    position: relative;
+  }
+
+  .offer-modal-content h3 {
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .offer-modal-content input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  .submit-offer {
+    background-color:#058b0c;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 1.4rem;
+    color:red;
+    cursor: pointer;
+  }
+
+  .offer-button {
+    background-color: #058b0c;
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 500px) {
+  .offer-modal-content {
+    width: 92%;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .offer-modal-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .offer-modal-content input {
+    font-size: 0.95rem;
+    padding: 0.65rem;
+  }
+
+  .submit-offer {
+    padding: 0.65rem 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  .close {
+    top: 8px;
+    right: 12px;
+    font-size: 1.2rem;
+  }
+
+  .offer-button {
+    font-size: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+
+
+  /* end of contact */
+
+
+@media (max-width: 600px) {
+  .contact-item {
+    font-size: 0.95rem;
+  }
+
+  .contact-info {
+    gap: 0.75rem;
+  }
+}
+
+
+
+/* start of review  */
+.review-container {
+  max-width: 600px;
+  margin: 0 auto;           /* centers container horizontally */
+  padding: 1rem;
+  text-align: center;       /* centers text inside container */
+}
+
+.review-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.review-header h3 {
+  margin: 0;
+}
+
+.review-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.stars, .review-stars {
+  font-size: 1.3rem;
+  color: #f4c150; /* gold color */
+}
+
+.sample-reviews {
+  margin-top: 1rem;
+  text-align: left;  /* reviews text aligned left for readability */
+}
+
+.reviewer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+.review-text {
+  margin-bottom: 0.2rem;
+}
+
+.review-form {
+  max-width: 400px;
+  margin: 1rem auto 0 auto;  /* centers the form */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;  /* inputs aligned left */
+}
+
+.review-form input,
+.review-form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  resize: vertical;
+  margin: 10px;
+}
+
+/* Star rating input styles */
+.star-rating {
+  direction: rtl;
+  font-size: 1.5rem;
+  unicode-bidi: bidi-override;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  user-select: none;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #f4c150;
+}
+.send-review {
+  background-color: #058b0c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 160px;
+  margin: 10px auto 0; /* top margin 10px, center horizontally */
+  display: block; /* important for margin auto to work on inline elements */
+}
+
+
+
+
+.submit-review-btn {
+  background-color: #058b0c;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+
+.buy-now-btn {
+  background-color: #f50b0b;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.buy-now-btn:hover {
+  background-color: #046f0a;
+}
+
+
+@media (max-width: 480px) {
+  .review-container {
+    max-width: 100%;
+    padding: 0.5rem 1rem;
+  }
+
+  .review-header {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .review-rating {
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+  }
+
+  .stars, .review-stars {
+    font-size: 1.1rem;
+  }
+
+  .sample-reviews {
+    font-size: 0.95rem;
+  }
+
+  .review-form {
+    max-width: 100%;
+    margin: 1rem 0 0 0;
+    padding: 0 0.5rem;
+  }
+
+  .review-form input,
+  .review-form textarea {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+  }
+
+  .star-rating {
+    font-size: 1.2rem;
+    gap: 3px;
+  }
+
+  .send-review,
+  .submit-review-btn {
+    width: 50%;
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
+}
+
+/* end of review */
+
+/* similar ads */
+
+.similar-ads {
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.similar-ads h2 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  text-align: left;
+}
+
+.slider-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.horizontal-scroll-container {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar {
+  height: 6px;
+}
+.horizontal-scroll-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.land-card-vertical {
+  min-width: 140px;
+  max-width: 160px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-height: 270px;
+}
+
+.land-image-vertical {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.land-details-vertical {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+
+.land-type-tag {
+  position: absolute;
+  background-color: #058b0c;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 0 0 8px 0;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.land-price {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #058b0c;
+}
+
+.land-title-vertical {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.land-description {
+  font-size: 0.75rem;
+  color: #555;
+  margin: 0;
+}
+
+.land-location-vertical {
+  font-size: 0.7rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icon-location {
+  width: 12px;
+  height: 12px;
+  fill: #888;
+}
+
+.land-info-vertical {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 0.3rem;
+}
+
+.badge-vertical {
+  background-color: #eee;
+  color: #444;
+  font-size: 0.65rem;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+
+/* Arrows */
+.slider-btn {
+  position: absolute;
+  top: 35%;
+  transform: translateY(-50%);
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  z-index: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.slider-btn.left {
+  left: -10px;
+}
+
+.slider-btn.right {
+  right: -10px;
+}
+
+@media (max-width: 768px) {
+  .land-card-vertical {
+    min-width: 160px; /* slightly smaller for mobile */
+    max-width: 160px; /* keep cards compact */
+    max-height: 240px; /* reduce height a bit for smaller screens */
+  }
+
+  .slider-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+    top: 40%; /* adjust vertical positioning for better placement */
+  }
+
+  .similar-ads h2 {
+    font-size: 1.2rem; /* smaller heading for mobile */
+    margin-left: 0.5rem; /* align a bit left */
+  }
+
+  .horizontal-scroll-container {
+    gap: 8px; /* reduce gap for smaller screen */
+    padding-bottom: 1rem; /* add more padding for better scroll */
+  }
+}
+
+
+@media (max-width: 480px) {
+  .slider-btn {
+    display: none;
+  }
+}
+
+
+/* similar ads */
+
+
+
+/* Reuse or add .offer-button & modal styles from the description tab */
+
+@media (max-width: 600px) {
+
+  /* for mobile description property */
+  .property-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .property-price{
+    font-size: 1rem;
+  }
+
+  .property-title {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .property-location{
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color:red;
+  }
+
+  .property-description{
+    
+    line-height: 1.8;
+  }
+  
+
+  .property-details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .social-links {
+    justify-content: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-left: 0.25rem;
+    color: #04189c;
+  }
+
+  .offer-button {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+
+  .offer-modal input {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+ /* end of mobile description */
+
+/* content for description */
+
+@media (max-width: 600px) {
+  
+#tab-description, #tab-contact , #tab-reviews{
+  font-size: 0.8rem;
+}
+  .tab.active {
+    border-bottom: 4px solid #5c6ac4;
+ 
+    color: #5c6ac4;
+  }
+
+  .tab:focus {
+    outline: 2px solid #5c6ac4;
+    outline-offset: 2px;
+  }
+}
+
+.price-buy-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap; /* prevents stacking */
+  margin-bottom: 12px;
+  flex-direction: row;
+}
+
+.property-price {
+  font-size: 24px;
+  font-weight: bold;
+  color: #058b0c;
+  white-space: nowrap;
+}
+
+
+/* buy button */
+
+.land-price-buy {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: -2px;
+  padding:2px;
+}
+
+
+.buy-button-similar {
+  padding: 6px 12px;
+  background-color: #1f0204;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 0.5rem;
+}
+
+.buy-button-similar:hover {
+  background-color: #237033;
+}
+
+/* Mobile view adjustments */
+@media (max-width: 600px) {
+  .land-price-buy {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .buy-button-similar {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
+
+/* buy account end */
+@media (max-width: 320px) {
+  .price-buy-container {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .buy-now-btn {
+    margin-top: 6px;
+  }
+}
+
+
+/* Modal base styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal content box */
+.modal-content {
+  background-color: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+/* Close button (X) */
+.close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #333;
+}
+
+/* Form inputs */
+.modal-content form input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Button */
+.modal-content form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #058b0c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal-content form button:hover {
+  background-color: #046a09;
+}
+
+
+/* end of backward arrow */
+
+.back-arrow {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 3, 3, 0.6);
+  color: #fff;
+  font-size: 20px;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.3s ease;
+}
+
+.back-arrow:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+
+/* end of backward arrow */
+</style>
+</head>
+<body>
+<div class="gallery">
+  <!-- Main image + nav buttons + counter -->
+  <div class="main-image">
+    <!-- Back Button -->
+<button id="backBtn" class="back-arrow" aria-label="Go Back">←</button>
+
+    <img id="mainImage" src="" alt="" />
+    <button id="prevBtn" class="nav-btn" aria-label="Previous Image">‹</button>
+    <button id="nextBtn" class="nav-btn" aria-label="Next Image">›</button>
+    <div class="counter" id="counter">0 / 0</div>
+  </div>
+
+  <!-- Thumbnails -->
+  <div class="thumbnails" id="thumbnails">
+    <img src="img/house.jpeg" alt="Image 1" />
+    <img src="img/client.jpg" alt="Image 2" />
+    <img src="img/house.jpeg" alt="Image 3" />
+    <img src="img/client.jpg" alt="Image 4" />
+  </div>
+
+  <!-- Tabs navigation -->
+  <div class="tabs" role="tablist">
+    <div class="tab active" role="tab" tabindex="0" aria-selected="true" aria-controls="description" id="tab-description">Description</div>
+    <div class="tab" role="tab" tabindex="-1" aria-selected="false" aria-controls="contact" id="tab-contact">Contact</div>
+   <!--  <div class="tab" role="tab" tabindex="-1" aria-selected="false" aria-controls="reviews" id="tab-reviews">Reviews</div> -->
+  </div>
+
+  <!-- Tabs content -->
+<section id="description" class="tab-content active" role="tabpanel" aria-labelledby="tab-description" tabindex="0">
+<div class="property-header">
+
+
+  <div class="price-buy-container">
+  <div class="property-price">₦35,000,000</div>
+  <button 
+  onclick="openModal('loginModal')" class="buy-now-btn">Buy Now</button>
+
+
+  
+</div>
+   <hr class="divider" />
+
+  <div class="title-location">
+    <h2 class="property-title">Luxury Mixed-Use Land</h2>
+     <hr class="divider" />
+
+    <div class="property-location">
+      📍 Lekki Phase 1, Lagos
+    </div>
+  </div>
+</div>
+
+
+  <div class="property-details">
+    <div><strong>Type:</strong> Mixed-Use Land</div>
+    <div><strong>Size:</strong> 450sqm</div>
+    <div><strong>Use:</strong> Residential</div>
+  </div>
+
+ 
+
+  <p class="property-description">
+    This premium parcel of land is situated in the heart of Lekki Phase 1, offering a unique opportunity for residential or commercial development. The neighborhood is secure, serene, and fully serviced with road infrastructure, drainage, and street lighting.
+  </p>
+
+  <hr class="divider" />
+
+ <div class="social-links">
+  <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+  <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+  <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+  <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+  <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+  <a href="mailto:contact@example.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+</div>
+
+
+ <div id="offerForm" class="offer-popup">
+    <input type="number" placeholder="Enter your offer amount" />
+    <button onclick="submitOffer()">Send Offer</button>
+  </div>
+
+
+  <button class="offer-btn" onclick="toggleOfferForm()">Make an Offer</button>
+
+  <div id="offerForm" class="offer-popup">
+    <input type="number" placeholder="Enter your offer amount" />
+    <button onclick="submitOffer()">Send Offer</button>
+  </div>
+</section>
+
+
+
+
+
+
+
+<!-- contact -->
+
+ <section class="tab" role="tab" tabindex="-1" aria-selected="false" aria-controls="reviews" id="tab-reviews" tabindex="0"></section>
+
+<section id="contact" class="tab-content" role="tabpanel" aria-labelledby="tab-contact" tabindex="0">
+  <div class="contact-info">
+    <div class="contact-item">
+      <i class="fas fa-phone-alt"></i>
+      <span>+1 (555) ***-4567</span>
+    </div>
+    <div class="contact-item">
+      <i class="fab fa-whatsapp"></i>
+      <span><a href="https://wa.me/15551234567" target="_blank">Chat on WhatsApp</a></span>
+    </div>
+    <div class="contact-item">
+      <i class="fas fa-envelope"></i>
+      <span><a href="mailto:contact@propertyexample.com">Email Us</a></span>
+    </div>
+  </div>
+
+  <hr class="contact-divider" />
+
+  <button class="offer-button" onclick="openOfferModal()">Make an Offer</button>
+
+  <!-- Offer Modal -->
+  <div class="offer-modal" id="offerModal">
+    <div class="offer-modal-content">
+      <span class="close" onclick="closeOfferModal()">&times;</span>
+      <h3>Enter Your Offer</h3>
+      <input type="number" placeholder="Enter amount..." />
+      <button class="submit-offer">Send Offer</button>
+    </div>
+  </div>
+</section>
+
+<!-- contact -->
+
+
+
+
+
+<section id="contact" class="tab-content" role="tabpanel" aria-labelledby="tab-contact" tabindex="0">
+  <!-- Only Contact content here -->
+  <p>Contact us at: <a href="mailto:contact@propertyexample.com">contact@propertyexample.com</a> or call +1 (555) 123-4567</p>
+</section>
+
+
+<!-- review form -->
+<section id="reviews" class="tab-content" role="tabpanel" aria-labelledby="tab-reviews" tabindex="0">
+  <div class="review-container">
+    <!-- Existing review content -->
+    <div class="review-header">
+      <h3>Customer Reviews</h3>
+      <div class="review-rating">
+        <span class="stars">★★★★☆</span>
+        <span class="rating-score">4.8 of 5</span>
+        <span class="review-meta">| 87 reviews</span>
+      </div>
+    </div>
+    
+  <hr class="divider" />
+
+    <div class="sample-reviews">
+      <div class="review">
+        <p class="review-text">"Amazing service and location. Totally worth the value!"</p>
+        <div class="reviewer">
+          <span class="review-stars">★★★★★</span>
+          <span class="review-name">— Sarah K.</span>
+        </div>
+      </div>
+
+        <hr class="divider" />
+
+      <div class="review">
+        <p class="review-text">"Clean environment and smooth transaction. Will recommend."</p>
+        <div class="reviewer">
+          <span class="review-stars">★★★★☆</span>
+          <span class="review-name">— James A.</span>
+        </div>
+      </div>
+        <hr class="divider" />
+
+    </div>
+
+    <!-- Submit Review Button -->
+
+    <!-- Review Form (hidden initially) -->
+    <div class="review-form" id="reviewForm" style="display:none;">
+      <input type="text" placeholder="Your Name" />
+      <input type="tel" placeholder="Phone Number" />
+      <textarea placeholder="Write your review..."></textarea>
+
+      <!-- Star rating input -->
+      <div class="star-rating">
+        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars">★</label>
+        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">★</label>
+        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars">★</label>
+        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars">★</label>
+        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
+      </div>
+
+      <button class="send-review">Submit Review</button>
+    </div>
+
+
+    <button class="submit-review-btn" onclick="toggleReviewForm()">⭐ Submit Review</button>
+  </div>
+</section>
+
+<!-- end of review form -->
+
+
+
+
+
+<!--  similar ads -->
+<section class="similar-ads">
+  <h2>Similar Ads</h2>
+  <div class="slider-wrapper">
+    <button class="slider-btn left" onclick="scrollLeft()">&#10094;</button>
+
+    <div class="horizontal-scroll-container" id="similarAdsScroll">
+      <!-- Repeat these cards as needed -->
+  <div class="land-card-vertical">
+  <div class="land-type-tag">Residential</div>
+  <img class="land-image-vertical" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Land image">
+  <div class="land-details-vertical">
+    <div class="land-price-buy">
+      <div class="land-price">₦3,200,000</div>
+      <button  onclick="openModal('loginModal')" class="buy-button-similar">Buy</button>
+    </div>
+    <h3 class="land-title-vertical">600sqm Land in Lugbe</h3>
+    <p class="land-description">This is a land for farming.</p>
+    <p class="land-location-vertical">
+      <svg class="icon-location" viewBox="0 0 24 24">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+        <circle cx="12" cy="9" r="2.5"/>
+      </svg>
+      Lugbe, Abuja
+    </p>
+    <div class="land-info-vertical">
+      <span class="badge-vertical">600 sqm</span>
+      <span class="badge-vertical">C of O</span>
+    </div>
+  </div>
+</div>
+
+
+   
+ 
+  
+    </div>
+    
+
+    <button class="slider-btn right" onclick="scrollRight()">&#10095;</button>
+  </div>
+</section>
+<!-- 🔐 Login Modal -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('loginModal')">&times;</span>
+    <h2>Login</h2>
+    <form action="process_login.php" method="POST">
+      <input type="email" name="email" placeholder="Email" required />
+
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Register</a></p>
+  </div>
+</div>
+
+<!-- 🧾 Register Modal -->
+<div class="modal" id="registerModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('registerModal')">&times;</span>
+    <h2>Register</h2>
+    <form action="process_register.php" method="POST">
+      <input type="text" name="name" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+        <input type="number" name="number" placeholder="Phone No" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required />
+      <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Login</a></p>
+  </div>
+</div>
+
+
+
+<!-- end of similar ads -->
+<script>
+
+
+function openModal(id) {
+  document.getElementById(id).style.display = 'flex';
+}
+
+function closeModal(id) {
+  document.getElementById(id).style.display = 'none';
+}
+
+function switchModal(current, target) {
+  closeModal(current);
+  openModal(target);
+}
+
+// Optional: Close modal when clicking outside content
+window.onclick = function(event) {
+  document.querySelectorAll('.modal').forEach(modal => {
+    if (event.target === modal) modal.style.display = "none";
+  });
+};
+
+  const mainImage = document.getElementById("mainImage");
+  const thumbnails = document.querySelectorAll("#thumbnails img");
+  const counter = document.getElementById("counter");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  let currentIndex = 0;
+  let autoPlayInterval = null;
+  const autoPlayDelay = 3000; // 3 seconds
+
+  function updateGallery(index) {
+    currentIndex = index;
+
+    // Update main image src and alt from thumbnails
+    const thumb = thumbnails[index];
+    mainImage.src = thumb.src;
+    mainImage.alt = thumb.alt;
+
+    // Update counter text
+    counter.textContent = `${index + 1} / ${thumbnails.length}`;
+
+    // Update active thumbnail highlight
+    thumbnails.forEach((img, i) => {
+      img.classList.toggle("active", i === index);
+    });
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % thumbnails.length;
+    updateGallery(currentIndex);
+  }
+
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
+    updateGallery(currentIndex);
+  }
+
+  prevBtn.addEventListener("click", () => {
+    prevImage();
+    resetAutoPlay();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    nextImage();
+    resetAutoPlay();
+  });
+
+  thumbnails.forEach((thumb, i) => {
+    thumb.addEventListener("click", () => {
+      updateGallery(i);
+      resetAutoPlay();
+    });
+  });
+
+  function startAutoPlay() {
+    autoPlayInterval = setInterval(nextImage, autoPlayDelay);
+  }
+
+  function resetAutoPlay() {
+    clearInterval(autoPlayInterval);
+    startAutoPlay();
+  }
+
+  // Tabs functionality
+  const tabs = document.querySelectorAll(".tab");
+  const tabContents = document.querySelectorAll(".tab-content");
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const target = tab.getAttribute("aria-controls");
+
+      // Update tabs active states
+      tabs.forEach(t => {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+        t.tabIndex = -1;
+      });
+      tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
+      tab.tabIndex = 0;
+      tab.focus();
+
+      // Show the correct tab content
+      tabContents.forEach(content => {
+        content.classList.toggle("active", content.id === target);
+      });
+    });
+  });
+
+
+    function toggleOfferForm() {
+    const form = document.getElementById("offerForm");
+    form.style.display = form.style.display === "block" ? "none" : "block";
+  }
+
+  function submitOffer() {
+    const input = document.querySelector("#offerForm input");
+    const offer = input.value;
+    if (!offer || offer <= 0) {
+      alert("Please enter a valid offer amount.");
+      return;
+    }
+    alert(`Your offer of ₦${offer} has been sent!`);
+    input.value = "";
+    toggleOfferForm();
+  }
+
+
+
+  /* for contact */
+
+  function openOfferModal() {
+    document.getElementById("offerModal").style.display = "flex";
+  }
+
+  function closeOfferModal() {
+    document.getElementById("offerModal").style.display = "none";
+  }
+
+  function submitOffer() {
+    const input = document.querySelector("#offerModal input");
+    const offer = input.value.trim();
+
+    if (!offer || isNaN(offer)) {
+      alert("Please enter a valid amount.");
+      return;
+    }
+
+    // You can handle the offer here (e.g., send to server)
+    alert(`Offer of $${offer} submitted!`);
+    input.value = "";
+    closeOfferModal();
+  }
+
+  // Optional: close modal when clicking outside of the modal content
+  window.addEventListener("click", function (e) {
+    const modal = document.getElementById("offerModal");
+    if (e.target === modal) {
+      closeOfferModal();
+    }
+  });
+
+
+
+
+
+  /* review start */
+
+
+function toggleReviewForm() {
+  const reviewForm = document.getElementById('reviewForm');
+  const submitBtn = document.querySelector('.submit-review-btn');
+
+  if (reviewForm.style.display === 'block') {
+    reviewForm.style.display = 'none';
+    submitBtn.textContent = 'Submit Review';
+  } else {
+    reviewForm.style.display = 'block';
+    submitBtn.textContent = 'Cancel';
+    reviewForm.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// Optional: clear form on submit or handle submit action
+document.querySelector('.send-review').addEventListener('click', () => {
+  // Here you can add form validation and send review logic
+  alert('Review submitted! Thank you.');
+  toggleReviewForm(); // Hide form after submission
+});
+
+  /* review start */
+  
+  /* end of contact */
+
+
+  /* similar ads */
+  
+  function scrollLeft() {
+    document.getElementById("similarAdsScroll").scrollBy({ left: -220, behavior: "smooth" });
+  }
+
+  function scrollRight() {
+    document.getElementById("similarAdsScroll").scrollBy({ left: 220, behavior: "smooth" });
+  }
+
+  // Optional: Auto-scroll every 4 seconds
+  setInterval(() => {
+    const container = document.getElementById("similarAdsScroll");
+    if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
+      container.scrollTo({ left: 0, behavior: "smooth" });
+    } else {
+      container.scrollBy({ left: 220, behavior: "smooth" });
+    }
+  }, 4000);
+  /* end of similar ads */
+
+
+
+
+  
+  // Initialize
+  updateGallery(0);
+  startAutoPlay();
+
+
+  /* backward arrow  */
+
+  document.getElementById('backBtn').addEventListener('click', function () {
+    window.history.back();
+  });
+
+
+
+  /* end of backward arrow */
+</script>
+
+</body>
+</html>

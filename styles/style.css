@@ -1,0 +1,665 @@
+/* General Reset */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+
+
+.pro-features {
+	position: fixed;
+	right: -30px;
+	width: 300px;
+	height: auto;
+	line-height: 46px;
+	font-size: 14px;
+	background: #fff;
+	text-align: left;
+	color: #333;
+	top: 50%;
+	transform:translateY(-50%);
+	box-shadow: -4px 0px 5px #00000036;
+	color: #fff;
+	z-index: 9999;
+	padding:20px 30px 30px 30px;
+	-webkit-transition:all 0.4s ease;
+	-moz-transition:all 0.4s ease;
+	transition:all 0.4s ease;
+}
+.pro-features.active{
+	right:0;
+}
+.pro-features li.big-title {
+	font-weight: 600;
+	color: #1A76D1;
+	font-size: 15px;
+}
+.pro-features li.title {
+	font-weight: 600;
+	color: #1A76D1;
+	font-size: 15px;
+	
+}
+
+.status-dot {
+	display: flex;
+	 position: relative; 
+	width: 10px;        /* Adjust the size as needed */
+	height: 10px;       /* Adjust the size as needed */
+	background-color: green;
+	border-radius: 50%; /* Makes it a circle */
+	margin-left: 3px;
+	margin-top: -28px;
+	
+	  /* Adds space between the text and the dot */
+}
+
+
+.pro-features .button .btn {
+	width: 100%;
+	text-align: center;
+	margin-top: 8px;
+	display: inline-block;
+	float: left;
+	font-size: 13px;
+	text-transform: capitalize;
+
+}
+.pro-features li {
+	color: #333;
+	margin: 0;
+	padding: 0;
+	line-height: 22px;
+	margin-bottom: 10px;
+}
+
+
+a.get-pro {
+	color: rgb(25, 25, 218);
+	font-size: 16px;
+	font-weight: bold;
+
+
+  }
+.get-pro {
+	position: absolute;
+	left: -100px;
+	width:100px;
+	height: 45px;
+	line-height: 45px;
+	font-size: 14px;
+	border-radius: 5px 0 0 5px;
+	background: white;
+	text-align: center;
+	color: #fff;
+	top: 0;
+	cursor: pointer;
+	box-shadow: -4px 0px 5px #00000036;
+}
+.get-pro:hover{
+	background-color: #1ad16c;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Top Bar Shared */
+.top-bar {
+  background-color: #058b0c;
+  color: white;
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.top-bar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  height: 40px;
+}
+
+/* Buttons */
+.btn {
+  padding: 8px 14px;
+  background-color: ;
+  color: #4B5E3A;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+  background-color: #eef6e8;
+  transform: scale(1.05);
+}
+
+
+
+.top-right .btn {
+  padding: 8px 14px;
+  background-color: #ac93a8;
+  color:white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.top-right .btn:hover {
+  background-color: #5fc511;
+  transform: scale(1.05);
+}
+
+
+/* Social Icons */
+.social, .social-row a {
+  font-size: 18px;
+  color: white;
+  margin: 0 6px;
+  transition: transform 0.3s;
+}
+
+.social:hover, .social-row a:hover {
+  transform: scale(1.2);
+}
+
+/* NAVIGATION */
+.main-nav {
+  background-color: #4B5E3A;
+  color: white;
+  font-size: 16px;
+  position: sticky;
+  top: 50px; /* below top bar */
+  z-index: 900;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin: 0;
+  padding: 14px 0;
+}
+
+.nav-list li a {
+  color: white;
+  padding: 8px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.nav-list li a:hover {
+  background-color: #6a8051;
+}
+
+/* Mobile Specific */
+.mobile-only {
+  display: none;
+}
+
+.mobile-nav ul li {
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideInLeft 0.4s ease forwards;
+}
+
+/* Delay each list item */
+.mobile-nav ul li:nth-child(1) { animation-delay: 0.1s; }
+.mobile-nav ul li:nth-child(2) { animation-delay: 0.2s; }
+.mobile-nav ul li:nth-child(3) { animation-delay: 0.3s; }
+.mobile-nav ul li:nth-child(4) { animation-delay: 0.4s; }
+.mobile-nav ul li:nth-child(5) { animation-delay: 0.5s; }
+.mobile-nav ul li:nth-child(6) { animation-delay: 0.6s; }
+
+
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 50px; /* Adjust if needed to be below top bar */
+  left: 0;
+  width: 100%;
+  background-color: #4B5E3A;
+  padding: 15px 20px;
+  z-index: 1200; /* Higher than everything else */
+
+}
+
+.mobile-nav.active {
+  display: block;
+}
+
+.mobile-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mobile-nav li {
+  margin-bottom: 12px;
+}
+
+.mobile-nav a {
+  color: white;
+  font-size: 16px;
+   color: white;
+  font-size: 17px;
+  font-weight: 500;
+  position: relative;
+  padding: 2px 0;
+  display: block;
+  transition: color 0.3s ease;
+}
+
+
+.mobile-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: #DDEED1;
+  transition: width 0.3s ease;
+}
+.mobile-nav a:hover::after {
+  width: 100%;
+}
+
+.mobile-nav a:hover {
+  color: #3809e0;
+}
+
+
+
+
+
+
+/* Mobile Top Controls */
+.mobile-left,
+.mobile-right {
+  font-size: 20px;
+  cursor: pointer;
+  
+}
+
+
+
+.mobile-popup-menu.active {
+  display: flex;
+}
+
+
+/* saMobile Popup Menu (3-dot) */
+.mobile-popup-menu {
+  display: none;
+  flex-direction: column;
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  position: absolute;
+  right: 10px;
+  top: 60px;
+  z-index: 999;
+  width: 200px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.mobile-popup-menu.active {
+  display: flex;
+  gap: 12px;
+}
+
+.mobile-popup-menu .btn {
+  background-color: #4B5E3A;
+  color: white;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.mobile-popup-menu .btn:hover {
+  background-color: #3c4a2f;
+}
+
+.social-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.social-row a {
+  color: #4B5E3A;
+  font-size: 18px;
+  padding: 4px;
+  transition: transform 0.3s;
+}
+
+.social-row a:hover {
+  transform: scale(1.2);
+}
+
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+/* end for the pop up design */
+
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: inherit; /* <-- only enables them, doesn't force flex */
+  }
+
+  /* Keep these hidden unless .active is added via JS */
+  .mobile-nav,
+  .mobile-popup-menu {
+    display: none;
+    margin-top: -10px;
+  }
+
+  .mobile-nav.active {
+    display: block;
+  }
+
+  .mobile-popup-menu.active {
+    display: flex;
+  }
+
+  .top-bar-container {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .top-center img.logo {
+    height: 35px;
+  }
+
+  .mobile-popup-menu .btn {
+    margin-bottom: 10px;
+  }
+}
+
+
+
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  z-index: 2000; /* updated */
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  width: 90%;
+  max-width: 400px;
+  padding: 25px;
+  border-radius: 10px;
+  z-index: 2100; /* updated */
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.modal h2 {
+  margin-top: 0;
+  color: #4B5E3A;
+}
+
+.contact-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.contact-method {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.contact-method i {
+  font-size: 20px;
+  color: #4B5E3A;
+}
+
+#toggleForm {
+  background-color: #9DC183;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+form input, form textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+form button {
+  background-color: #4B5E3A;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.hidden {
+  display: none;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+
+
+
+.subtitle {
+ font-size: 15px;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.contact-options {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 20px;
+}
+
+.contact-method {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  text-align: center;
+}
+
+
+.contact-method i {
+  font-size: 26px;
+  color: #2f4f4f; /* deeper green-gray */
+}
+
+
+
+.contact-method {
+  transition: transform 0.2s ease;
+}
+
+.contact-method:hover {
+  transform: scale(1.05);
+}
+
+
+/* js phone library */
+
+.iti {
+  width: 100%;
+}
+
+.iti input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  
+}
+
+
+.iti input:focus {
+  border-color: #4B5E3A;
+  box-shadow: 0 0 5px rgba(75, 94, 58, 0.3);
+}
+
+
+#quoteForm button[type="submit"] {
+  background-color: #4B5E3A;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#quoteForm button[type="submit"]:hover {
+  background-color: #3c4a2f;
+}
+
+
+
+
+/* Make modal responsive */
+.modal {
+  max-width: 500px;
+  width: 90%;
+  padding: 25px;
+  box-sizing: border-box;
+}
+
+/* Responsive layout for contact icons */
+.contact-options {
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* Responsive input styles */
+#quoteForm input,
+#quoteForm textarea,
+.iti input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+
+/* Stack elements vertically on smaller screens */
+@media (max-width: 600px) {
+  .contact-options {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal {
+    padding: 20px;
+  }
+
+  #quoteForm button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+  }
+
+  #toggleForm {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+/* 
+  .iti {
+  width: 100%;
+}
+
+.iti input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  
+} */
+}
